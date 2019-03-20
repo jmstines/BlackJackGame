@@ -9,11 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Entities.Tests\PlayerTests.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Entities.Tests\PlayerTests.cs" />
+    <None Include="Player.cs" />
   </ItemGroup>
 
   <ItemGroup>

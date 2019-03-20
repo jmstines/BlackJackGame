@@ -2,8 +2,9 @@
 {
   public enum Outcome
   {
-    Undecided,
+    InProgress,
+    Push,
     PlayerWins,
-    DealerWins
+    PlayerLoses
   }
 }

@@ -8,19 +8,69 @@ namespace Entities
   [Serializable]
   public class Game
   {
+    private List<Card> Deck { get; set; }
     public List<Player> Players { get; private set; }
     public Player Dealer { get; private set; }
-    public Outcome Outcome { get; private set; }
+    public bool GameComplete { get; private set; }
 
-    public void DealCards(List<Player> players, Player dealer)
+    private const int BlackJack = 21;
+    private const int DealerHoldValue = 17;
+
+    public Game(List<Card> deck, List<Player> players)
     {
-      Players = players;
-      Dealer = dealer;
+      Deck = deck ?? throw new ArgumentNullException(nameof(deck));      
+      Players = players ?? throw new ArgumentNullException(nameof(players));
+      if (Players.Count > 4)
+      {
+        throw new ArgumentOutOfRangeException(nameof(players));
+      }
+
+      Dealer = new Player("Dealer");
+
+      GameComplete = false;
+      DealHands();
       CalculateOutcome();
+    }
+
+    public void PlayerDrawsCard(Player player)
+    {
+      Card card = Deck.FirstOrDefault() ?? throw new ArgumentOutOfRangeException(nameof(Deck));
+      Deck.Remove(card);
+      player.DrawCard(card);
+
+      if (Dealer.Hand.Count < 1)
+      {
+        CalculateOutcome();
+      }
+    }
+
+    private void DealHands()
+    {
+      foreach (Player player in Players)
+      {
+        PlayerDrawsCard(player);
+        PlayerDrawsCard(player);
+      }
+      PlayerDrawsCard(Dealer);
+      PlayerDrawsCard(Dealer);
     }
 
     private void CalculateOutcome()
     {
+      if(HasBlackjack(Dealer))
+      {
+        Players.ForEach(p => p.Status = HasBlackjack(p) ? Outcome.Push : Outcome.PlayerLoses);
+
+        Dealer.Status = Players.Any(w => w.Status == Outcome.PlayerWins) ? Outcome.PlayerLoses : Outcome.PlayerWins;
+        GameComplete = true;
+      }
+      else if(BustHand(Dealer))
+      {
+        Players.ForEach(p => p.Status = BustHand(p) ? Outcome.PlayerLoses : Outcome.PlayerWins);
+
+        Dealer.Status = Players.Any(w => w.Status == Outcome.PlayerWins) ? Outcome.PlayerLoses : Outcome.PlayerWins;
+        GameComplete = true;
+      }
       //if (!Player.CurentHand.Any() || !Dealer.CurentHand.Any())
       //{
       //  //Outcome = Outcome.Undecided;
@@ -37,5 +87,9 @@ namespace Entities
       //else
       //  Outcome = Outcome.Player2Wins;
     }
+
+    private bool DealerMustDraw() => Dealer.PointTotal < DealerHoldValue;
+    private bool HasBlackjack(Player player) => player.PointTotal == BlackJack;
+    private bool BustHand(Player player) => player.PointTotal > BlackJack;
   }
 }

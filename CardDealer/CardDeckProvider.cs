@@ -5,7 +5,7 @@ using Entities;
 
 namespace CardDealer
 {
-  public class CardDeckProvider
+  public class CardDeckProvider : ICardDeckProvider
   {
     private readonly List<Suit> Suits = new List<Suit> { Suit.Clubs, Suit.Diamonds, Suit.Hearts, Suit.Spades };
     private readonly List<Tuple<string, string, int>>  Values = new List<Tuple<string, string, int>>{

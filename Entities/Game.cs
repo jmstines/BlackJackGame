@@ -22,19 +22,22 @@ namespace Entities
       Players = players ?? throw new ArgumentNullException(nameof(players));
       if (Players.Count > 4)
       {
-        throw new ArgumentOutOfRangeException(nameof(players));
+        throw new ArgumentOutOfRangeException(nameof(players), "Player Count must be less than 5 Players.");
+      }
+      else if(Players.Count < 1)
+      {
+        throw new ArgumentOutOfRangeException(nameof(players), "Must have at least one Player.");
       }
 
       Dealer = new Player("Dealer");
 
       GameComplete = false;
       DealHands();
-      CalculateOutcome();
     }
 
     public void PlayerDrawsCard(Player player)
     {
-      Card card = Deck.FirstOrDefault() ?? throw new ArgumentOutOfRangeException(nameof(Deck));
+      Card card = Deck.FirstOrDefault() ?? throw new ArgumentOutOfRangeException(nameof(Deck), "Card Deck is Empty.");
       Deck.Remove(card);
       player.DrawCard(card);
 
@@ -76,7 +79,7 @@ namespace Entities
       //  //Outcome = Outcome.Undecided;
       //  //return;
       //}
-      throw new NotImplementedException();
+      //throw new NotImplementedException();
       //if (Player.Value == Dealer.Value)
       //{
       //  Outcome = Outcome.Tie;

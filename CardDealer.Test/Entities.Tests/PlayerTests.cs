@@ -1,6 +1,4 @@
-﻿using CardDealer;
-using Tests.Mocks;
-using Entities;
+﻿using Entities;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -13,7 +11,7 @@ namespace Tests
     private readonly Card twoClubs = new Card(Suit.Clubs, "2", "2", 2);
     private readonly Card threeClubs = new Card(Suit.Clubs, "3", "3", 3);
     private readonly Card jackClubs = new Card(Suit.Clubs, "J", "Jack", 10);
-    private readonly string playerName = "Sam";
+    private const string playerName = "Sam";
 
     [SetUp]
     public void Setup()

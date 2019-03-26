@@ -14,7 +14,7 @@ namespace Tests.Mocks
     {
       if (cardCount < 1)
       {
-        throw new ArgumentOutOfRangeException(nameof(cardCount));
+        throw new ArgumentOutOfRangeException("Not Enough Cards to be mixed.", nameof(cardCount));
       }
       CardCount = cardCount;
       Seed = Enumerable.Range(0, cardCount).Reverse().ToArray();
@@ -28,7 +28,7 @@ namespace Tests.Mocks
 
     public int Next(int minValue, int maxValue)
     {
-      if (CurrentIndex >= CardCount) throw new ArgumentOutOfRangeException(nameof(CurrentIndex));
+      if (CurrentIndex >= CardCount) throw new ArgumentOutOfRangeException("Current index can not be greater than Card count.",nameof(CurrentIndex));
       int currentValue = Seed[CurrentIndex];
       CurrentIndex++;
       return currentValue;

@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Player.cs" />
+    <None Include="Entities.Tests\PlayerTests.cs" />
   </ItemGroup>
 
   <ItemGroup>

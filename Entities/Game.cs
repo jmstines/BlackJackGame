@@ -9,12 +9,13 @@ namespace Entities
   public class Game
   {
     private List<Card> Deck { get; set; }
-    public List<Player> Players { get; private set; }
-    public Player Dealer { get; private set; }
-    public bool GameComplete { get; private set; }
 
     private const int BlackJack = 21;
     private const int DealerHoldValue = 17;
+
+    public List<Player> Players { get; private set; }
+    public Player Dealer { get; private set; }
+    public bool GameComplete { get; private set; }
 
     public Game(List<Card> deck, List<Player> players)
     {

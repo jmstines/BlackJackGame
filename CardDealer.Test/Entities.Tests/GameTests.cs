@@ -89,7 +89,10 @@ namespace CardDealer.Tests.Entities.Tests
 				new Player(playerName),
 				new Player(playerName2)
 			};
-			List<Card> blackjackDeck = new List<Card>;
+			List<Card> blackjackDeck = new List<Card>
+      {
+
+      }
 			// Can't test till Ace is both 11 and 1
 		}
 
@@ -100,8 +103,10 @@ namespace CardDealer.Tests.Entities.Tests
 				new Player(playerName),
 				new Player(playerName2)
 			};
-			List<Card> blackjackDeck = new List<Card>;
-			// Can't test till Ace is both 11 and 1
+			List<Card> blackjackDeck = new List<Card>
+      {
+
+      }
 		}
 
 		[Test]

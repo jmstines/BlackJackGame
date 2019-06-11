@@ -5,95 +5,121 @@ using System.Linq;
 
 namespace Entities
 {
-  [Serializable]
-  public class Game
-  {
-    private List<Card> Deck { get; set; }
+	[Serializable]
+	public class Game
+	{
+		private List<Card> Deck { get; set; }
 
-    private const int BlackJack = 21;
-    private const int DealerHoldValue = 17;
+		private const int BlackJack = 21;
+		private const int DealerHoldValue = 17;
 
-    public List<Player> Players { get; private set; }
-    public Player Dealer { get; private set; }
-    public bool GameComplete { get; private set; }
+		public List<Player> Players { get; private set; }
+		public Player Dealer { get; private set; }
+		public bool GameComplete { get; private set; }
+		public Player CurrentPlayer { get; private set; }
 
-    public Game(List<Card> deck, List<Player> players)
-    {
-      Deck = deck ?? throw new ArgumentNullException(nameof(deck));      
-      Players = players ?? throw new ArgumentNullException(nameof(players));
-      if (Players.Count > 4)
-      {
-        throw new ArgumentOutOfRangeException(nameof(players), "Player Count must be less than 5 Players.");
-      }
-      else if(Players.Count < 1)
-      {
-        throw new ArgumentOutOfRangeException(nameof(players), "Must have at least one Player.");
-      }
+		public Game(List<Card> deck, List<Player> players)
+		{
+			Deck = deck ?? throw new ArgumentNullException(nameof(deck));
+			Players = players ?? throw new ArgumentNullException(nameof(players));
+			if (Players.Count > 4)
+			{
+				throw new ArgumentOutOfRangeException(nameof(players), "Player Count must be less than 5 Players.");
+			}
+			else if (Players.Count < 1)
+			{
+				throw new ArgumentOutOfRangeException(nameof(players), "Must have at least one Player.");
+			}
 
-      Dealer = new Player("Dealer");
+			Dealer = new Player("Dealer");
+			CurrentPlayer = Players[0];
+			GameComplete = false;
+			DealHands();
+			CalculateOutcome();
+		}
 
-      GameComplete = false;
-      DealHands();
-    }
+		public void PlayerDrawsCard()
+		{
+			Card card = Deck.FirstOrDefault() ?? throw new ArgumentOutOfRangeException(nameof(Deck), "Card Deck is Empty.");
+			Deck.Remove(card);
+			CurrentPlayer.DrawCard(card);
+			UpdatePlayerStatus();
+		}
 
-    public void PlayerDrawsCard(Player player)
-    {
-      Card card = Deck.FirstOrDefault() ?? throw new ArgumentOutOfRangeException(nameof(Deck), "Card Deck is Empty.");
-      Deck.Remove(card);
-      player.DrawCard(card);
+		public void PlayerHolds()
+		{
+			CurrentPlayer.Status = PlayerStatus.Hold;
+			NextPlayer();
+		}
 
-      if (Dealer.Hand.Count < 1)
-      {
-        CalculateOutcome();
-      }
-    }
+		public void NextPlayer()
+		{
+			if (CurrentPlayer.Equals(Dealer))
+			{
+				CurrentPlayer = Players[0];
+			}
+			else if (CurrentPlayer.Equals(Players.Last()))
+			{
+				CurrentPlayer = Dealer;
+			}
+			else CurrentPlayer = Players[Players.IndexOf(CurrentPlayer) + 1];
+		}
 
-    private void DealHands()
-    {
-      foreach (Player player in Players)
-      {
-        PlayerDrawsCard(player);
-        PlayerDrawsCard(player);
-      }
-      PlayerDrawsCard(Dealer);
-      PlayerDrawsCard(Dealer);
-    }
+		private void DealHands()
+		{
+			int twoCardsPerPlayer = (Players.Count + 1) * 2;
+			for (int i = 0; i < twoCardsPerPlayer; i++)
+			{
+				PlayerDrawsCard();
+				NextPlayer();
+			}
+		}
 
-    private void CalculateOutcome()
-    {
-      if(HasBlackjack(Dealer))
-      {
-        Players.ForEach(p => p.Status = HasBlackjack(p) ? Outcome.Push : Outcome.PlayerLoses);
+		private void UpdatePlayerStatus()
+		{
+			if (BustHand(CurrentPlayer))
+			{
+				PlayerHolds();
+			}
+			else
+				CurrentPlayer.Status = PlayerStatus.InProgress;
+		}
 
-        Dealer.Status = Players.Any(w => w.Status == Outcome.PlayerWins) ? Outcome.PlayerLoses : Outcome.PlayerWins;
-        GameComplete = true;
-      }
-      else if(BustHand(Dealer))
-      {
-        Players.ForEach(p => p.Status = BustHand(p) ? Outcome.PlayerLoses : Outcome.PlayerWins);
+		private void CalculateOutcome()
+		{
+			if (HasBlackjack(Dealer))
+			{
+				Players.ForEach(p => p.Status = HasBlackjack(p) ? PlayerStatus.Push : PlayerStatus.PlayerLoses);
 
-        Dealer.Status = Players.Any(w => w.Status == Outcome.PlayerWins) ? Outcome.PlayerLoses : Outcome.PlayerWins;
-        GameComplete = true;
-      }
-      //if (!Player.CurentHand.Any() || !Dealer.CurentHand.Any())
-      //{
-      //  //Outcome = Outcome.Undecided;
-      //  //return;
-      //}
-      //throw new NotImplementedException();
-      //if (Player.Value == Dealer.Value)
-      //{
-      //  Outcome = Outcome.Tie;
-      //  return;
-      //}
-      //if (LeftBeatsRight(Player.Value, Dealer.Value))
-      //  Outcome = Outcome.Player1Wins;
-      //else
-      //  Outcome = Outcome.Player2Wins;
-    }
+				Dealer.Status = Players.Any(w => w.Status == PlayerStatus.Push) ? PlayerStatus.Push : PlayerStatus.PlayerWins;
+				GameComplete = true;
+			}
+			else if (BustHand(Dealer))
+			{
+				Players.ForEach(p => p.Status = BustHand(p) ? PlayerStatus.PlayerLoses : PlayerStatus.PlayerWins);
 
-    private bool DealerMustDraw() => Dealer.PointTotal < DealerHoldValue;
-    private bool HasBlackjack(Player player) => player.PointTotal == BlackJack;
-    private bool BustHand(Player player) => player.PointTotal > BlackJack;
-  }
+				Dealer.Status = Players.Any(w => w.Status == PlayerStatus.PlayerWins) ? PlayerStatus.PlayerLoses : PlayerStatus.PlayerWins;
+				GameComplete = true;
+			}
+			//if (!Player.CurentHand.Any() || !Dealer.CurentHand.Any())
+			//{
+			//  //Outcome = Outcome.Undecided;
+			//  //return;
+			//}
+			//throw new NotImplementedException();
+			//if (Player.Value == Dealer.Value)
+			//{
+			//  Outcome = Outcome.Tie;
+			//  return;
+			//}
+			//if (LeftBeatsRight(Player.Value, Dealer.Value))
+			//  Outcome = Outcome.Player1Wins;
+			//else
+			//  Outcome = Outcome.Player2Wins;
+		}
+
+		private bool DealerMustDraw() => Dealer.PointTotal < DealerHoldValue;
+		private bool HasBlackjack(Player player) => player.PointTotal == BlackJack;
+		private bool BustHand(Player player) => player.PointTotal > BlackJack;
+	}
 }

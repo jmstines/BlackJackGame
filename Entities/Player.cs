@@ -9,12 +9,12 @@ namespace Entities
     public readonly string Name;
     public List<BlackJackCard> Hand { get; private set; }
     public int PointTotal { get; private set; }
-    public Outcome Status { get; set; }
+    public PlayerStatus Status { get; set; }
 
     public Player(string name)
     {
       Name = name ?? throw new ArgumentNullException(nameof(name));
-      Status = Outcome.InProgress;
+      Status = PlayerStatus.InProgress;
       Hand = new List<BlackJackCard>();
     }
 

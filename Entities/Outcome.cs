@@ -1,8 +1,9 @@
 ﻿namespace Entities
 {
-  public enum Outcome
+  public enum PlayerStatus
   {
     InProgress,
+		Hold,
     Push,
     PlayerWins,
     PlayerLoses

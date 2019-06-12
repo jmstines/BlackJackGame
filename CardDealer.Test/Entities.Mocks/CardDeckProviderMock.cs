@@ -60,5 +60,19 @@ namespace CardDealer.Tests.Entities.Mocks
 				Deck.First(c => c.Value.Equals(2))
 			};
 		}
+
+		public List<Card> Deck_GameTwo()
+		{
+			return new List<Card> {
+				Deck.First(c => c.Value.Equals(2)),
+				Deck.First(c => c.Value.Equals(2)),
+				Deck.First(c => c.Value.Equals(10)),
+				Deck.First(c => c.Value.Equals(2)),
+				Deck.First(c => c.Value.Equals(10)),
+				Deck.First(c => c.Value.Equals(3)),
+				Deck.First(c => c.Value.Equals(3)),
+				Deck.First(c => c.Value.Equals(10)),
+			};
+		}
 	}
 }

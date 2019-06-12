@@ -30,6 +30,10 @@ namespace Entities
 			{
 				throw new ArgumentOutOfRangeException(nameof(players), "Must have at least one Player.");
 			}
+			else if (Players.Any(p => p.Equals(null)))
+			{
+				throw new ArgumentNullException("Players in list must exist.");
+			}
 
 			Dealer = new Player("Dealer");
 			CurrentPlayer = Players[0];
@@ -61,8 +65,22 @@ namespace Entities
 			else if (CurrentPlayer.Equals(Players.Last()))
 			{
 				CurrentPlayer = Dealer;
+				if(CurrentPlayer.Hand.Count() == 2)
+				{
+					DealersFinalTurn();
+				}
 			}
 			else CurrentPlayer = Players[Players.IndexOf(CurrentPlayer) + 1];
+		}
+
+		private void DealersFinalTurn()
+		{
+			while (Dealer.PointTotal < DealerHoldValue)
+			{
+				PlayerDrawsCard();
+			}
+			Dealer.Status = PlayerStatus.Hold;
+			CalculateOutcome();
 		}
 
 		private void DealHands()
@@ -82,7 +100,9 @@ namespace Entities
 				PlayerHolds();
 			}
 			else
+			{
 				CurrentPlayer.Status = PlayerStatus.InProgress;
+			}
 		}
 
 		private void CalculateOutcome()
@@ -90,15 +110,33 @@ namespace Entities
 			if (HasBlackjack(Dealer))
 			{
 				Players.ForEach(p => p.Status = HasBlackjack(p) ? PlayerStatus.Push : PlayerStatus.PlayerLoses);
-
-				Dealer.Status = Players.Any(w => w.Status == PlayerStatus.Push) ? PlayerStatus.Push : PlayerStatus.PlayerWins;
 				GameComplete = true;
 			}
 			else if (BustHand(Dealer))
 			{
 				Players.ForEach(p => p.Status = BustHand(p) ? PlayerStatus.PlayerLoses : PlayerStatus.PlayerWins);
-
-				Dealer.Status = Players.Any(w => w.Status == PlayerStatus.PlayerWins) ? PlayerStatus.PlayerLoses : PlayerStatus.PlayerWins;
+				GameComplete = true;
+			}
+			else
+			{
+				foreach(Player player in Players)
+				{
+					if (BustHand(player))
+					{
+						player.Status = PlayerStatus.PlayerLoses;
+					}
+					else if (PlayerPointsLessThanDealer(player)) {
+						player.Status = PlayerStatus.PlayerLoses;
+					}
+					else if (PlayerPointsEqualsDealer(player))
+					{
+						player.Status = PlayerStatus.Push;
+					}
+					else
+					{
+						player.Status = PlayerStatus.PlayerWins;
+					}
+				}
 				GameComplete = true;
 			}
 			//if (!Player.CurentHand.Any() || !Dealer.CurentHand.Any())
@@ -118,8 +156,9 @@ namespace Entities
 			//  Outcome = Outcome.Player2Wins;
 		}
 
-		private bool DealerMustDraw() => Dealer.PointTotal < DealerHoldValue;
 		private bool HasBlackjack(Player player) => player.PointTotal == BlackJack;
 		private bool BustHand(Player player) => player.PointTotal > BlackJack;
+		private bool PlayerPointsLessThanDealer(Player player) => player.PointTotal > Dealer.PointTotal;
+		private bool PlayerPointsEqualsDealer(Player player) => player.PointTotal == Dealer.PointTotal;
 	}
 }

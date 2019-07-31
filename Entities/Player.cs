@@ -16,26 +16,16 @@ namespace Entities
       Name = name ?? throw new ArgumentNullException(nameof(name));
       Status = PlayerStatus.InProgress;
       Hand = new List<BlackJackCard>();
-    }
+			PointTotal = 0;
+		}
 
-    public void DrawCard(Card card)
+    public void AddCardToHand(Card card)
     {
-      if (card == null)
-      {
-        throw new ArgumentNullException(nameof(card));
-      }
-      CardOrientation orientation = 
-        Hand.Any() ? CardOrientation.FaceUp : CardOrientation.FaceDown;
+			var currentCard = card ?? throw new ArgumentNullException(nameof(card));
+      CardOrientation orientation = Hand.Any() ? CardOrientation.FaceUp : CardOrientation.FaceDown;
+      Hand.Add(new BlackJackCard(currentCard, orientation));
 
-      Hand.Add(new BlackJackCard(card, orientation));
-
-      CalculatePointTotal();
-    }
-
-    private void CalculatePointTotal()
-    {
-      PointTotal = 0;
-      PointTotal = Hand.Sum(c => c.Card.Value);
-    }
+			PointTotal = Hand.Sum(c => c.Card.Value);
+		}
   }
 }

@@ -143,12 +143,7 @@ namespace CardDealer.Tests.Entities.Tests
 			Assert.AreEqual(PlayerStatus.PlayerLoses, game.Players[0].Status);
 			Assert.AreSame(game.Dealer, game.CurrentPlayer);
 			Assert.AreEqual(20, game.Dealer.PointTotal);
-			Assert.AreEqual(PlayerStatus.Hold, game.Dealer.Status);
 			Assert.AreEqual(PlayerStatus.PlayerLoses, game.Players[0].Status);
-
-			//Assert.AreEqual(Outcome.Push, game.Players[0].Status);
-			//Assert.AreEqual(Outcome.Push, game.Players[1].Status);
-			//Assert.AreEqual(Outcome.Push, game.Dealer.Status);
 		}
 
 		[Test]

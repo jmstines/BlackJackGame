@@ -46,14 +46,20 @@ namespace Entities
 		{
 			Card card = Deck.FirstOrDefault() ?? throw new ArgumentOutOfRangeException(nameof(Deck), "Card Deck is Empty.");
 			Deck.Remove(card);
-			CurrentPlayer.DrawCard(card);
-			UpdatePlayerStatus();
+			CurrentPlayer.AddCardToHand(card);
+			if (BustHand(CurrentPlayer))
+			{
+				PlayerHolds();
+			}
 		}
 
 		public void PlayerHolds()
 		{
-			CurrentPlayer.Status = PlayerStatus.Hold;
 			NextPlayer();
+			if (CurrentPlayer.Equals(Dealer))
+			{
+				DealersFinalTurn();
+			}
 		}
 
 		public void NextPlayer()
@@ -65,12 +71,11 @@ namespace Entities
 			else if (CurrentPlayer.Equals(Players.Last()))
 			{
 				CurrentPlayer = Dealer;
-				if(CurrentPlayer.Hand.Count() == 2)
-				{
-					DealersFinalTurn();
-				}
 			}
-			else CurrentPlayer = Players[Players.IndexOf(CurrentPlayer) + 1];
+			else
+			{
+				CurrentPlayer = Players[Players.IndexOf(CurrentPlayer) + 1];
+			}
 		}
 
 		private void DealersFinalTurn()
@@ -79,7 +84,6 @@ namespace Entities
 			{
 				PlayerDrawsCard();
 			}
-			Dealer.Status = PlayerStatus.Hold;
 			CalculateOutcome();
 		}
 
@@ -93,29 +97,15 @@ namespace Entities
 			}
 		}
 
-		private void UpdatePlayerStatus()
-		{
-			if (BustHand(CurrentPlayer))
-			{
-				PlayerHolds();
-			}
-			else
-			{
-				CurrentPlayer.Status = PlayerStatus.InProgress;
-			}
-		}
-
 		private void CalculateOutcome()
 		{
 			if (HasBlackjack(Dealer))
 			{
 				Players.ForEach(p => p.Status = HasBlackjack(p) ? PlayerStatus.Push : PlayerStatus.PlayerLoses);
-				GameComplete = true;
 			}
 			else if (BustHand(Dealer))
 			{
 				Players.ForEach(p => p.Status = BustHand(p) ? PlayerStatus.PlayerLoses : PlayerStatus.PlayerWins);
-				GameComplete = true;
 			}
 			else
 			{
@@ -137,23 +127,8 @@ namespace Entities
 						player.Status = PlayerStatus.PlayerWins;
 					}
 				}
-				GameComplete = true;
 			}
-			//if (!Player.CurentHand.Any() || !Dealer.CurentHand.Any())
-			//{
-			//  //Outcome = Outcome.Undecided;
-			//  //return;
-			//}
-			//throw new NotImplementedException();
-			//if (Player.Value == Dealer.Value)
-			//{
-			//  Outcome = Outcome.Tie;
-			//  return;
-			//}
-			//if (LeftBeatsRight(Player.Value, Dealer.Value))
-			//  Outcome = Outcome.Player1Wins;
-			//else
-			//  Outcome = Outcome.Player2Wins;
+			GameComplete = true;
 		}
 
 		private bool HasBlackjack(Player player) => player.PointTotal == BlackJack;

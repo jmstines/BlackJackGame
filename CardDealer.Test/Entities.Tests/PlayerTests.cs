@@ -34,8 +34,8 @@ namespace Tests
     public void NewPlayer_CalculateTotal_TotalFive()
     {
       Player sam = new Player(playerName);
-      sam.DrawCard(twoClubs);
-      sam.DrawCard(threeClubs);
+      sam.AddCardToHand(twoClubs);
+      sam.AddCardToHand(threeClubs);
       Assert.AreEqual(5 , sam.PointTotal);
     }
 
@@ -44,16 +44,16 @@ namespace Tests
     {
       var playerOne = new Player(playerName);
 
-      Assert.Throws<ArgumentNullException>(() => playerOne.DrawCard(null));
+      Assert.Throws<ArgumentNullException>(() => playerOne.AddCardToHand(null));
     }
 
     [Test]
     public void Player_DrawCard_TotalFifteen()
     {
       var playerOne = new Player(playerName);
-      playerOne.DrawCard(twoClubs);
-      playerOne.DrawCard(threeClubs);
-      playerOne.DrawCard(jackClubs);
+      playerOne.AddCardToHand(twoClubs);
+      playerOne.AddCardToHand(threeClubs);
+      playerOne.AddCardToHand(jackClubs);
 
       Assert.AreEqual(15, playerOne.PointTotal);
     }
@@ -62,7 +62,7 @@ namespace Tests
     public void Player_DrawCard_FirstCardFaceDown()
     {
       var playerOne = new Player(playerName);
-      playerOne.DrawCard(twoClubs);
+      playerOne.AddCardToHand(twoClubs);
 
       Assert.AreEqual(CardOrientation.FaceDown, playerOne.Hand.First().Orientation);
     }
@@ -71,8 +71,8 @@ namespace Tests
     public void Player_DrawCard_SecondCardFaceUp()
     {
       var playerOne = new Player(playerName);
-      playerOne.DrawCard(twoClubs);
-      playerOne.DrawCard(threeClubs);
+      playerOne.AddCardToHand(twoClubs);
+      playerOne.AddCardToHand(threeClubs);
 
       Assert.AreEqual(CardOrientation.FaceUp, playerOne.Hand[1].Orientation);
     }
@@ -81,9 +81,9 @@ namespace Tests
     public void Player_DrawCard_ThirdCardFaceUp()
     {
       var playerOne = new Player(playerName);
-      playerOne.DrawCard(twoClubs);
-      playerOne.DrawCard(threeClubs);
-      playerOne.DrawCard(jackClubs);
+      playerOne.AddCardToHand(twoClubs);
+      playerOne.AddCardToHand(threeClubs);
+      playerOne.AddCardToHand(jackClubs);
 
       Assert.AreEqual(CardOrientation.FaceUp, playerOne.Hand[2].Orientation);
     }

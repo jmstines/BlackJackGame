@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardDealer", "CardDealer\CardDealer.csproj", "{7EB1A79F-FD0F-4795-9C10-A8B3C93359FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardGame", "CardDealer\CardGame.csproj", "{7EB1A79F-FD0F-4795-9C10-A8B3C93359FF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A699F46F-46EB-4EDF-8AE1-D0E8F5B94C6C} = {A699F46F-46EB-4EDF-8AE1-D0E8F5B94C6C}
 	EndProjectSection

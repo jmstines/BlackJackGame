@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CardDealer\CardDealer.csproj" />
+    <ProjectReference Include="..\CardDealer\CardGame.csproj" />
   </ItemGroup>
 
 </Project>

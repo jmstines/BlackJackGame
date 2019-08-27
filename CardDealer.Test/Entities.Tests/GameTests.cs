@@ -18,132 +18,92 @@ namespace CardDealer.Tests.Entities.Tests
 		{
 
 		}
-
-		[Test]
-		public void NewGame_NullDeck_ArgumentNullException()
-		{
-			List<Player> players = new List<Player>() {
-				new Player(playerName),
-				new Player(playerName2)
-			};
-			Assert.Throws<ArgumentNullException>(() => new Game(null, players));
-		}
-
-		public void NewGame_NullDeck_PlayerArgumentNullException()
-		{
-			List<Player> players = new List<Player>() {
-				new Player(playerName),
-				new Player(playerName2),
-				null
-			};
-			Assert.Throws<ArgumentNullException>(() => new Game(null, players));
-		}
-
-		[Test]
-		public void NewGame_TooManyPlayers_ArgumentOutOfRangeException()
-		{
-			List<Player> players = new List<Player>() {
-				new Player(playerName),
-				new Player(playerName2),
-				new Player(playerName),
-				new Player(playerName2),
-				new Player(playerName2)
-			};
-			Assert.Throws<ArgumentOutOfRangeException>(() => new Game(deck, players));
-		}
-
-		[Test]
-		public void NewGame_NotEnoughPlayers_ArgumentOutOfRangeException()
-		{
-			List<Player> players = new List<Player>() { };
-			Assert.Throws<ArgumentOutOfRangeException>(() => new Game(deck, players));
-		}
-
-		[Test]
-		public void NewGame_NullPlayerList_ArgumentNullException()
-		{
-			Assert.Throws<ArgumentNullException>(() => new Game(deck, null));
-		}
-
+			 	 	
 		[Test]
 		public void NewGame_NewGame_GameCreatesDefaultGame()
 		{
-			List<Player> players = new List<Player>() {
-				new Player(playerName),
-				new Player(playerName2)
+			List<string> players = new List<string>() {
+				playerName,
+				playerName2
 			};
-			Game game = new Game(deck, players);
+			ICardGame cardGame = new CardGame(deck, players, "");
 
-			Assert.AreEqual("Dealer", game.Dealer.Name);
-			Assert.AreEqual(2, game.Dealer.Hand.Count);
-			Assert.AreEqual(11, game.Dealer.PointTotal);
-			Assert.AreEqual(playerName, game.Players[0].Name);
-			Assert.AreEqual(2, game.Players[0].Hand.Count);
-			Assert.AreEqual(7, game.Players[0].PointTotal);
-			Assert.AreEqual(playerName2, game.Players[1].Name);
-			Assert.AreEqual(2, game.Players[1].Hand.Count);
-			Assert.AreEqual(9, game.Players[1].PointTotal);
+			BlackJackGame game = new BlackJackGame(cardGame);
+
+			Assert.AreEqual("Dealer", game.CardGame.Dealer.Name);
+			Assert.AreEqual(2, game.CardGame.Dealer.Hand.Count);
+			Assert.AreEqual(11, game.CardGame.Dealer.PointTotal);
+			Assert.AreEqual(playerName, game.CardGame.Players[0].Name);
+			Assert.AreEqual(2, game.CardGame.Players[0].Hand.Count);
+			Assert.AreEqual(7, game.CardGame.Players[0].PointTotal);
+			Assert.AreEqual(playerName2, game.CardGame.Players[1].Name);
+			Assert.AreEqual(2, game.CardGame.Players[1].Hand.Count);
+			Assert.AreEqual(9, game.CardGame.Players[1].PointTotal);
 		}
 
 		[Test]
 		public void NewGame_Dealer21onDeal_PlayersLose()
 		{
-			List<Player> players = new List<Player>() {
-				new Player(playerName),
-				new Player(playerName2)
+			List<string> players = new List<string>() {
+				playerName,
+				playerName2
 			};
 			List<Card> deck = new CardDeckProviderMock().Deck_DealerWins();
-			Game game = new Game(deck, players);
+			ICardGame cardGame = new CardGame(deck, players, "");
+			BlackJackGame game = new BlackJackGame(cardGame);
 
 			Assert.IsTrue(game.GameComplete);
-			Assert.AreEqual(PlayerStatus.PlayerLoses, game.Players[0].Status);
-			Assert.AreEqual(PlayerStatus.PlayerLoses, game.Players[0].Status);
+			Assert.AreEqual(PlayerStatus.PlayerLoses, game.CardGame.Players[0].Status);
+			Assert.AreEqual(PlayerStatus.PlayerLoses, game.CardGame.Players[0].Status);
 		}
 
 		[Test]
 		public void NewGame_Dealer21onDeal_Player1Ties()
 		{
-			List<Player> players = new List<Player>() {
-				new Player(playerName),
-				new Player(playerName2)
+			List<string> players = new List<string>() {
+				playerName,
+				playerName2
 			};
 			List<Card> deck = new CardDeckProviderMock().GetDeck_DealerAndPlayerOneBlackJack();
-			Game game = new Game(deck, players);
+			ICardGame cardGame = new CardGame(deck, players, "");
+			BlackJackGame game = new BlackJackGame(cardGame);
 
 			Assert.IsTrue(game.GameComplete);
-			Assert.AreEqual(PlayerStatus.Push, game.Players[0].Status);
-			Assert.AreEqual(PlayerStatus.PlayerLoses, game.Players[1].Status);
+			Assert.AreEqual(PlayerStatus.Push, game.CardGame.Players[0].Status);
+			Assert.AreEqual(PlayerStatus.PlayerLoses, game.CardGame.Players[1].Status);
 		}
 
 		[Test]
 		public void NewGame_Dealer21onDeal_Player1AndPlayer2Tie()
 		{
-			List<Player> players = new List<Player>() {
-				new Player(playerName),
-				new Player(playerName2)
+			List<string> players = new List<string>() {
+				playerName,
+				playerName2
 			};
 			List<Card> deck = new CardDeckProviderMock().Deck_AllPlayersBlackJack();
-			Game game = new Game(deck, players);
+			ICardGame cardGame = new CardGame(deck, players, "");
+			BlackJackGame game = new BlackJackGame(cardGame);
 
 			Assert.IsTrue(game.GameComplete);
-			Assert.AreEqual(PlayerStatus.Push, game.Players[0].Status);
-			Assert.AreEqual(PlayerStatus.Push, game.Players[1].Status);
+			Assert.AreEqual(PlayerStatus.Push, game.CardGame.Players[0].Status);
+			Assert.AreEqual(PlayerStatus.Push, game.CardGame.Players[1].Status);
 		}
 
 		[Test]
 		public void NewGame_Player1Bust_DealerWins()
 		{
-			List<Player> players = new List<Player>() {
-				new Player(playerName)
+			List<string> players = new List<string>() {
+				playerName
 			};
 			List<Card> deck = new CardDeckProviderMock().Deck_GameTwo();
-			Game game = new Game(deck, players);
+			ICardGame cardGame = new CardGame(deck, players, "");
+			BlackJackGame game = new BlackJackGame(cardGame);
 
 			game.PlayerDrawsCard();
-			Assert.AreEqual(PlayerStatus.PlayerLoses, game.Players[0].Status);
-			Assert.AreSame(game.Dealer, game.CurrentPlayer);
-			Assert.AreEqual(20, game.Dealer.PointTotal);
-			Assert.AreEqual(PlayerStatus.PlayerLoses, game.Players[0].Status);
+			Assert.AreEqual(PlayerStatus.PlayerLoses, game.CardGame.Players[0].Status);
+			Assert.AreSame(game.CardGame.Dealer, game.CurrentPlayer);
+			Assert.AreEqual(20, game.CardGame.Dealer.PointTotal);
+			Assert.AreEqual(PlayerStatus.PlayerLoses, game.CardGame.Players[0].Status);
 		}
 
 		[Test]

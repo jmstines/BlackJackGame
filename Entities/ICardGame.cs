@@ -6,8 +6,8 @@ namespace Entities
 {
 	public interface ICardGame
 	{
-		Player Dealer { get; }
 		List<Player> Players { get; }
 		List<Card> Deck { get; }
+		int CurrentPlayerIndex { get; }
 	}
 }

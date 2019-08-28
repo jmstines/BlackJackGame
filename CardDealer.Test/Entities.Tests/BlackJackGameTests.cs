@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace CardDealer.Tests.Entities.Tests
 {
-	public class GameTests
+	public class BackJackGameTests
 	{
 		private const string playerName = "Sam";
 		private const string playerName2 = "Tom";
@@ -30,9 +30,9 @@ namespace CardDealer.Tests.Entities.Tests
 
 			BlackJackGame game = new BlackJackGame(cardGame);
 
-			Assert.AreEqual("Dealer", game.CardGame.Dealer.Name);
-			Assert.AreEqual(2, game.CardGame.Dealer.Hand.Count);
-			Assert.AreEqual(11, game.CardGame.Dealer.PointTotal);
+			Assert.AreEqual("Dealer", game.CardGame.Players.Last().Name);
+			Assert.AreEqual(2, game.CardGame.Players.Last().Hand.Count);
+			Assert.AreEqual(11, game.CardGame.Players.Last().PointTotal);
 			Assert.AreEqual(playerName, game.CardGame.Players[0].Name);
 			Assert.AreEqual(2, game.CardGame.Players[0].Hand.Count);
 			Assert.AreEqual(7, game.CardGame.Players[0].PointTotal);
@@ -53,8 +53,8 @@ namespace CardDealer.Tests.Entities.Tests
 			BlackJackGame game = new BlackJackGame(cardGame);
 
 			Assert.IsTrue(game.GameComplete);
-			Assert.AreEqual(PlayerStatus.PlayerLoses, game.CardGame.Players[0].Status);
-			Assert.AreEqual(PlayerStatus.PlayerLoses, game.CardGame.Players[0].Status);
+			Assert.AreEqual(PlayerStatus.PlayerLoses, game.CardGame.Players.First().Status);
+			Assert.AreEqual(PlayerStatus.PlayerLoses, game.CardGame.Players.First().Status);
 		}
 
 		[Test]
@@ -69,7 +69,7 @@ namespace CardDealer.Tests.Entities.Tests
 			BlackJackGame game = new BlackJackGame(cardGame);
 
 			Assert.IsTrue(game.GameComplete);
-			Assert.AreEqual(PlayerStatus.Push, game.CardGame.Players[0].Status);
+			Assert.AreEqual(PlayerStatus.Push, game.CardGame.Players.First().Status);
 			Assert.AreEqual(PlayerStatus.PlayerLoses, game.CardGame.Players[1].Status);
 		}
 
@@ -85,7 +85,7 @@ namespace CardDealer.Tests.Entities.Tests
 			BlackJackGame game = new BlackJackGame(cardGame);
 
 			Assert.IsTrue(game.GameComplete);
-			Assert.AreEqual(PlayerStatus.Push, game.CardGame.Players[0].Status);
+			Assert.AreEqual(PlayerStatus.Push, game.CardGame.Players.First().Status);
 			Assert.AreEqual(PlayerStatus.Push, game.CardGame.Players[1].Status);
 		}
 
@@ -101,8 +101,7 @@ namespace CardDealer.Tests.Entities.Tests
 
 			game.PlayerDrawsCard();
 			Assert.AreEqual(PlayerStatus.PlayerLoses, game.CardGame.Players[0].Status);
-			Assert.AreSame(game.CardGame.Dealer, game.CurrentPlayer);
-			Assert.AreEqual(20, game.CardGame.Dealer.PointTotal);
+			Assert.AreEqual(20, game.CardGame.Players.Last().PointTotal);
 			Assert.AreEqual(PlayerStatus.PlayerLoses, game.CardGame.Players[0].Status);
 		}
 

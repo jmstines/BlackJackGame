@@ -10,15 +10,14 @@ namespace Entities
 	{
 		private const int BlackJack = 21;
 		private const int DealerHoldValue = 17;
+		private Player CurrentPlayer;
 		public readonly ICardGame CardGame;
-
 		public bool GameComplete { get; private set; }
-		public Player CurrentPlayer { get; private set; }
 		
 		public BlackJackGame(ICardGame game)
 		{
 			CardGame = game ?? throw new ArgumentNullException(nameof(game));
-			CurrentPlayer = CardGame.Players[0];
+			CurrentPlayer = CardGame.Players.ElementAt(CardGame.CurrentPlayerIndex);
 			GameComplete = false;
 			DealHands();
 			CalculateOutcome();
@@ -38,31 +37,18 @@ namespace Entities
 		public void PlayerHolds()
 		{
 			NextPlayer();
-			if (CurrentPlayer.Equals(CardGame.Dealer))
+			if (DealerCurrentPlayer())
 			{
 				DealersFinalTurn();
 			}
 		}
 
-		public void NextPlayer()
-		{
-			if (CurrentPlayer.Equals(CardGame.Dealer))
-			{
-				CurrentPlayer = CardGame.Players[0];
-			}
-			else if (CurrentPlayer.Equals(CardGame.Players.Last()))
-			{
-				CurrentPlayer = CardGame.Dealer;
-			}
-			else
-			{
-				CurrentPlayer = CardGame.Players[CardGame.Players.IndexOf(CurrentPlayer) + 1];
-			}
-		}
+		private void NextPlayer() => CurrentPlayer = DealerCurrentPlayer() ? 
+			CardGame.Players.First() : CardGame.Players.ElementAt(CardGame.Players.IndexOf(CurrentPlayer) + 1);
 
 		private void DealersFinalTurn()
 		{
-			while (CardGame.Dealer.PointTotal < DealerHoldValue)
+			while (CardGame.Players.Last().PointTotal < DealerHoldValue)
 			{
 				PlayerDrawsCard();
 			}
@@ -71,7 +57,7 @@ namespace Entities
 
 		private void DealHands()
 		{
-			int twoCardsPerPlayer = (CardGame.Players.Count + 1) * 2;
+			int twoCardsPerPlayer = (CardGame.Players.Count) * 2;
 			for (int i = 0; i < twoCardsPerPlayer; i++)
 			{
 				PlayerDrawsCard();
@@ -81,17 +67,17 @@ namespace Entities
 
 		private void CalculateOutcome()
 		{
-			if (HasBlackjack(CardGame.Dealer))
+			if (HasBlackjack(CardGame.Players.Last()))
 			{
 				CardGame.Players.ForEach(p => p.Status = HasBlackjack(p) ? PlayerStatus.Push : PlayerStatus.PlayerLoses);
 			}
-			else if (BustHand(CardGame.Dealer))
+			else if (BustHand(CardGame.Players.Last()))
 			{
 				CardGame.Players.ForEach(p => p.Status = BustHand(p) ? PlayerStatus.PlayerLoses : PlayerStatus.PlayerWins);
 			}
 			else
 			{
-				foreach(Player player in CardGame.Players)
+				foreach(var player in CardGame.Players.Where(p => !p.Equals(CardGame.Players.Last())))
 				{
 					if (BustHand(player))
 					{
@@ -115,7 +101,8 @@ namespace Entities
 
 		private bool HasBlackjack(Player player) => player.PointTotal == BlackJack;
 		private bool BustHand(Player player) => player.PointTotal > BlackJack;
-		private bool PlayerPointsLessThanDealer(Player player) => player.PointTotal > CardGame.Dealer.PointTotal;
-		private bool PlayerPointsEqualsDealer(Player player) => player.PointTotal == CardGame.Dealer.PointTotal;
+		private bool PlayerPointsLessThanDealer(Player player) => player.PointTotal > CardGame.Players.Last().PointTotal;
+		private bool PlayerPointsEqualsDealer(Player player) => player.PointTotal == CardGame.Players.Last().PointTotal;
+		private bool DealerCurrentPlayer() => CurrentPlayer.Equals(CardGame.Players.Last());
 	}
 }

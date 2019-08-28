@@ -7,9 +7,9 @@ namespace Entities
 {
 	public class CardGame : ICardGame
 	{
-		public Player Dealer { get; }
 		public List<Player> Players { get; }
 		public List<Card> Deck { get; }
+		public int CurrentPlayerIndex { get; }
 
 		public CardGame(IEnumerable<Card> deck, IEnumerable<string> playerNames, string dealerName)
 		{
@@ -34,7 +34,8 @@ namespace Entities
 
 			Players = new List<Player>();
 			names.ForEach(n => Players.Add(new Player(n)));
-			Dealer = new Player(dealerName);
+			CurrentPlayerIndex = 0;
+			Players.Add(new Player(dealerName));
 		}
 	}
 }

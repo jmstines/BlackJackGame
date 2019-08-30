@@ -1,10 +1,9 @@
-﻿using CardDealer;
-using System;
+﻿using System;
 using System.Linq;
 
-namespace Tests.Mocks
+namespace Entities.Mocks
 {
-  class RandomProviderMock : IRandomProvider
+	class RandomProviderMock : IRandomProvider
   {
     private readonly int[] Seed;
     private readonly int CardCount;

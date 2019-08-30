@@ -1,12 +1,11 @@
-﻿using Entities;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Tests
+namespace Entities.Tests
 {
-  public class PlayerTests
+	public class PlayerTests
   {
     private readonly Card twoClubs = new Card(Suit.Clubs, "2", "2", 2);
     private readonly Card threeClubs = new Card(Suit.Clubs, "3", "3", 3);

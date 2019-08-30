@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Entities;
 
-namespace CardDealer
+namespace Entities
 {
   public interface ICardDeckProvider
   {

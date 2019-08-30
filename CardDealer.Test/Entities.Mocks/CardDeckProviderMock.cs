@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Entities;
 
-namespace CardDealer.Tests.Entities.Mocks
+namespace Entities.Mocks
 {
 	class CardDeckProviderMock : ICardDeckProvider
 	{

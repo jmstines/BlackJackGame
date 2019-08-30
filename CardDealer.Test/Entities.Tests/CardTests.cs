@@ -1,14 +1,9 @@
-﻿using CardDealer;
-using Tests.Mocks;
-using Entities;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace Tests
+namespace Entities.Tests
 {
-  public class CardTests
+	public class CardTests
   {
     [Test]
     public void NewCard_NullDisplayValue_ArgumentNullException()

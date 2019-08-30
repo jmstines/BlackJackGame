@@ -1,13 +1,12 @@
-using CardDealer;
-using Tests.Mocks;
+using Entities.Mocks;
 using Entities;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 
-namespace Tests
+namespace Interactors.Tests
 {
-  public class Tests
+	public class Tests
   {
     [SetUp]
     public void Setup()

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CardDealer
+namespace Entities
 {
   public class RandomProvider : Random, IRandomProvider
   {

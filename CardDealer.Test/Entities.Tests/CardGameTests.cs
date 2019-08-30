@@ -1,11 +1,9 @@
-﻿using CardDealer.Tests.Entities.Mocks;
-using Entities;
+﻿using Entities.Mocks;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace CardDealer.Tests.Entities.Tests
+namespace Entities.Tests
 {
 	class CardGameTests
 	{

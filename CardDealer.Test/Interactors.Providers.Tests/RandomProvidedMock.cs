@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
+using Interactors.Providers;
 
-namespace Entities.Mocks
+namespace Interactors.Mocks
 {
 	class RandomProviderMock : IRandomProvider
-  {
+	{
     private readonly int[] Seed;
     private readonly int CardCount;
     private int CurrentIndex = 0;

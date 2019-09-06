@@ -1,9 +1,10 @@
 ﻿using Entities;
+using Interactors.Providers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CardDealer
+namespace Interactors
 {
   public class CardDeckRandomizer
   {

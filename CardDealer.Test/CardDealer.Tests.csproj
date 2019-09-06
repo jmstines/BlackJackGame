@@ -23,4 +23,8 @@
     <ProjectReference Include="..\Interactors.cs\Interactors.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Entities.Mocks\" />
+  </ItemGroup>
+
 </Project>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Entities;
 
-namespace Entities
+namespace Interactors.Providers
 {
   public class CardDeckProvider : ICardDeckProvider
   {

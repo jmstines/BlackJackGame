@@ -1,4 +1,5 @@
-using Entities.Mocks;
+using Interactors.Mocks;
+using Interactors.Providers;
 using Entities;
 using NUnit.Framework;
 using System;

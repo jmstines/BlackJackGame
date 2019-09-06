@@ -7,9 +7,9 @@ namespace Entities.Tests
 {
 	public class PlayerTests
   {
-    private readonly Card twoClubs = new Card(Suit.Clubs, "2", "2", 2);
-    private readonly Card threeClubs = new Card(Suit.Clubs, "3", "3", 3);
-    private readonly Card jackClubs = new Card(Suit.Clubs, "J", "Jack", 10);
+    private readonly Card twoClubs = new Card(Suit.Clubs, "2", "2");
+    private readonly Card threeClubs = new Card(Suit.Clubs, "3", "3");
+    private readonly Card jackClubs = new Card(Suit.Clubs, "J", "Jack");
     private const string playerName = "Sam";
 
     [SetUp]
@@ -63,7 +63,7 @@ namespace Entities.Tests
       var playerOne = new Player(playerName);
       playerOne.AddCardToHand(twoClubs);
 
-      Assert.AreEqual(CardOrientation.FaceDown, playerOne.Hand.First().Orientation);
+      Assert.AreEqual(true, playerOne.Hand.First().FaceDown);
     }
 
     [Test]
@@ -73,7 +73,7 @@ namespace Entities.Tests
       playerOne.AddCardToHand(twoClubs);
       playerOne.AddCardToHand(threeClubs);
 
-      Assert.AreEqual(CardOrientation.FaceUp, playerOne.Hand[1].Orientation);
+      Assert.AreEqual(false, playerOne.Hand[1].FaceDown);
     }
 
     [Test]
@@ -84,7 +84,7 @@ namespace Entities.Tests
       playerOne.AddCardToHand(threeClubs);
       playerOne.AddCardToHand(jackClubs);
 
-      Assert.AreEqual(CardOrientation.FaceUp, playerOne.Hand[2].Orientation);
+      Assert.AreEqual(false, playerOne.Hand[2].FaceDown);
     }
   }
 }

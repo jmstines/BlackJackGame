@@ -8,11 +8,11 @@ namespace Entities
   {
     private List<CardValue> Values = new List<CardValue>
     {
-      new CardValue("2","2", 2), new CardValue("3", "3", 3), new CardValue("4", "4", 4),
-      new CardValue("5", "5", 5), new CardValue("6", "6", 6), new CardValue("7", "7", 7),
-      new CardValue("8", "8", 8), new CardValue("9", "9", 9), new CardValue("10", "10", 10),
-      new CardValue("J", "Jack", 10), new CardValue("Q", "Queen", 10), new CardValue("K", "King", 10),
-      new CardValue("A", "Ace", 11)
+      new CardValue("2","2"), new CardValue("3", "3"), new CardValue("4", "4"),
+      new CardValue("5", "5"), new CardValue("6", "6"), new CardValue("7", "7"),
+      new CardValue("8", "8"), new CardValue("9", "9"), new CardValue("10", "10"),
+      new CardValue("J", "Jack"), new CardValue("Q", "Queen"), new CardValue("K", "King"),
+      new CardValue("A", "Ace")
     };
     public bool AddCardValue(CardValue value)
     {

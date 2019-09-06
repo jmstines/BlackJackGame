@@ -10,65 +10,65 @@ namespace Entities.Mocks
 		public List<Card> Deck_DealerWins()
 		{
 			return new List<Card> {
-				Deck.First(c => c.Value.Equals(10)),
-				Deck.First(c => c.Value.Equals(10)),
-				Deck.First(c => c.Value.Equals(10)),
-				Deck.First(c => c.Value.Equals(10)),
-				Deck.First(c => c.Value.Equals(10)),
-				Deck.First(c => c.Value.Equals(11))
+				Deck.First(c => c.Display.Equals("10")),
+				Deck.First(c => c.Display.Equals("10")),
+				Deck.First(c => c.Display.Equals("10")),
+				Deck.First(c => c.Display.Equals("10")),
+				Deck.First(c => c.Display.Equals("10")),
+				Deck.First(c => c.Display.Equals("A"))
 			};
 		}
 
 		public List<Card> GetDeck_DealerAndPlayerOneBlackJack()
 		{
 			return new List<Card> {
-				Deck.First(c => c.Value.Equals(10)),
-				Deck.First(c => c.Value.Equals(10)),
-				Deck.First(c => c.Value.Equals(10)),
-				Deck.First(c => c.Value.Equals(11)),
-				Deck.First(c => c.Value.Equals(10)),
-				Deck.First(c => c.Value.Equals(11))
+				Deck.First(c => c.Display.Equals("10")),
+				Deck.First(c => c.Display.Equals("10")),
+				Deck.First(c => c.Display.Equals("10")),
+				Deck.First(c => c.Display.Equals("A")),
+				Deck.First(c => c.Display.Equals("10")),
+				Deck.First(c => c.Display.Equals("A"))
 			};
 		}
 
 		public List<Card> Deck_AllPlayersBlackJack()
 		{
 			return new List<Card> {
-				Deck.First(c => c.Value.Equals(10)),
-				Deck.First(c => c.Value.Equals(10)),
-				Deck.First(c => c.Value.Equals(10)),
-				Deck.First(c => c.Value.Equals(11)),
-				Deck.First(c => c.Value.Equals(11)),
-				Deck.First(c => c.Value.Equals(11))
+				Deck.First(c => c.Display.Equals("10")),
+				Deck.First(c => c.Display.Equals("10")),
+				Deck.First(c => c.Display.Equals("10")),
+				Deck.First(c => c.Display.Equals("A")),
+				Deck.First(c => c.Display.Equals("A")),
+				Deck.First(c => c.Display.Equals("A"))
 			};
 		}
 
 		public List<Card> Deck_GameOne()
 		{
 			return new List<Card> {
-				Deck.First(c => c.Value.Equals(2)),
-				Deck.First(c => c.Value.Equals(2)),
-				Deck.First(c => c.Value.Equals(2)),
-				Deck.First(c => c.Value.Equals(11)),
-				Deck.First(c => c.Value.Equals(11)),
-				Deck.First(c => c.Value.Equals(11)),
-				Deck.First(c => c.Value.Equals(10)),
-				Deck.First(c => c.Value.Equals(2)),
-				Deck.First(c => c.Value.Equals(2))
+				Deck.First(c => c.Display.Equals("2")),
+				Deck.First(c => c.Display.Equals("2")),
+				Deck.First(c => c.Display.Equals("2")),
+				Deck.First(c => c.Display.Equals("A")),
+				Deck.First(c => c.Display.Equals("A")),
+				Deck.First(c => c.Display.Equals("A")),
+				Deck.First(c => c.Display.Equals("10")),
+				Deck.First(c => c.Display.Equals("3")),
+				Deck.First(c => c.Display.Equals("2"))
 			};
 		}
 
 		public List<Card> Deck_GameTwo()
 		{
 			return new List<Card> {
-				Deck.First(c => c.Value.Equals(2)),
-				Deck.First(c => c.Value.Equals(2)),
-				Deck.First(c => c.Value.Equals(10)),
-				Deck.First(c => c.Value.Equals(2)),
-				Deck.First(c => c.Value.Equals(10)),
-				Deck.First(c => c.Value.Equals(3)),
-				Deck.First(c => c.Value.Equals(3)),
-				Deck.First(c => c.Value.Equals(10)),
+				Deck.First(c => c.Display.Equals("2")),
+				Deck.First(c => c.Display.Equals("2")),
+				Deck.First(c => c.Display.Equals("10")),
+				Deck.First(c => c.Display.Equals("2")),
+				Deck.First(c => c.Display.Equals("10")),
+				Deck.First(c => c.Display.Equals("3")),
+				Deck.First(c => c.Display.Equals("3")),
+				Deck.First(c => c.Display.Equals("10"))
 			};
 		}
 	}

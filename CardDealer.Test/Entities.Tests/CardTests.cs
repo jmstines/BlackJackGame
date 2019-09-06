@@ -8,19 +8,13 @@ namespace Entities.Tests
     [Test]
     public void NewCard_NullDisplayValue_ArgumentNullException()
     {
-      Assert.Throws<ArgumentNullException>(() => new Card(Suit.Clubs, null, "2", 2));
+      Assert.Throws<ArgumentNullException>(() => new Card(Suit.Clubs, null, "2"));
     }
 
     [Test]
     public void NewCard_NullDescription_ArgumentNullException()
     {
-      Assert.Throws<ArgumentNullException>(() => new Card(Suit.Clubs, "2", null, 2));
-    }
-
-    [Test]
-    public void NewCard_ValueLessThanOne_ArgumentNullException()
-    {
-      Assert.Throws<ArgumentOutOfRangeException>(() => new Card(Suit.Clubs, "2", "2", 0));
+      Assert.Throws<ArgumentNullException>(() => new Card(Suit.Clubs, "2", null));
     }
   }
 }

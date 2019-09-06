@@ -19,13 +19,14 @@ namespace Entities
 			PointTotal = 0;
 		}
 
-    public void AddCardToHand(Card card)
+    public void AddCardToHand(Card currentCard)
     {
-			var currentCard = card ?? throw new ArgumentNullException(nameof(card));
-      CardOrientation orientation = Hand.Any() ? CardOrientation.FaceUp : CardOrientation.FaceDown;
-      Hand.Add(new BlackJackCard(currentCard, orientation));
+			var card = currentCard ?? throw new ArgumentNullException(nameof(currentCard));
+      bool faceDown = Hand.Any() ? false : true;
+			var blackJackCard = new BlackJackCard(card.Suit, card.Display, card.Description, faceDown);
+      Hand.Add(blackJackCard);
 
-			PointTotal = Hand.Sum(c => c.Card.Value);
+			PointTotal = Hand.Sum(c => c.Value);
 		}
   }
 }

@@ -6,29 +6,25 @@ namespace Entities
 {
   class CardValue
   {
-    public string Abbreviation { get; }
-    public string Description { get; }
-    public int Value { get; }
+		public readonly string Abbreviation;
+		public readonly string Description;
 
-    public CardValue(string abbreviation, string description, int value)
+    public CardValue(string abbreviation, string description)
     {
       Abbreviation = abbreviation ?? throw new ArgumentNullException(nameof(abbreviation));
       Description = description ?? throw new ArgumentNullException(nameof(description));
-      Value = value;
     }
 
     public override bool Equals(object obj)
     {
-      var value = obj as CardValue;
-      return value != null &&
-             Abbreviation == value.Abbreviation &&
-             Description == value.Description &&
-             Value == value.Value;
-    }
+			return obj is CardValue value &&
+						 Abbreviation == value.Abbreviation &&
+						 Description == value.Description;
+		}
 
     public override int GetHashCode()
     {
-      return HashCode.Combine(Abbreviation, Description, Value);
+      return HashCode.Combine(Abbreviation, Description);
     }
   }
 }

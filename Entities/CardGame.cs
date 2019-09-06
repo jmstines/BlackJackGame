@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 
 namespace Entities
 {
-	public class CardGame : ICardGame
+	public class CardGame
 	{
 		public List<Player> Players { get; }
 		public List<Card> Deck { get; }

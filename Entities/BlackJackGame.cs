@@ -12,10 +12,10 @@ namespace CardDealer
 		private const int BlackJack = 21;
 		private const int DealerHoldValue = 17;
 		private Player CurrentPlayer;
-		public readonly ICardGame CardGame;
+		public readonly CardGame CardGame;
 		public bool GameComplete { get; private set; }
 		
-		public BlackJackGame(ICardGame game)
+		public BlackJackGame(CardGame game)
 		{
 			CardGame = game ?? throw new ArgumentNullException(nameof(game));
 			CurrentPlayer = CardGame.Players.ElementAt(CardGame.CurrentPlayerIndex);

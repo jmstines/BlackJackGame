@@ -4,27 +4,15 @@ using System.Text;
 
 namespace Entities
 {
-  class CardValue
-  {
-		public readonly string Abbreviation;
+	public class CardDetail
+	{
 		public readonly string Description;
+		public readonly string Display;
 
-    public CardValue(string abbreviation, string description)
-    {
-      Abbreviation = abbreviation ?? throw new ArgumentNullException(nameof(abbreviation));
-      Description = description ?? throw new ArgumentNullException(nameof(description));
-    }
-
-    public override bool Equals(object obj)
-    {
-			return obj is CardValue value &&
-						 Abbreviation == value.Abbreviation &&
-						 Description == value.Description;
+		public CardDetail(string display, string description)
+		{
+			Description = description ?? throw new ArgumentNullException(nameof(description));
+			Display = display ?? throw new ArgumentNullException(nameof(display));
 		}
-
-    public override int GetHashCode()
-    {
-      return HashCode.Combine(Abbreviation, Description);
-    }
-  }
+	}
 }

@@ -29,8 +29,7 @@ namespace Interactors.Tests
     {
       var random = new RandomProvider((int)DateTime.UtcNow.Ticks);
       CardDeckProvider provider = new CardDeckProvider();
-      List<Card> deck = new List<Card>(provider.Deck);
-      provider.Shuffle(random);
+      List<Card> deck = new ShuffledDeckProvider(provider.Deck, random).ShuffledDeck;
       List<Card> deckSuffled = provider.Deck;
 
       Assert.AreNotEqual(deck, deckSuffled);
@@ -43,9 +42,8 @@ namespace Interactors.Tests
       List<Card> deck = new List<Card>(provider.Deck);
       var random = new RandomProviderMock(deck.Count);
 
-      provider.Shuffle(random);
-      List<Card> deckSuffled = provider.Deck;
-      deck.Reverse();
+      List<Card> deckSuffled = new ShuffledDeckProvider(provider.Deck, random).ShuffledDeck;
+			deck.Reverse();
       Assert.AreEqual(deck, deckSuffled);
     }
   }

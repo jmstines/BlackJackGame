@@ -25,7 +25,7 @@ namespace Entities.Tests
 				playerName,
 				playerName2
 			};
-			ICardGame cardGame = new CardGame(deck, players, "");
+			CardGame cardGame = new CardGame(deck, players, "");
 
 			BlackJackGame game = new BlackJackGame(cardGame);
 
@@ -48,7 +48,7 @@ namespace Entities.Tests
 				playerName2
 			};
 			List<Card> deck = new CardDeckProviderMock().Deck_DealerWins();
-			ICardGame cardGame = new CardGame(deck, players, "");
+			CardGame cardGame = new CardGame(deck, players, "");
 			BlackJackGame game = new BlackJackGame(cardGame);
 
 			Assert.IsTrue(game.GameComplete);
@@ -64,7 +64,7 @@ namespace Entities.Tests
 				playerName2
 			};
 			List<Card> deck = new CardDeckProviderMock().GetDeck_DealerAndPlayerOneBlackJack();
-			ICardGame cardGame = new CardGame(deck, players, "");
+			CardGame cardGame = new CardGame(deck, players, "");
 			BlackJackGame game = new BlackJackGame(cardGame);
 
 			Assert.IsTrue(game.GameComplete);
@@ -80,7 +80,7 @@ namespace Entities.Tests
 				playerName2
 			};
 			List<Card> deck = new CardDeckProviderMock().Deck_AllPlayersBlackJack();
-			ICardGame cardGame = new CardGame(deck, players, "");
+			CardGame cardGame = new CardGame(deck, players, "");
 			BlackJackGame game = new BlackJackGame(cardGame);
 
 			Assert.IsTrue(game.GameComplete);
@@ -95,7 +95,7 @@ namespace Entities.Tests
 				playerName
 			};
 			List<Card> deck = new CardDeckProviderMock().Deck_GameTwo();
-			ICardGame cardGame = new CardGame(deck, players, "");
+			CardGame cardGame = new CardGame(deck, players, "");
 			BlackJackGame game = new BlackJackGame(cardGame);
 
 			game.PlayerDrawsCard();

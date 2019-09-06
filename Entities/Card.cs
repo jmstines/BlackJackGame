@@ -2,11 +2,11 @@
 
 namespace Entities
 {
-  public class Card
+  public class Card : ICard
   {
-    public readonly Suit Suit;
-    public readonly string Display;
-    public readonly string Description;
+    public Suit Suit { get; private set; }
+    public string Display { get; private set; }
+    public string Description { get; private set; }
 
     public Card(Suit suit, string display, string description)
     {

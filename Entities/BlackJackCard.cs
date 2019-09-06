@@ -2,13 +2,14 @@
 
 namespace Entities
 {
-  public class BlackJackCard
+  public class BlackJackCard : ICard
   {
-    public readonly bool FaceDown;
-		public readonly Suit Suit;
-		public readonly string Display;
-		public readonly string Description;
-		public int Value;
+    
+		public Suit Suit { get; private set; }
+		public string Display { get; private set; }
+		public string Description { get; private set; }
+		public bool FaceDown { get; private set; }
+		public int Value { get; set; }
 
     public BlackJackCard(Suit suit, string display, string description, bool faceDown)
     {
@@ -18,6 +19,15 @@ namespace Entities
 			FaceDown = faceDown;
 			SetCardValue();
     }
+
+		public void ToggleValueOfAce()
+		{
+			if (!Display.Equals("A"))
+			{
+				throw new InvalidOperationException("Card Must be an Ace.");
+			}
+			Value = Value.Equals(1) ? 11 : 1;
+		}
 
 		private void SetCardValue()
 		{

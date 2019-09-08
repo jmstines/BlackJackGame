@@ -9,32 +9,35 @@ namespace Interactors
     public class CardDeckRandomizer
     {
         private readonly IRandomProvider Random;
+        private List<Card> CurrentDeck;
 
         public CardDeckRandomizer(IRandomProvider random)
           => Random = random ?? throw new ArgumentNullException(nameof(random));
 
-        public List<Card> Shuffle(List<Card> cardDeck, int numberOfTimes = 1)
+        public IEnumerable<Card> Shuffle(IEnumerable<Card> cardDeck, uint numberOfTimes = 1)
         {
-            if (cardDeck == null)
+            CurrentDeck = cardDeck?.ToList() ?? throw new ArgumentNullException(nameof(cardDeck));
+
+            for (uint i = 0; i < numberOfTimes; i++)
             {
-                throw new ArgumentNullException(nameof(cardDeck));
-            }
-            var CurrentDeck = new List<Card>(cardDeck);
-            for (int i = 0; i < numberOfTimes; i++)
-            {
-                var TempDeck = new List<Card>();
-                int count = CurrentDeck.Count;
-                while (count > 0)
-                {
-                    int cardIndex = Random.Next(0, count - 1);
-                    Card currentCard = CurrentDeck.ElementAt(cardIndex);
-                    TempDeck.Add(currentCard);
-                    CurrentDeck.Remove(currentCard);
-                    count--;
-                }
-                CurrentDeck = TempDeck;
+                SingleDeckShuffle();
             }
             return CurrentDeck;
+        }
+
+        private void SingleDeckShuffle()
+        {
+            List<Card> TempDeck = new List<Card>();
+            int count = CurrentDeck.Count();
+            while (count > 0)
+            {
+                int cardIndex = Random.Next(0, count - 1);
+                Card currentCard = CurrentDeck.ElementAt(cardIndex);
+                CurrentDeck.Remove(currentCard);
+                TempDeck.Add(currentCard);
+                count--;
+            }
+            CurrentDeck = TempDeck;
         }
     }
 }

@@ -5,8 +5,8 @@ using Entities;
 
 namespace Interactors.Providers
 {
-	interface IShuffledDeckProvider
-	{
-		List<Card> ShuffledDeck { get; }
-	}
+    interface IShuffledDeckProvider
+    {
+        List<Card> ShuffledDeck { get; }
+    }
 }

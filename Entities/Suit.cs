@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Entities
 {
-  public enum Suit
-  {
-    Clubs,
-    Diamonds,
-    Hearts,
-    Spades
-  }
+    public enum Suit
+    {
+        Clubs,
+        Diamonds,
+        Hearts,
+        Spades
+    }
 }

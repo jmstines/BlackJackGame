@@ -3,8 +3,8 @@ using Entities;
 
 namespace Interactors.Providers
 {
-  public interface ICardDeckProvider
-  {
-    List<Card> Deck { get; }
-  }
+    public interface ICardDeckProvider
+    {
+        List<Card> Deck { get; }
+    }
 }

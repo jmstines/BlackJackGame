@@ -1,10 +1,10 @@
 ﻿namespace Entities
 {
-  public enum PlayerStatus
-  {
-    InProgress,
-    Push,
-    PlayerWins,
-    PlayerLoses
-  }
+    public enum PlayerStatus
+    {
+        InProgress,
+        Push,
+        PlayerWins,
+        PlayerLoses
+    }
 }

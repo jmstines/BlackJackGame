@@ -10,14 +10,8 @@ namespace Interactors
     {
         public CardDeckProvider CurrentDeck { get; private set; }
         private readonly List<Card> DefaultDeck = BuildDefualtDeck();
-
-        public DealCardsInteractor() => CurrentDeck = new CardDeckProvider(DefaultDeck);
-
-        private static List<Card> BuildDefualtDeck()
-        {
-            var deck = new List<Card>();
-            var suits = new List<Suit> { Suit.Clubs, Suit.Diamonds, Suit.Hearts, Suit.Spades };
-            var values = new List<CardDetail>{
+        private static readonly List<Suit> Suits = new List<Suit> { Suit.Clubs, Suit.Diamonds, Suit.Hearts, Suit.Spades };
+        private static readonly List<CardDetail> Values = new List<CardDetail>{
                 new CardDetail("2","2"), new CardDetail("3", "3"),
                 new CardDetail("4", "4"), new CardDetail("5", "5"),
                 new CardDetail("6", "6"), new CardDetail("7", "7"),
@@ -26,8 +20,8 @@ namespace Interactors
                 new CardDetail("Q", "Queen"), new CardDetail("K", "King"),
                 new CardDetail("A", "Ace")};
 
-            suits.ForEach(s => values.ForEach(v => deck.Add(new Card(s, v.Display, v.Description))));
-            return deck;
-        }
+        public DealCardsInteractor() => CurrentDeck = new CardDeckProvider(DefaultDeck);
+
+        private static List<Card> BuildDefualtDeck() => Suits.SelectMany(s => Values.Select(v => new Card(s, v.Display, v.Description))).ToList();
     }
 }

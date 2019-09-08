@@ -8,9 +8,7 @@ namespace Interactors
 {
     public class CardDeckRandomizer
     {
-        private List<Card> CurrentDeck { get; set; }
-        private List<Card> TempDeck { get; set; }
-        private IRandomProvider Random { get; set; }
+        private readonly IRandomProvider Random;
 
         public CardDeckRandomizer(IRandomProvider random)
           => Random = random ?? throw new ArgumentNullException(nameof(random));
@@ -21,11 +19,10 @@ namespace Interactors
             {
                 throw new ArgumentNullException(nameof(cardDeck));
             }
-            CurrentDeck = new List<Card>(cardDeck);
-
+            var CurrentDeck = new List<Card>(cardDeck);
             for (int i = 0; i < numberOfTimes; i++)
             {
-                TempDeck = new List<Card>();
+                var TempDeck = new List<Card>();
                 int count = CurrentDeck.Count;
                 while (count > 0)
                 {

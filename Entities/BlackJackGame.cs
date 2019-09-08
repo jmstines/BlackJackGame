@@ -58,7 +58,7 @@ namespace CardDealer
 
         private void DealHands()
         {
-            int twoCardsPerPlayer = (CardGame.Players.Count) * 2;
+            int twoCardsPerPlayer = CardGame.Players.Count * 2;
             for (int i = 0; i < twoCardsPerPlayer; i++)
             {
                 PlayerDrawsCard();

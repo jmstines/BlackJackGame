@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Entities.Tests
 {
-    class CardGameTests
+    public class CardGameTests
     {
         private const string playerName = "Sam";
         private const string playerName2 = "Tom";
@@ -14,7 +14,7 @@ namespace Entities.Tests
         [Test]
         public void NewGame_NullDeck_ArgumentNullException()
         {
-            List<string> players = new List<string>() {
+            var players = new List<string>() {
                 playerName,
                 playerName2
             };
@@ -23,7 +23,7 @@ namespace Entities.Tests
 
         public void NewGame_NullDeck_PlayerArgumentNullException()
         {
-            List<string> players = new List<string>() {
+            var players = new List<string>() {
                 playerName,
                 playerName2,
                 null
@@ -34,7 +34,7 @@ namespace Entities.Tests
         [Test]
         public void NewGame_TooManyPlayers_ArgumentOutOfRangeException()
         {
-            List<string> players = new List<string>() {
+            var players = new List<string>() {
                 playerName,
                 playerName2,
                 playerName,
@@ -47,7 +47,7 @@ namespace Entities.Tests
         [Test]
         public void NewGame_NotEnoughPlayers_ArgumentOutOfRangeException()
         {
-            List<string> players = new List<string>() { };
+            var players = new List<string>() { };
             Assert.Throws<ArgumentOutOfRangeException>(() => new CardGame(deck, players, ""));
         }
 

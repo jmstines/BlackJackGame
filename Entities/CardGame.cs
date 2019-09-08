@@ -13,7 +13,7 @@ namespace Entities
         public CardGame(IEnumerable<Card> deck, IEnumerable<string> playerNames, string dealerName)
         {
             Deck = deck.ToList() ?? throw new ArgumentNullException(nameof(deck));
-            List<string> names = playerNames.ToList() ?? throw new ArgumentNullException(nameof(playerNames));
+            var names = playerNames.ToList() ?? throw new ArgumentNullException(nameof(playerNames));
             if (names.Count > 4)
             {
                 throw new ArgumentOutOfRangeException(nameof(playerNames), "Player Count must be less than 5 Players.");

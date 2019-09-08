@@ -22,11 +22,11 @@ namespace Entities
         public void AddCardToHand(Card currentCard)
         {
             var card = currentCard ?? throw new ArgumentNullException(nameof(currentCard));
-            bool faceDown = Hand.Any() ? false : true;
-            var blackJackCard = new BlackJackCard(card.Suit, card.Display, card.Description, faceDown);
-            Hand.Add(blackJackCard);
+            Hand.Add(new BlackJackCard(card.Suit, card.Display, card.Description, FaceDown()));
 
             PointTotal = Hand.Sum(c => c.Value);
         }
+
+        private bool FaceDown() => Hand.Any() ? false : true;
     }
 }

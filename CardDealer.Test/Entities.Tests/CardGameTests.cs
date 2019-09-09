@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Entities.Tests
 {
@@ -55,6 +56,58 @@ namespace Entities.Tests
         public void NewGame_NullPlayerList_ArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(() => new CardGame(deck, null, ""));
+        }
+
+        [Test]
+        public void NewGame_SinglePlayerAndDealer_PlayerCount2()
+        {
+            var players = new List<string>() {
+                playerName,
+            };
+            var game = new CardGame(deck, players, "");
+            Assert.AreEqual(2, game.Players.Count);
+        }
+
+        [Test]
+        public void NewGame_SinglePlayerAndDealer_CurrentPlayerIndexZero()
+        {
+            var players = new List<string>() {
+                playerName,
+            };
+            var game = new CardGame(deck, players, "");
+            Assert.AreEqual(0, game.CurrentPlayerIndex);
+        }
+
+        [Test]
+        public void NewGame_SinglePlayerAndDealer_CardCount52()
+        {
+            var players = new List<string>() {
+                playerName,
+            };
+            var game = new CardGame(deck, players, "");
+            Assert.AreEqual(52, game.Deck.Count);
+        }
+
+        [Test]
+        public void NewGame_SinglePlayerAndDealer_DealerNameJeff()
+        {
+            var players = new List<string>() {
+                playerName,
+            };
+            var dealerName = "Jeff";
+            var game = new CardGame(deck, players, dealerName);
+            Assert.AreEqual(dealerName, game.Players.Last().Name);
+        }
+
+        [Test]
+        public void NewGame_SinglePlayerAndDealer_DealerCardCountZero()
+        {
+            var players = new List<string>() {
+                playerName,
+            };
+            var dealerName = "Jeff";
+            var game = new CardGame(deck, players, dealerName);
+            Assert.AreEqual(0, game.Players.Last().Hand.Count);
         }
     }
 }

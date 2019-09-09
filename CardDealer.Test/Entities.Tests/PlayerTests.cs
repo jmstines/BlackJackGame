@@ -30,6 +30,27 @@ namespace Entities.Tests
         }
 
         [Test]
+        public void NewPlayer_NoCards_ZeroPoints()
+        {
+            Player sam = new Player(playerName);
+            Assert.AreEqual(0, sam.PointTotal);
+        }
+
+        [Test]
+        public void NewPlayer_NoCards_HandEmpty()
+        {
+            Player sam = new Player(playerName);
+            Assert.AreEqual(false, sam.Hand.Any());
+        }
+
+        [Test]
+        public void NewPlayer_NoCards_StatusInProgress()
+        {
+            Player sam = new Player(playerName);
+            Assert.AreEqual(PlayerStatus.InProgress, sam.Status);
+        }
+
+        [Test]
         public void NewPlayer_CalculateTotal_TotalFive()
         {
             Player sam = new Player(playerName);

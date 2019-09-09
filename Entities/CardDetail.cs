@@ -10,7 +10,12 @@ namespace Entities
         public CardDetail(string display, string description)
         {
             Description = description ?? throw new ArgumentNullException(nameof(description));
+
             Display = display ?? throw new ArgumentNullException(nameof(display));
+            if (string.IsNullOrWhiteSpace(display))
+            {
+                throw new ArgumentException(nameof(display));
+            }
         }
     }
 }

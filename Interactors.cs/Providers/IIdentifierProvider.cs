@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Interactors.Providers
+﻿namespace Interactors.Providers
 {
     public interface IIdentifierProvider
     {

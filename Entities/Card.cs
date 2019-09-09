@@ -14,5 +14,18 @@ namespace Entities
             Display = display ?? throw new ArgumentNullException(nameof(display));
             Description = description ?? throw new ArgumentNullException(nameof(description));
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Card card &&
+                   Suit == card.Suit &&
+                   Display == card.Display &&
+                   Description == card.Description;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Suit, Display, Description);
+        }
     }
 }

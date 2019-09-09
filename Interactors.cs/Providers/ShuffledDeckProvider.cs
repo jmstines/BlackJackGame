@@ -1,38 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Entities;
 
 namespace Interactors.Providers
 {
     public class ShuffledDeckProvider : IShuffledDeckProvider
     {
-        public List<Card> ShuffledDeck { get; private set; }
-        private readonly List<Card> Deck;
+        private List<Card> SourceDeck;
         private readonly IRandomProvider Random;
 
-        public ShuffledDeckProvider(List<Card> deck, IRandomProvider random)
+        public ShuffledDeckProvider(IEnumerable<Card> deck, IRandomProvider random)
         {
-            Deck = deck ?? throw new ArgumentNullException(nameof(deck));
+            SourceDeck = new List<Card>(deck) ?? throw new ArgumentNullException(nameof(deck));
             Random = random ?? throw new ArgumentNullException(nameof(random));
-            Shuffle();
         }
 
-        private void Shuffle()
+        public IEnumerable<Card> Shuffle()
         {
-            var tempDeck = new List<Card>();
-            int count = Deck.Count;
-            int firstCardIndex = 0;
-            while (count > 0)
+            List<Card> ShuffledDeck = new List<Card>();
+            while (SourceDeck.Any())
             {
-                int cardIndex = Random.Next(firstCardIndex, count);
-                Card currentCard = Deck.ElementAt(cardIndex);
-                tempDeck.Add(currentCard);
-                Deck.Remove(currentCard);
-                count--;
+                Card currentCard = SourceDeck.ElementAt(GetCardIndex());
+                ShuffledDeck.Add(currentCard);
+                SourceDeck.Remove(currentCard);
             }
-            ShuffledDeck = tempDeck;
+            SourceDeck = ShuffledDeck;
+            return ShuffledDeck;
         }
+
+        private int GetCardIndex() => Random.Next(minValue: 0, maxValue: SourceDeck.Count);
     }
 }

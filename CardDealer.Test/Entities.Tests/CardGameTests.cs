@@ -1,4 +1,4 @@
-﻿using Entities.Mocks;
+﻿using Interactors.Mocks;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ namespace Entities.Tests
     {
         private const string playerName = "Sam";
         private const string playerName2 = "Tom";
-        private readonly List<Card> deck = new CardDeckProviderMock().Deck;
+        private readonly IEnumerable<Card> deck = new CardDeckProviderMock().Deck;
 
         [Test]
         public void NewGame_NullDeck_ArgumentNullException()

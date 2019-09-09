@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using Entities;
 
-namespace CardDealer
+namespace Entities
 {
     [Serializable]
     public class BlackJackGame

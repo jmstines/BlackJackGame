@@ -1,5 +1,4 @@
-﻿using Entities.Mocks;
-using CardDealer;
+﻿using Interactors.Mocks;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +9,7 @@ namespace Entities.Tests
     {
         private const string playerName = "Sam";
         private const string playerName2 = "Tom";
-        private readonly List<Card> deck = new CardDeckProviderMock().Deck;
+        private readonly IEnumerable<Card> deck = new CardDeckProviderMock().Deck;
 
         [SetUp]
         public void Setup()
@@ -47,7 +46,7 @@ namespace Entities.Tests
                 playerName,
                 playerName2
             };
-            List<Card> deck = new CardDeckProviderMock().Deck_DealerWins();
+            IEnumerable<Card> deck = new CardDeckProviderMock().Deck_DealerWins();
             CardGame cardGame = new CardGame(deck, players, "");
             BlackJackGame game = new BlackJackGame(cardGame);
 
@@ -63,7 +62,7 @@ namespace Entities.Tests
                 playerName,
                 playerName2
             };
-            List<Card> deck = new CardDeckProviderMock().GetDeck_DealerAndPlayerOneBlackJack();
+            IEnumerable<Card> deck = new CardDeckProviderMock().GetDeck_DealerAndPlayerOneBlackJack();
             CardGame cardGame = new CardGame(deck, players, "");
             BlackJackGame game = new BlackJackGame(cardGame);
 
@@ -79,7 +78,7 @@ namespace Entities.Tests
                 playerName,
                 playerName2
             };
-            List<Card> deck = new CardDeckProviderMock().Deck_AllPlayersBlackJack();
+            IEnumerable<Card> deck = new CardDeckProviderMock().Deck_AllPlayersBlackJack();
             CardGame cardGame = new CardGame(deck, players, "");
             BlackJackGame game = new BlackJackGame(cardGame);
 
@@ -94,7 +93,7 @@ namespace Entities.Tests
             List<string> players = new List<string>() {
                 playerName
             };
-            List<Card> deck = new CardDeckProviderMock().Deck_GameTwo();
+            IEnumerable<Card> deck = new CardDeckProviderMock().Deck_GameTwo();
             CardGame cardGame = new CardGame(deck, players, "");
             BlackJackGame game = new BlackJackGame(cardGame);
 

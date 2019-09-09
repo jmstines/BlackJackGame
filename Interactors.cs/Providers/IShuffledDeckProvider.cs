@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Entities;
 
 namespace Interactors.Providers
 {
     interface IShuffledDeckProvider
     {
-        List<Card> ShuffledDeck { get; }
+        IEnumerable<Card> Shuffle();
     }
 }

@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Interactors.Providers;
+using Entities;
 
-namespace Entities.Mocks
+namespace Interactors.Mocks
 {
     class CardDeckProviderMock : ICardDeckProvider
     {
-        public List<Card> Deck => new CardDeckProvider().Deck;
+        public IEnumerable<Card> Deck => new CardDeckProvider().Deck;
 
         public List<Card> Deck_DealerWins()
         {

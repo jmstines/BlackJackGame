@@ -15,6 +15,10 @@ namespace Entities
         {
             Suit = suit;
             Display = display ?? throw new ArgumentNullException(nameof(display));
+            if (Display.Trim() == string.Empty)
+            {
+                throw new ArgumentException(nameof(Display), $"{Display} can NOT be Empty!");
+            }
             Description = description ?? throw new ArgumentNullException(nameof(description));
             FaceDown = faceDown;
             SetCardValue();

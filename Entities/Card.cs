@@ -13,19 +13,17 @@ namespace Entities
             Suit = suit;
             Display = display ?? throw new ArgumentNullException(nameof(display));
             Description = description ?? throw new ArgumentNullException(nameof(description));
+            if (Display.Trim() == string.Empty)
+            {
+                throw new ArgumentException(nameof(Display), $"{Display} can NOT be Empty!");
+            }
         }
 
-        public override bool Equals(object obj)
-        {
-            return obj is Card card &&
+        public override bool Equals(object obj) => obj is Card card &&
                    Suit == card.Suit &&
                    Display == card.Display &&
                    Description == card.Description;
-        }
 
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Suit, Display, Description);
-        }
+        public override int GetHashCode() => HashCode.Combine(Suit, Display, Description);
     }
 }

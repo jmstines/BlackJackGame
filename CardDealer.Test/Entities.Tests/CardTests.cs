@@ -19,5 +19,17 @@ namespace Entities.Tests
         {
             Assert.Throws<ArgumentNullException>(() => new Card(Suit.Clubs, AceDisplay, null));
         }
+
+        [Test]
+        public void NewCard_EmptyDisplay_ArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() => new Card(Suit.Clubs, string.Empty, AceDescription));
+        }
+
+        [Test]
+        public void NewCard_WhiteSpaceDisplay_ArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() => new Card(Suit.Clubs, "   ", AceDescription));
+        }
     }
 }

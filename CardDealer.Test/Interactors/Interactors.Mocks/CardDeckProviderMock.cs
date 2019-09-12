@@ -45,7 +45,7 @@ namespace Interactors.Mocks
             };
         }
 
-        public List<Card> Deck_GameOne()
+        public IEnumerable<Card> Deck_GameOne()
         {
             return new List<Card> {
                 Deck.First(c => c.Display.Equals("2")),

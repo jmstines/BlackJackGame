@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace Entities.Tests
 {
@@ -9,7 +10,23 @@ namespace Entities.Tests
     {
         private const string playerName = "Sam";
         private const string playerName2 = "Tom";
+        private const string playerName3 = "Jim";
+        private const string playerName4 = "Matt";
+
         private readonly IEnumerable<Card> deck = new CardDeckProviderMock().Deck;
+        private readonly List<string> players4 = new List<string>() {
+            playerName, 
+            playerName2,
+            playerName3,
+            playerName4
+        };
+        private readonly List<string> players2 = new List<string>() {
+            playerName,
+            playerName2
+        };
+        private readonly List<string> players1 = new List<string>() {
+            playerName
+        };
 
         [SetUp]
         public void Setup()
@@ -20,12 +37,7 @@ namespace Entities.Tests
         [Test]
         public void NewGame_NewGame_GameCreatesDefaultGame()
         {
-            List<string> players = new List<string>() {
-                playerName,
-                playerName2
-            };
-            CardGame cardGame = new CardGame(deck, players, "");
-
+            CardGame cardGame = new CardGame(deck, players2, "");
             BlackJackGame game = new BlackJackGame(cardGame);
 
             Assert.AreEqual("Dealer", game.CardGame.Players.Last().Name);
@@ -40,14 +52,17 @@ namespace Entities.Tests
         }
 
         [Test]
+        public void NewGame_PlayerDrawsMoreCardsThanInDeck_ArgumentOutOfRangeException()
+        {
+            CardGame cardGame = new CardGame(new CardDeckProviderMock().Deck_GameOne(), players4, "");
+            Assert.Throws<ArgumentOutOfRangeException>(() => new BlackJackGame(cardGame));
+        }
+
+        [Test]
         public void NewGame_Dealer21onDeal_PlayersLose()
         {
-            List<string> players = new List<string>() {
-                playerName,
-                playerName2
-            };
             IEnumerable<Card> deck = new CardDeckProviderMock().Deck_DealerWins();
-            CardGame cardGame = new CardGame(deck, players, "");
+            CardGame cardGame = new CardGame(deck, players2, "");
             BlackJackGame game = new BlackJackGame(cardGame);
 
             Assert.IsTrue(game.GameComplete);
@@ -58,12 +73,8 @@ namespace Entities.Tests
         [Test]
         public void NewGame_Dealer21onDeal_Player1Ties()
         {
-            List<string> players = new List<string>() {
-                playerName,
-                playerName2
-            };
             IEnumerable<Card> deck = new CardDeckProviderMock().GetDeck_DealerAndPlayerOneBlackJack();
-            CardGame cardGame = new CardGame(deck, players, "");
+            CardGame cardGame = new CardGame(deck, players2, "");
             BlackJackGame game = new BlackJackGame(cardGame);
 
             Assert.IsTrue(game.GameComplete);
@@ -74,12 +85,8 @@ namespace Entities.Tests
         [Test]
         public void NewGame_Dealer21onDeal_Player1AndPlayer2Tie()
         {
-            List<string> players = new List<string>() {
-                playerName,
-                playerName2
-            };
             IEnumerable<Card> deck = new CardDeckProviderMock().Deck_AllPlayersBlackJack();
-            CardGame cardGame = new CardGame(deck, players, "");
+            CardGame cardGame = new CardGame(deck, players2, "");
             BlackJackGame game = new BlackJackGame(cardGame);
 
             Assert.IsTrue(game.GameComplete);
@@ -90,11 +97,8 @@ namespace Entities.Tests
         [Test]
         public void NewGame_Player1Bust_DealerWins()
         {
-            List<string> players = new List<string>() {
-                playerName
-            };
             IEnumerable<Card> deck = new CardDeckProviderMock().Deck_GameTwo();
-            CardGame cardGame = new CardGame(deck, players, "");
+            CardGame cardGame = new CardGame(deck, players1, "");
             BlackJackGame game = new BlackJackGame(cardGame);
 
             game.PlayerDrawsCard();

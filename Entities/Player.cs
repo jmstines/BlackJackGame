@@ -10,6 +10,7 @@ namespace Entities
         public List<BlackJackCard> Hand { get; private set; }
         public int PointTotal { get; private set; }
         public PlayerStatus Status { get; set; }
+        public List<PlayerAction> ValidActions { get; set; }
 
         public Player(string name)
         {
@@ -17,16 +18,17 @@ namespace Entities
             Status = PlayerStatus.InProgress;
             Hand = new List<BlackJackCard>();
             PointTotal = 0;
+            ValidActions = new List<PlayerAction>() { PlayerAction.Draw, PlayerAction.Hold, PlayerAction.Split };
         }
-
-        public void AddCardToHand(Card currentCard)
+        public void AddCardToHand(BlackJackCard card)
         {
-            var card = currentCard ?? throw new ArgumentNullException(nameof(currentCard));
-            Hand.Add(new BlackJackCard(card.Suit, card.Display, card.Description, FaceDown()));
+            if (card == null)
+            {
+                throw new ArgumentNullException(nameof(card));
+            }
+            Hand.Add(card);
 
             PointTotal = Hand.Sum(c => c.Value);
         }
-
-        private bool FaceDown() => Hand.Any() ? false : true;
     }
 }

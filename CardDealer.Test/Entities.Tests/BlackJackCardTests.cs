@@ -43,13 +43,5 @@ namespace Entities.Tests
             BlackJackCard card = new BlackJackCard(Suit, AceDisplay, AceDescription, FaceDown);
             Assert.AreEqual(value, card.Value);
         }
-
-        [Test]
-        public void NewCard_AceValueOne_ArgumentNullException()
-        {
-            BlackJackCard card = new BlackJackCard(Suit, AceDisplay, AceDescription, FaceDown);
-            card.ToggleValueOfAce();
-            Assert.AreEqual(1, card.Value);
-        }
     }
 }

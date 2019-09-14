@@ -75,7 +75,7 @@ namespace Entities.Tests
                 playerName,
             };
             var game = new CardGame(deck, players, "");
-            Assert.AreEqual(0, game.CurrentPlayerIndex);
+            Assert.AreEqual(players.First(), game.CurrentPlayer.Name);
         }
 
         [Test]

@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Entities;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,41 +8,21 @@ namespace Entities.Tests
 {
     public class BlackJackCardTests
     {
-        private readonly string AceDisplay = "A";
-        private readonly string AceDescription = "Ace";
-        private readonly Suit Suit = Suit.Spades;
         private readonly bool FaceDown = false;
-        private readonly int value = 11;
+        private readonly int AceHighValue = 11;
+        private readonly int cardInvalidValue = -1;
+        private readonly Card Card = new Card(Suit.Spades, "A", "Ace");
 
         [Test]
-        public void NewCard_DisplayNull_ArgumentNullException()
+        public void NewCard_CardNull_ArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new BlackJackCard(Suit, null, AceDescription, FaceDown));
+            Assert.Throws<ArgumentNullException>(() => new BlackJackCard(null, FaceDown, AceHighValue));
         }
         
         [Test]
         public void NewCard_EmptyDisplay_ArgumentException()
         {
-            Assert.Throws<ArgumentException>(() => new BlackJackCard(Suit, string.Empty, AceDescription, FaceDown));
-        }
-
-        [Test]
-        public void NewCard_WhiteSpaceDisplay_ArgumentException()
-        {
-            Assert.Throws<ArgumentException>(() => new BlackJackCard(Suit, "   ", AceDescription, FaceDown));
-        }
-
-        [Test]
-        public void NewCard_DescriptionNull_ArgumentNullException()
-        {
-            Assert.Throws<ArgumentNullException>(() => new BlackJackCard(Suit, AceDisplay, null, FaceDown));
-        }
-
-        [Test]
-        public void NewCard_AceValueEleven_ArgumentNullException()
-        {
-            BlackJackCard card = new BlackJackCard(Suit, AceDisplay, AceDescription, FaceDown);
-            Assert.AreEqual(value, card.Value);
+            Assert.Throws<ArgumentOutOfRangeException>(() => new BlackJackCard(Card, FaceDown, cardInvalidValue));
         }
     }
 }

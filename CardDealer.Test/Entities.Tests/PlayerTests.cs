@@ -39,23 +39,25 @@ namespace Entities.Tests
         [Test]
         public void NewPlayer_NoCards_HandEmpty()
         {
-            Player sam = new Player(playerName);
+            var sam = new Player(playerName);
             Assert.AreEqual(false, sam.Hand.Any());
         }
 
         [Test]
         public void NewPlayer_NoCards_StatusInProgress()
         {
-            Player sam = new Player(playerName);
+            var sam = new Player(playerName);
             Assert.AreEqual(PlayerStatus.InProgress, sam.Status);
         }
 
         [Test]
         public void NewPlayer_CalculateTotal_TotalFive()
         {
-            Player sam = new Player(playerName);
-            sam.AddCardToHand(twoClubs);
-            sam.AddCardToHand(threeClubs);
+            var sam = new Player(playerName);
+            var blkJkTwoClubs = new BlackJackCard(twoClubs, true, 2);
+            var blkJkThreeClubs = new BlackJackCard(threeClubs, true, 3);
+            sam.AddCardToHand(blkJkTwoClubs);
+            sam.AddCardToHand(blkJkThreeClubs);
             Assert.AreEqual(5, sam.PointTotal);
         }
 
@@ -71,9 +73,12 @@ namespace Entities.Tests
         public void Player_DrawCard_TotalFifteen()
         {
             var playerOne = new Player(playerName);
-            playerOne.AddCardToHand(twoClubs);
-            playerOne.AddCardToHand(threeClubs);
-            playerOne.AddCardToHand(jackClubs);
+            var blkJkTwoClubs = new BlackJackCard(twoClubs, true, 2);
+            var blkJkThreeClubs = new BlackJackCard(threeClubs, true, 3);
+            var blkJkJackClubs = new BlackJackCard(jackClubs, true, 10);
+            playerOne.AddCardToHand(blkJkTwoClubs);
+            playerOne.AddCardToHand(blkJkThreeClubs);
+            playerOne.AddCardToHand(blkJkJackClubs);
 
             Assert.AreEqual(15, playerOne.PointTotal);
         }
@@ -82,7 +87,8 @@ namespace Entities.Tests
         public void Player_DrawCard_FirstCardFaceDown()
         {
             var playerOne = new Player(playerName);
-            playerOne.AddCardToHand(twoClubs);
+            var blkJkTwoClubs = new BlackJackCard(twoClubs, true, 2);
+            playerOne.AddCardToHand(blkJkTwoClubs);
 
             Assert.AreEqual(true, playerOne.Hand.First().FaceDown);
         }
@@ -91,8 +97,10 @@ namespace Entities.Tests
         public void Player_DrawCard_SecondCardFaceUp()
         {
             var playerOne = new Player(playerName);
-            playerOne.AddCardToHand(twoClubs);
-            playerOne.AddCardToHand(threeClubs);
+            var blkJkTwoClubs = new BlackJackCard(twoClubs, true, 2);
+            var blkJkThreeClubs = new BlackJackCard(threeClubs, false, 3);
+            playerOne.AddCardToHand(blkJkTwoClubs);
+            playerOne.AddCardToHand(blkJkThreeClubs);
 
             Assert.AreEqual(false, playerOne.Hand[1].FaceDown);
         }
@@ -101,11 +109,14 @@ namespace Entities.Tests
         public void Player_DrawCard_ThirdCardFaceUp()
         {
             var playerOne = new Player(playerName);
-            playerOne.AddCardToHand(twoClubs);
-            playerOne.AddCardToHand(threeClubs);
-            playerOne.AddCardToHand(jackClubs);
+            var blkJkTwoClubs = new BlackJackCard(twoClubs, true, 2);
+            var blkJkThreeClubs = new BlackJackCard(threeClubs, false, 3);
+            var blkJkJackClubs = new BlackJackCard(jackClubs, true, 10);
+            playerOne.AddCardToHand(blkJkTwoClubs);
+            playerOne.AddCardToHand(blkJkThreeClubs);
+            playerOne.AddCardToHand(blkJkJackClubs);
 
-            Assert.AreEqual(false, playerOne.Hand[2].FaceDown);
+            Assert.AreEqual(true, playerOne.Hand[2].FaceDown);
         }
     }
 }

@@ -9,6 +9,7 @@ namespace Entities
         public List<Player> Players { get; }
         public List<Card> Deck { get; }
         public Player CurrentPlayer { get; set; }
+        public bool GameComplete;
 
         public CardGame(IEnumerable<Card> deck, IEnumerable<string> playerNames, string dealerName)
         {
@@ -35,6 +36,7 @@ namespace Entities
             names.ForEach(n => Players.Add(new Player(n)));
             CurrentPlayer = Players.First();
             Players.Add(new Player(dealerName));
+            GameComplete = false;
         }
     }
 }

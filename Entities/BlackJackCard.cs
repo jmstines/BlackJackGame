@@ -11,21 +11,17 @@ namespace Entities
         public bool FaceDown { get; private set; }
         public int Value { get; set; }
 
-        public BlackJackCard(ICard card, bool faceDown, int value)
+        public BlackJackCard(Card card, bool faceDown, int value)
         {
             if (card == null)
             {
                 throw new ArgumentNullException(nameof(card));
             }
             Suit = card.Suit;
-            Display = card.Display ?? throw new ArgumentNullException(nameof(card.Display));
-            if (Display.Trim() == string.Empty)
-            {
-                throw new ArgumentException(nameof(Display), $"{Display} can NOT be Empty!");
-            }
-            Description = card.Description ?? throw new ArgumentNullException(nameof(card.Description));
+            Display = card.Display;
+            Description = card.Description;
             FaceDown = faceDown;
-            Value = value > 0 ? throw new ArgumentOutOfRangeException(nameof(value)) : value;
+            Value = value > 0 ? value : throw new ArgumentOutOfRangeException(nameof(value));
         }
     }
 }

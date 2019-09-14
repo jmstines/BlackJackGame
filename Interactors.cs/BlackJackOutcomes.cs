@@ -3,9 +3,8 @@ using System.Linq;
 
 namespace Interactors
 {
-    public static class BlackJackCalculateOutcome
+    public static class BlackJackOutcomes
     {
-        private const int BlackJack = 21;
         public static void CalculateOutcome(CardGame game)
         {
             if (HasBlackjack(game.Players.Last()))
@@ -40,8 +39,31 @@ namespace Interactors
             }
         }
 
-        private static bool HasBlackjack(Player player) => player.PointTotal == BlackJack;
-        private static bool BustHand(Player player) => player.PointTotal > BlackJack;
+        public static void BustHandCheck(CardGame game)
+        {
+            if (BustHand(game.CurrentPlayer))
+            {
+                if (!TryResetAceValue(game.CurrentPlayer))
+                {
+                    BlackJackGameActions.PlayerHolds(game);
+                }
+            }
+        }
+
+        private static bool TryResetAceValue(Player player)
+        {
+            var hasHighValueAce = false;
+            BlackJackCard Ace = player.Hand.SingleOrDefault(c => c.Value.Equals(BlackJackGameConstants.AceHighValue));
+            if (Ace != null)
+            {
+                Ace.Value = BlackJackGameConstants.AceLowValue;
+                hasHighValueAce = true;
+            }
+            return hasHighValueAce;
+        }
+
+        private static bool HasBlackjack(Player player) => player.PointTotal == BlackJackGameConstants.BlackJack;
+        private static bool BustHand(Player player) => player.PointTotal > BlackJackGameConstants.BlackJack;
         private static bool PlayerPointsLessThanDealer(CardGame game) => game.CurrentPlayer.PointTotal > game.Players.Last().PointTotal;
         private static bool PlayerPointsEqualsDealer(CardGame game) => game.CurrentPlayer.PointTotal == game.Players.Last().PointTotal;
     }

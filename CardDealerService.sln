@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.421
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29230.47
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{A699F46F-46EB-4EDF-8AE1-D0E8F5B94C6C}"
 EndProject
@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interactors", "Interactors.
 		{A699F46F-46EB-4EDF-8AE1-D0E8F5B94C6C} = {A699F46F-46EB-4EDF-8AE1-D0E8F5B94C6C}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services2\Services.csproj", "{66AB1A97-6DEA-40E9-AFFE-A297103CF5B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services2\Services.csproj", "{66AB1A97-6DEA-40E9-AFFE-A297103CF5B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJackConsoleApp", "BlackJackConsoleApp\BlackJackConsoleApp.csproj", "{46DACD84-57BF-4392-ABD5-2DD7020E6709}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{66AB1A97-6DEA-40E9-AFFE-A297103CF5B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66AB1A97-6DEA-40E9-AFFE-A297103CF5B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66AB1A97-6DEA-40E9-AFFE-A297103CF5B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46DACD84-57BF-4392-ABD5-2DD7020E6709}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46DACD84-57BF-4392-ABD5-2DD7020E6709}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46DACD84-57BF-4392-ABD5-2DD7020E6709}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46DACD84-57BF-4392-ABD5-2DD7020E6709}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

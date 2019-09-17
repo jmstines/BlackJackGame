@@ -1,5 +1,7 @@
-﻿using Interactors.Providers;
+﻿using Entities;
+using Interactors.Providers;
 using System;
+using System.Threading.Tasks;
 
 namespace Interactors
 {
@@ -10,22 +12,22 @@ namespace Interactors
             public string Identifier { get; set; }
         }
 
-        private readonly IGameRepository gameRepository;
-        private readonly IIdentifierProvider identifierProvider;
+        private readonly IGameRepository GameRepository;
+        private readonly IIdentifierProvider IdentifierProvider;
 
         public BeginGameInteractor(IGameRepository gameRepository, IIdentifierProvider identifierProvider)
         {
-            gameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
-            this.identifierProvider = identifierProvider ?? throw new ArgumentNullException(nameof(identifierProvider));
+            GameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
+            IdentifierProvider = identifierProvider ?? throw new ArgumentNullException(nameof(identifierProvider));
         }
 
-        //public async Task<Response> HandleRequestAsync(Request request)
-        //{
-        //  var game = new Game();
-        //  game.ThrowPlayer1(request.Shape);
-        //  var identifier = identifierProvider.Generate();
-        //  await gameRepository.CreateAsync(identifier, game);
-        //  return new Response() { Identifier = identifier };
-        //}
+        public async Task<Response> HandleRequestAsync(string identifier, PlayerAction request)
+        {
+            //var game = new CardGame();
+            //game.ThrowPlayer1(request.Shape);
+            //var identifier = IdentifierProvider.Generate();
+            //await GameRepository.CreateAsync(identifier, game);
+            return new Response() { Identifier = identifier };
+        }
     }
 }

@@ -9,34 +9,40 @@ namespace Entities
         public List<Player> Players { get; }
         public List<Card> Deck { get; }
         public Player CurrentPlayer { get; set; }
-        public bool GameComplete;
+        public GameStatus Status { get; private set; }
+        private string DealerName { get; }
 
-        public CardGame(IEnumerable<Card> deck, IEnumerable<string> playerNames, string dealerName)
+        public CardGame(IEnumerable<Card> deck, string playerName, string dealerName)
         {
             Deck = deck?.ToList() ?? throw new ArgumentNullException(nameof(deck));
-            var names = playerNames?.ToList() ?? throw new ArgumentNullException(nameof(playerNames));
-            if (names.Count > 4)
+            var name = playerName ?? throw new ArgumentNullException(nameof(playerName));
+
+            DealerName = string.IsNullOrWhiteSpace(dealerName) ? "Dealer" : dealerName;
+
+            Status = GameStatus.Waiting;
+            Players = new List<Player>();
+            Players.Add(new Player(name));
+            CurrentPlayer = Players.First();
+        }
+        public void AddPlayer(string playerName)
+        {
+            var name = playerName ?? throw new ArgumentNullException(nameof(playerName));
+            if (Players.Count >= BlackJackGameConstants.MaxPlayerCount)
             {
-                throw new ArgumentOutOfRangeException(nameof(playerNames), "Player Count must be less than 5 Players.");
+                throw new ArgumentOutOfRangeException(nameof(playerName), "Player Count must be less than 5 Players.");
             }
-            else if (names.Count < 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(playerNames), "Must have at least one Player.");
-            }
-            else if (names.Any(p => string.IsNullOrWhiteSpace(p)))
+            else if (string.IsNullOrWhiteSpace(name))
             {
                 throw new ArgumentNullException("Players in list must exist.");
             }
-            if (string.IsNullOrWhiteSpace(dealerName))
+            Players.Add(new Player(name));
+            if (Players.Count == BlackJackGameConstants.MaxPlayerCount)
             {
-                dealerName = "Dealer";
+                Status = GameStatus.InProgress;
+                Players.Add(new Player(DealerName));
             }
-
-            Players = new List<Player>();
-            names.ForEach(n => Players.Add(new Player(n)));
-            CurrentPlayer = Players.First();
-            Players.Add(new Player(dealerName));
-            GameComplete = false;
         }
+
+
     }
 }

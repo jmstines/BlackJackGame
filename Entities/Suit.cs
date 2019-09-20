@@ -6,7 +6,7 @@ namespace Entities
 {
     public enum Suit
     {
-        Clubs,
+        Clubs = 1,
         Diamonds,
         Hearts,
         Spades

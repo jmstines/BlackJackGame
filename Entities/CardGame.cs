@@ -42,7 +42,5 @@ namespace Entities
                 Players.Add(new Player(DealerName));
             }
         }
-
-
     }
 }

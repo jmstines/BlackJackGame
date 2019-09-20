@@ -25,7 +25,7 @@ namespace Interactors.Tests
         public void CreateNewDeck_2ofClubs_FirstCard()
         {
             IEnumerable<Card> deck = new CardDeckProvider().Deck;
-            var card = deck.Single(c => c.Display.Equals("2") && c.Suit.Equals(Suit.Clubs));
+            var card = deck.Single(c => c.Rank.Equals("2") && c.Suit.Equals(Suit.Clubs));
 
             Assert.AreEqual(deck.First(), card);
         }
@@ -34,7 +34,7 @@ namespace Interactors.Tests
         public void CreateNewDeck_AceOfSpades_LastCard()
         {
             IEnumerable<Card> deck = new CardDeckProvider().Deck;
-            var card = deck.Single(c => c.Display.Equals("A") && c.Suit.Equals(Suit.Spades));
+            var card = deck.Single(c => c.Rank.Equals("A") && c.Suit.Equals(Suit.Spades));
 
             Assert.AreEqual(deck.Last(), card);
         }
@@ -48,7 +48,7 @@ namespace Interactors.Tests
 
             IEnumerable<Card> deck = new CardDeckProvider(CardDetails).Deck;
             Assert.AreEqual(deck.Count(), 16);
-            Assert.AreEqual(deck.Where(c => c.Display.Equals("A")).Count(), 16);
+            Assert.AreEqual(deck.Where(c => c.Rank.Equals("A")).Count(), 16);
         }
     }
 }

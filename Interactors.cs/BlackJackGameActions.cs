@@ -1,6 +1,7 @@
 ﻿using Entities;
 using System;
 using System.Linq;
+using Interactors.Providers;
 
 namespace Interactors
 {
@@ -35,18 +36,10 @@ namespace Interactors
 
         public static void PlayerDrawsCard(CardGame game)
         {
-            Card card = game.Deck.FirstOrDefault() ?? throw new ArgumentOutOfRangeException(nameof(game.Deck), "Card Deck is Empty.");
+            Card card = game.Deck.FirstOrDefault();
             game.Deck.Remove(card);
-            game.CurrentPlayer.AddCardToHand(new BlackJackCard(card, IsFaceDown(game), GetCardValue(card.Display)));
-        }
-
-        private static int GetCardValue(string display)
-        {
-            if (!int.TryParse(display, out int value))
-            {
-                value = display.Equals("A") ? BlackJackGameConstants.AceHighValue : BlackJackGameConstants.DefaultCardValue;
-            }
-            return value;
+            game.CurrentPlayer.AddCardToHand(new BlackJackCard(card, IsFaceDown(game)));
+            game.CurrentPlayer.PointTotal = HandValueProvider.GetValue(game.CurrentPlayer.Hand);
         }
 
         private static bool IsFaceDown(CardGame game) => game.CurrentPlayer.Hand.Any() ? false : true;

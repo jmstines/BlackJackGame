@@ -8,7 +8,7 @@ namespace Entities
     {
         public readonly string Name;
         public List<BlackJackCard> Hand { get; private set; }
-        public int PointTotal { get; private set; }
+        public int PointTotal { get; set; }
         public PlayerStatus Status { get; set; }
         public List<PlayerAction> ValidActions { get; set; }
 
@@ -27,8 +27,6 @@ namespace Entities
                 throw new ArgumentNullException(nameof(card));
             }
             Hand.Add(card);
-
-            PointTotal = Hand.Sum(c => c.Value);
         }
     }
 }

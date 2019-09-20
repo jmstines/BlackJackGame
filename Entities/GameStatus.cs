@@ -6,7 +6,7 @@ namespace Entities
 {
     public enum GameStatus
     {
-        Waiting,
+        Waiting = 1,
         InProgress,
         Complete
     }

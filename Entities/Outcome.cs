@@ -2,7 +2,7 @@
 {
     public enum PlayerStatus
     {
-        InProgress,
+        InProgress = 1,
         Push,
         PlayerWins,
         PlayerLoses

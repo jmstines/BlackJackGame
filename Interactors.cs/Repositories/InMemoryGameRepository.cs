@@ -8,18 +8,17 @@ namespace Interactors.Repositories
 {
     class InMemoryGameRepository : IGameRepository
     {
-        private readonly Dictionary<string, CardGame> Games;
-
+        private readonly Dictionary<string, BlackJackGame> Games;
         public InMemoryGameRepository() => 
-            Games = new Dictionary<string, CardGame>();
+            Games = new Dictionary<string, BlackJackGame>();
 
-        public async Task CreateAsync(string identifier, CardGame game) => 
+        public async Task CreateAsync(string identifier, BlackJackGame game) => 
             await Task.Run(() => Games.Add(identifier, game));
 
-        public async Task<CardGame> ReadAsync(string identifier) => 
+        public async Task<BlackJackGame> ReadAsync(string identifier) => 
             await Task.Run(() => Games.Single(g => g.Key.Equals(identifier)).Value);
 
-        public async Task UpdateAsync(string identifier, CardGame game)
+        public async Task UpdateAsync(string identifier, BlackJackGame game)
         {
             await Task.Run(() => { Games.Remove(identifier); Games.Add(identifier, game); });
         }

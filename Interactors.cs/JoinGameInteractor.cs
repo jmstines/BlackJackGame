@@ -27,7 +27,7 @@ namespace Interactors
             var identifier = await GameRepository.AddPlayerToGameAsync(player);
             if (identifier == string.Empty)
             {
-                var game = new CardGame(player);
+                var game = new BlackJackGame(player);
                 identifier = IdentifierProvider.Generate();
                 await GameRepository.CreateAsync(identifier, game);
             }

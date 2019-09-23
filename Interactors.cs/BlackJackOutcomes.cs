@@ -1,33 +1,43 @@
 ﻿using Entities;
 using System.Linq;
+using System.Collections.Generic;
+using System;
 
 namespace Interactors
 {
-    public static class BlackJackOutcomes
+    public class BlackJackOutcomes
     {
-        public static void CalculateOutcome(CardGame game)
+		private readonly BlackJackGame Game;
+
+		public BlackJackOutcomes(BlackJackGame game)
+		{
+			Game = game ?? throw new ArgumentNullException(nameof(game));
+		}
+        public void UpdateStatus()
         {
-            if (HasBlackjack(game.Players.Last()))
+            if (HasBlackjack(Game.Players.Last()))
             {
-                game.Players.ForEach(p => p.Status = HasBlackjack(p) ? PlayerStatus.Push : PlayerStatus.PlayerLoses);
+                Game.Players.ForEach(p => p.Status = HasBlackjack(p) ? PlayerStatus.Push : PlayerStatus.PlayerLoses);
+				Game.Status = GameStatus.Complete;
             }
-            else if (BustHand(game.Players.Last()))
+            else if (BustHand(Game.Players.Last()))
             {
-                game.Players.ForEach(p => p.Status = BustHand(p) ? PlayerStatus.PlayerLoses : PlayerStatus.PlayerWins);
-            }
+                Game.Players.ForEach(p => p.Status = BustHand(p) ? PlayerStatus.PlayerLoses : PlayerStatus.PlayerWins);
+				Game.Status = GameStatus.Complete;
+			}
             else
             {
-                foreach (var player in game.Players.Where(p => !p.Equals(game.Players.Last())))
+                foreach (var player in Game.Players.Where(p => !p.Equals(Game.Players.Last())))
                 {
                     if (BustHand(player))
                     {
                         player.Status = PlayerStatus.PlayerLoses;
                     }
-                    else if (PlayerPointsLessThanDealer(game))
+                    else if (PlayerPointsLessThanDealer(player))
                     {
                         player.Status = PlayerStatus.PlayerLoses;
                     }
-                    else if (PlayerPointsEqualsDealer(game))
+                    else if (PlayerPointsEqualsDealer(player))
                     {
                         player.Status = PlayerStatus.Push;
                     }
@@ -39,32 +49,9 @@ namespace Interactors
             }
         }
 
-        public static void BustHandCheck(CardGame game)
-        {
-            if (BustHand(game.CurrentPlayer))
-            {
-                if (!TryResetAceValue(game.CurrentPlayer))
-                {
-                    BlackJackGameActions.PlayerHolds(game);
-                }
-            }
-        }
-
-        private static bool TryResetAceValue(Player player)
-        {
-            var hasHighValueAce = false;
-            BlackJackCard Ace = player.Hand.SingleOrDefault(c => c.Value.Equals(BlackJackGameConstants.AceHighValue));
-            if (Ace != null)
-            {
-                Ace.Value = BlackJackGameConstants.AceLowValue;
-                hasHighValueAce = true;
-            }
-            return hasHighValueAce;
-        }
-
-        private static bool HasBlackjack(Player player) => player.PointTotal == BlackJackGameConstants.BlackJack;
-        private static bool BustHand(Player player) => player.PointTotal > BlackJackGameConstants.BlackJack;
-        private static bool PlayerPointsLessThanDealer(CardGame game) => game.CurrentPlayer.PointTotal > game.Players.Last().PointTotal;
-        private static bool PlayerPointsEqualsDealer(CardGame game) => game.CurrentPlayer.PointTotal == game.Players.Last().PointTotal;
+        private bool HasBlackjack(Player player) => player.PointTotal == BlackJackGameConstants.BlackJack;
+        private bool BustHand(Player player) => player.PointTotal > BlackJackGameConstants.BlackJack;
+        private bool PlayerPointsLessThanDealer(Player player) => player.PointTotal < Game.Players.Last().PointTotal;
+        private bool PlayerPointsEqualsDealer(Player player) => player.PointTotal == Game.Players.Last().PointTotal;
     }
 }

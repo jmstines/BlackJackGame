@@ -13,11 +13,11 @@ namespace Interactors
 		}
 
 		public class Response
-        {
-            public string Identifier { get; set; }
-        }
+		{
+			public GameStatus Outcome { get; set; }
+		}
 
-        private readonly IGameRepository GameRepository;
+		private readonly IGameRepository GameRepository;
         private readonly IIdentifierProvider IdentifierProvider;
 		private readonly IRandomProvider RandomProvider;
 		private readonly ICardDeckProvider CardDeckProvider;
@@ -35,9 +35,11 @@ namespace Interactors
 
 			var deck = new ShuffledDeckProvider(CardDeckProvider.Deck, RandomProvider);
 			var game = await GameRepository.ReadAsync(request.Identifier);
-			
-			await GameRepository.BeginGameAsync();
-            return new Response() { Identifier = identifier };
-        }
+			game.StartGame();
+			new BlackJackOutcomes(game).UpdateStatus();
+			// *** This needs to be updated ***
+			//await GameRepository.UpdateAsync(request.Identifier, game);
+			return new Response() { Outcome = game.Status };
+		}
     }
 }

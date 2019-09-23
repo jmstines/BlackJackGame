@@ -8,6 +8,6 @@ namespace Interactors
         Task CreateAsync(string identifier, CardGame game);
         Task<CardGame> ReadAsync(string identifier);
         Task UpdateAsync(string identifier, CardGame game);
-        Task<CardGame> GetOpenGame(string identifier, CardGame game);
+        Task<string> AddPlayerToGameAsync(Player player);
     }
 }

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Linq;
 using Entities;
+using Interactors.Providers;
 
 namespace Interactors.Repositories
 {
@@ -23,9 +24,10 @@ namespace Interactors.Repositories
             await Task.Run(() => { Games.Remove(identifier); Games.Add(identifier, game); });
         }
 
-        public async Task<CardGame> GetOpenGame(string identifier, CardGame game)
+        public async Task<string> AddPlayerToGameAsync(Player player)
         {
-            return await Task.Run(() => Games.SingleOrDefault(g => g.Value.Status == GameStatus.InProgress && g.Value.Players.Count < BlackJackGameConstants.MaxPlayerCount).Value);
+            return await Task.Run(() => Games.FirstOrDefault(g => g.Value.Status == GameStatus.InProgress 
+                && g.Value.Players.Count < BlackJackGameConstants.MaxPlayerCount).Key);
         }
     }
 }

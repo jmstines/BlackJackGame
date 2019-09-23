@@ -39,7 +39,7 @@ namespace Interactors
             Card card = game.Deck.FirstOrDefault();
             game.Deck.Remove(card);
             game.CurrentPlayer.AddCardToHand(new BlackJackCard(card, IsFaceDown(game)));
-            game.CurrentPlayer.PointTotal = HandValueProvider.GetValue(game.CurrentPlayer.Hand);
+            game.CurrentPlayer.PointTotal = new HandValueProvider(game.CurrentPlayer.Hand).Value();
         }
 
         private static bool IsFaceDown(CardGame game) => game.CurrentPlayer.Hand.Any() ? false : true;

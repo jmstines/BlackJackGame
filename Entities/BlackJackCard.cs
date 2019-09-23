@@ -13,5 +13,17 @@ namespace Entities
             Rank = card.Rank != 0 ? card.Rank : throw new ArgumentOutOfRangeException(nameof(card.Suit));
             FaceDown = faceDown;
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is BlackJackCard card &&
+                   Suit == card.Suit &&
+                   Rank == card.Rank;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Suit, Rank);
+        }
     }
 }

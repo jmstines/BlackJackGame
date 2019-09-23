@@ -5,13 +5,19 @@ using Entities;
 
 namespace Interactors.Providers
 {
-    public static class HandValueProvider
+    public class HandValueProvider
     {
-        public static int GetValue(List<BlackJackCard> cards)
+        private readonly List<BlackJackCard> Cards;
+
+        public HandValueProvider(List<BlackJackCard> cards)
         {
-            _ = cards != null ? false : throw new ArgumentNullException(nameof(cards));
-            int value = GetHandValue(cards);
-            var aceCount = GetAceCount(cards);
+            Cards = cards ?? throw new ArgumentNullException(nameof(cards));
+        }
+
+        public int Value()
+        {
+            int value = GetHandValue();
+            var aceCount = GetAceCount();
             for(int i = 0; i < aceCount; i++)
             {
                 ReduceAceValueIfBustHand(value);
@@ -19,16 +25,16 @@ namespace Interactors.Providers
             return value;
         }
 
-        private static int GetHandValue(List<BlackJackCard> cards) => 
-            cards.Sum(c => GetCardValue(c.Rank));
+        private int GetHandValue() => 
+            Cards.Sum(c => GetCardValue(c.Rank));
 
-        private static int GetAceCount(List<BlackJackCard> cards) => 
-            cards.Count(c => c.Rank.Equals(CardRank.Ace));
+        private int GetAceCount() => 
+            Cards.Count(c => c.Rank.Equals(CardRank.Ace));
 
-        private static int ReduceAceValueIfBustHand(int value) => 
+        private int ReduceAceValueIfBustHand(int value) => 
             value > BlackJackGameConstants.BlackJack ? value : value - 10;
 
-        private static int GetCardValue(CardRank rank)
+        private int GetCardValue(CardRank rank)
         {
             int value;
             switch (rank)

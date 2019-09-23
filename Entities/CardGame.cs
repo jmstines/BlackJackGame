@@ -10,37 +10,32 @@ namespace Entities
         public List<Card> Deck { get; }
         public Player CurrentPlayer { get; set; }
         public GameStatus Status { get; private set; }
-        private string DealerName { get; }
 
-        public CardGame(IEnumerable<Card> deck, string playerName, string dealerName)
+        public CardGame(Player player)
         {
-            Deck = deck?.ToList() ?? throw new ArgumentNullException(nameof(deck));
-            var name = playerName ?? throw new ArgumentNullException(nameof(playerName));
-
-            DealerName = string.IsNullOrWhiteSpace(dealerName) ? "Dealer" : dealerName;
+            _ = player ?? throw new ArgumentNullException(nameof(player));
 
             Status = GameStatus.Waiting;
-            Players = new List<Player>();
-            Players.Add(new Player(name));
-            CurrentPlayer = Players.First();
+            Players = new List<Player>() { player };
+			CurrentPlayer = Players.First();
         }
-        public void AddPlayer(string playerName)
+        public void AddPlayer(Player player)
         {
-            var name = playerName ?? throw new ArgumentNullException(nameof(playerName));
+			_ = player ?? throw new ArgumentNullException(nameof(player));
             if (Players.Count >= BlackJackGameConstants.MaxPlayerCount)
             {
-                throw new ArgumentOutOfRangeException(nameof(playerName), "Player Count must be less than 5 Players.");
+                throw new ArgumentOutOfRangeException(nameof(player), "Player Count must be less than 5 Players.");
             }
-            else if (string.IsNullOrWhiteSpace(name))
-            {
-                throw new ArgumentNullException("Players in list must exist.");
-            }
-            Players.Add(new Player(name));
-            if (Players.Count == BlackJackGameConstants.MaxPlayerCount)
-            {
-                Status = GameStatus.InProgress;
-                Players.Add(new Player(DealerName));
-            }
-        }
+            Players.Add(player);
+			IsGameFull();
+		}
+
+		private void IsGameFull()
+		{
+			if (Players.Count == BlackJackGameConstants.MaxPlayerCount)
+			{
+				Status = GameStatus.InProgress;
+			}
+		}
     }
 }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Interactors
 {
-    public class FindGameInteractor
+    public class JoinGameInteractor
     {
         public class Response
         {
@@ -15,7 +15,7 @@ namespace Interactors
         private readonly IGameRepository GameRepository;
         private readonly IIdentifierProvider IdentifierProvider;
 
-        public FindGameInteractor(IGameRepository gameRepository, IIdentifierProvider identifierProvider)
+        public JoinGameInteractor(IGameRepository gameRepository, IIdentifierProvider identifierProvider)
         {
             GameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
             IdentifierProvider = identifierProvider ?? throw new ArgumentNullException(nameof(identifierProvider));
@@ -23,11 +23,11 @@ namespace Interactors
 
         public async Task<Response> HandleRequestAsync(Player player)
         {
+			_ = player ?? throw new ArgumentNullException(nameof(player));
             var identifier = await GameRepository.AddPlayerToGameAsync(player);
-            if (identifier == null)
+            if (identifier == string.Empty)
             {
-                var deck = new ShuffledDeckProvider(new CardDeckProvider().Deck, new RandomProvider()).Shuffle();
-                var game = new CardGame();
+                var game = new CardGame(player);
                 identifier = IdentifierProvider.Generate();
                 await GameRepository.CreateAsync(identifier, game);
             }

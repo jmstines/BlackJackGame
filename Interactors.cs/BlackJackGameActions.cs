@@ -7,14 +7,6 @@ namespace Interactors
 {
     public static class BlackJackGameActions
     {
-        public static void AddNewPlayer(CardGame game, Player player)
-        {
-            var Game = game ?? throw new ArgumentNullException(nameof(game));
-            var Player = player ?? throw new ArgumentNullException(nameof(game));
-
-            Game.Players.Add(Player); 
-        }
-
         public static void DealHands(CardGame game)
         {
             int twoCardsPerPlayer = game.Players.Count * 2;

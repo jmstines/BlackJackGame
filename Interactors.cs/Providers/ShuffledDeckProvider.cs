@@ -10,7 +10,7 @@ namespace Interactors.Providers
         private List<Card> SourceDeck;
         private readonly IRandomProvider Random;
 
-        public ShuffledDeckProvider(IEnumerable<Card> deck, IRandomProvider random)
+		public ShuffledDeckProvider(IEnumerable<Card> deck, IRandomProvider random)
         {
             SourceDeck = new List<Card>(deck) ?? throw new ArgumentNullException(nameof(deck));
             Random = random ?? throw new ArgumentNullException(nameof(random));

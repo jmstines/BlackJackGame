@@ -19,6 +19,7 @@ namespace Entities
             Players = new List<Player>() { player };
 			CurrentPlayer = Players.First();
         }
+
         public void AddPlayer(Player player)
         {
 			_ = player ?? throw new ArgumentNullException(nameof(player));

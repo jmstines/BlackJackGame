@@ -7,50 +7,36 @@ namespace Interactors
 {
     class BeginGameInteractor
     {
-        public class Response
+		public class Request
+		{
+			public string Identifier { get; set; }
+		}
+
+		public class Response
         {
             public string Identifier { get; set; }
         }
 
         private readonly IGameRepository GameRepository;
         private readonly IIdentifierProvider IdentifierProvider;
+		private readonly IRandomProvider RandomProvider;
+		private readonly ICardDeckProvider CardDeckProvider;
 
-        public BeginGameInteractor(IGameRepository gameRepository, IIdentifierProvider identifierProvider)
+        public BeginGameInteractor(IGameRepository gameRepository, IIdentifierProvider identifierProvider, ICardDeckProvider deckProvider, IRandomProvider random)
         {
             GameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
             IdentifierProvider = identifierProvider ?? throw new ArgumentNullException(nameof(identifierProvider));
+			CardDeckProvider = deckProvider ?? throw new ArgumentNullException(nameof(deckProvider));
+			RandomProvider = random ?? throw new ArgumentNullException(nameof(random));
         }
 
-        public async Task<Response> JoinGame(string name)
+        public async Task<Response> HandleRequestAsync(Request request)
         {
-            var game = new CardGame();
-            var identifier = IdentifierProvider.Generate();
-            await GameRepository.GetOpenGame();
-            return new Response() { Identifier = identifier };
-        }
 
-        public async Task<Response> HandleRequestAsync(string identifier, PlayerAction request)
-        {
-            switch (request)
-            {
-                case Entities.PlayerAction.Draw:
-                    BlackJackGameActions.PlayerDrawsCard(Game);
-                    break;
-                case Entities.PlayerAction.Hold:
-                    BlackJackGameActions.PlayerHolds(Game);
-                    break;
-                case Entities.PlayerAction.Split:
-                    throw new NotImplementedException();
-                //break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(request));
-            }
-            BlackJackOutcomes.BustHandCheck(Game);
-
-            //var game = new CardGame();
-            //game.ThrowPlayer1(request.Shape);
-            //var identifier = IdentifierProvider.Generate();
-            await GameRepository.CreateAsync(identifier, Game);
+			var deck = new ShuffledDeckProvider(CardDeckProvider.Deck, RandomProvider);
+			var game = await GameRepository.ReadAsync(request.Identifier);
+			
+			await GameRepository.BeginGameAsync();
             return new Response() { Identifier = identifier };
         }
     }

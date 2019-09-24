@@ -32,7 +32,7 @@ namespace Interactors.Providers
             Cards.Count(c => c.Rank.Equals(CardRank.Ace));
 
         private int ReduceAceValueIfBustHand(int value) => 
-            value > BlackJackGameConstants.BlackJack ? value : value - 10;
+            value > BlackJackConstants.BlackJack ? value : value - 10;
 
         private int GetCardValue(CardRank rank)
         {

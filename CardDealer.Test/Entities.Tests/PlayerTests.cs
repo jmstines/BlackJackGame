@@ -7,9 +7,9 @@ namespace Entities.Tests
 {
     public class PlayerTests
     {
-        private readonly Card twoClubs = new Card(Suit.Clubs, "2", "2");
-        private readonly Card threeClubs = new Card(Suit.Clubs, "3", "3");
-        private readonly Card jackClubs = new Card(Suit.Clubs, "J", "Jack");
+        private readonly Card twoClubs = new Card(CardSuit.Clubs, "2", "2");
+        private readonly Card threeClubs = new Card(CardSuit.Clubs, "3", "3");
+        private readonly Card jackClubs = new Card(CardSuit.Clubs, "J", "Jack");
         private const string playerName = "Sam";
 
         [SetUp]

@@ -4,10 +4,10 @@ namespace Entities
 {
     public struct Card
     {
-        public Suit Suit;
+        public CardSuit Suit;
         public CardRank Rank;
 
-        public Card(Suit suit, CardRank rank)
+        public Card(CardSuit suit, CardRank rank)
         {
             Suit = suit;
             Rank = rank;

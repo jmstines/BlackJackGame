@@ -1,6 +1,6 @@
 ﻿namespace Entities
 {
-    public static class BlackJackGameConstants
+    public static class BlackJackConstants
     {
         public const int DealerHoldValue = 17;
         public const int AceHighValue = 11;

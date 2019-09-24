@@ -49,9 +49,9 @@ namespace Interactors
             }
         }
 
-        private bool HasBlackjack(Player player) => player.PointTotal == BlackJackGameConstants.BlackJack;
-        private bool BustHand(Player player) => player.PointTotal > BlackJackGameConstants.BlackJack;
-        private bool PlayerPointsLessThanDealer(Player player) => player.PointTotal < Game.Players.Last().PointTotal;
-        private bool PlayerPointsEqualsDealer(Player player) => player.PointTotal == Game.Players.Last().PointTotal;
+        private bool HasBlackjack(Player player) => player.Hand.PointValue == BlackJackConstants.BlackJack;
+        private bool BustHand(Player player) => player.Hand.PointValue > BlackJackConstants.BlackJack;
+        private bool PlayerPointsLessThanDealer(Player player) => player.Hand.PointValue < Game.Players.Last().Hand.PointValue;
+        private bool PlayerPointsEqualsDealer(Player player) => player.Hand.PointValue == Game.Players.Last().Hand.PointValue;
     }
 }

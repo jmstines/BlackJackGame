@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Entities
 {
-    public enum Suit
+    public enum CardSuit
     {
         Clubs = 1,
         Diamonds,

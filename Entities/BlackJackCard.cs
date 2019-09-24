@@ -4,7 +4,7 @@ namespace Entities
 {
     public class BlackJackCard
     {
-        public Suit Suit { get; private set; }
+        public CardSuit Suit { get; private set; }
         public CardRank Rank { get; private set; }
         public bool FaceDown { get; private set; }
         public BlackJackCard(Card card, bool faceDown)

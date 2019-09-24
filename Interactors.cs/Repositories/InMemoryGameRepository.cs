@@ -26,7 +26,7 @@ namespace Interactors.Repositories
         public async Task<string> AddPlayerToGameAsync(Player player)
         {
 			var valuePair = await Task.Run(() => Games.FirstOrDefault(g => g.Value.Status == GameStatus.InProgress
-				&& g.Value.Players.Count < BlackJackGameConstants.MaxPlayerCount));
+				&& g.Value.Players.Count < BlackJackConstants.MaxPlayerCount));
 			if(valuePair.Key != null)
 			{
 				valuePair.Value.AddPlayer(player);

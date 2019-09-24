@@ -32,13 +32,13 @@ namespace Interactors
 
         public async Task<Response> HandleRequestAsync(Request request)
         {
-
 			var deck = new ShuffledDeckProvider(CardDeckProvider.Deck, RandomProvider);
 			var game = await GameRepository.ReadAsync(request.Identifier);
-			game.StartGame();
+			BlackJackActions.DealHands(game);
+			game.Players.ForEach(p => p.Hand.PointValue = new HandValueProvider(p.Hand.Cards).Value());
 			new BlackJackOutcomes(game).UpdateStatus();
-			// *** This needs to be updated ***
-			//await GameRepository.UpdateAsync(request.Identifier, game);
+
+			await GameRepository.UpdateAsync(request.Identifier, game);
 			return new Response() { Outcome = game.Status };
 		}
     }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Entities
+namespace Interactors.Providers
 {
     public class RandomProvider : Random, IRandomProvider
     {

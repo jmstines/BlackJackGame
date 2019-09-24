@@ -11,25 +11,25 @@ namespace Entities.Tests
         [Test]
         public void NewCard_NullDisplayValue_ArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new Card(Suit.Clubs, null, AceDescription));
+            Assert.Throws<ArgumentNullException>(() => new Card(CardSuit.Clubs, null, AceDescription));
         }
 
         [Test]
         public void NewCard_NullDescription_ArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new Card(Suit.Clubs, AceDisplay, null));
+            Assert.Throws<ArgumentNullException>(() => new Card(CardSuit.Clubs, AceDisplay, null));
         }
 
         [Test]
         public void NewCard_EmptyDisplay_ArgumentException()
         {
-            Assert.Throws<ArgumentException>(() => new Card(Suit.Clubs, string.Empty, AceDescription));
+            Assert.Throws<ArgumentException>(() => new Card(CardSuit.Clubs, string.Empty, AceDescription));
         }
 
         [Test]
         public void NewCard_WhiteSpaceDisplay_ArgumentException()
         {
-            Assert.Throws<ArgumentException>(() => new Card(Suit.Clubs, "   ", AceDescription));
+            Assert.Throws<ArgumentException>(() => new Card(CardSuit.Clubs, "   ", AceDescription));
         }
     }
 }

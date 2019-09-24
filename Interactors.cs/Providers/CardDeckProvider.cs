@@ -7,7 +7,8 @@ namespace Interactors.Providers
 {
     public class CardDeckProvider : ICardDeckProvider
     {
-        private readonly IEnumerable<Suit> Suits = new List<Suit> { Suit.Clubs, Suit.Diamonds, Suit.Hearts, Suit.Spades };
+        private readonly IEnumerable<CardSuit> Suits = 
+			new List<CardSuit> { CardSuit.Clubs, CardSuit.Diamonds, CardSuit.Hearts, CardSuit.Spades };
         private readonly IEnumerable<CardRank> CardRanks = new List<CardRank> {
             CardRank.Two, CardRank.Three, CardRank.Four, CardRank.Five, CardRank.Six, CardRank.Seven,
             CardRank.Eight, CardRank.Nine, CardRank.Ten, CardRank.Jack, CardRank.Queen, CardRank.King,

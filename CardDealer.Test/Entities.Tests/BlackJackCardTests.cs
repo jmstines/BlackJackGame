@@ -11,7 +11,7 @@ namespace Entities.Tests
         private readonly bool FaceDown = false;
         private readonly int AceHighValue = 11;
         private readonly int cardInvalidValue = -1;
-        private readonly Card Card = new Card(Suit.Spades, "A", "Ace");
+        private readonly Card Card = new Card(CardSuit.Spades, "A", "Ace");
 
         [Test]
         public void NewCard_CardNull_ArgumentNullException()

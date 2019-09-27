@@ -27,8 +27,10 @@ namespace Interactors.Providers
             Deck = BuildDefualtDeck();
         }
 
-        public CardDeckProvider(IEnumerable<Card> deck) => Deck = new List<Card>(deck) ?? throw new ArgumentNullException(nameof(deck));
+        public CardDeckProvider(IEnumerable<Card> deck) => 
+			Deck = new List<Card>(deck) ?? throw new ArgumentNullException(nameof(deck));
 
-        private IEnumerable<Card> BuildDefualtDeck() => Suits.SelectMany(s => CardRanks.Select(d => new Card(s, d)));
+        private IEnumerable<Card> BuildDefualtDeck() => 
+			Suits.SelectMany(s => CardRanks.Select(d => new Card(s, d)));
     }
 }

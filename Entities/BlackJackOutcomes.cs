@@ -1,9 +1,7 @@
-﻿using Entities;
-using System.Linq;
-using System.Collections.Generic;
+﻿using System.Linq;
 using System;
 
-namespace Interactors
+namespace Entities
 {
     public class BlackJackOutcomes
     {

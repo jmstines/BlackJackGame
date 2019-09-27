@@ -4,8 +4,8 @@ namespace Entities
 {
     public struct Card
     {
-        public CardSuit Suit;
-        public CardRank Rank;
+		public readonly CardSuit Suit;
+        public readonly CardRank Rank;
 
         public Card(CardSuit suit, CardRank rank)
         {

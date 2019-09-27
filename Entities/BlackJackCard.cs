@@ -2,14 +2,14 @@
 
 namespace Entities
 {
-    public class BlackJackCard
+    public struct BlackJackCard
     {
-        public CardSuit Suit { get; private set; }
-        public CardRank Rank { get; private set; }
+		public readonly CardSuit Suit;
+		public readonly CardRank Rank;
         public bool FaceDown { get; private set; }
         public BlackJackCard(Card card, bool faceDown)
         {
-            Suit = card.Suit != 0 ? card.Suit : throw new ArgumentOutOfRangeException(nameof(card.Suit));
+			Suit = card.Suit != 0 ? card.Suit : throw new ArgumentOutOfRangeException(nameof(card.Suit));
             Rank = card.Rank != 0 ? card.Rank : throw new ArgumentOutOfRangeException(nameof(card.Suit));
             FaceDown = faceDown;
         }

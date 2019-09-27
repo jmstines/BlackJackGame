@@ -4,13 +4,11 @@ namespace Entities
 {
 	public class CardHand
 	{
-		public List<BlackJackCard> Cards { get; set; }
+		private List<BlackJackCard> cards = new List<BlackJackCard>();
+
+		public IEnumerable<BlackJackCard> Cards => cards;
 		public int PointValue { get; set; }
 
-		public CardHand()
-		{
-			Cards = new List<BlackJackCard>();
-			PointValue = 0;
-		}
+		public void AddCard(BlackJackCard card) => cards.Add(card);
 	}
 }

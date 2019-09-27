@@ -16,11 +16,7 @@ namespace Entities
 
         public void AddCardToHand(BlackJackCard card)
         {
-            if (card == null)
-            {
-                throw new ArgumentNullException(nameof(card));
-            }
-            Hand.Cards.Add(card);
+            Hand.AddCard(card);
         }
     }
 }

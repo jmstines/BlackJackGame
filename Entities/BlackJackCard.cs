@@ -11,7 +11,7 @@ namespace Entities
 		public BlackJackCard(Card card, bool faceDown)
         {
 			Suit = card.Suit != 0 ? card.Suit : throw new ArgumentOutOfRangeException(nameof(card.Suit));
-            Rank = card.Rank != 0 ? card.Rank : throw new ArgumentOutOfRangeException(nameof(card.Suit));
+            Rank = card.Rank != 0 ? card.Rank : throw new ArgumentOutOfRangeException(nameof(card.Rank));
             FaceDown = faceDown;
         }
 

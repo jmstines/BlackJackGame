@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace Entities
 {
-    public class CalculateHandValue
+    public class HandValueCalculator
     {
 		private readonly IEnumerable<BlackJackCard> Cards;
 
-        public CalculateHandValue(IEnumerable<BlackJackCard> cards)
+        public HandValueCalculator(IEnumerable<BlackJackCard> cards)
         {
             Cards = cards ?? throw new ArgumentNullException(nameof(cards));
         }
@@ -24,14 +24,14 @@ namespace Entities
             return value;
         }
 
-        private int GetHandValue() => 
-            Cards.Sum(c => GetCardValue(c.Rank));
+        private int GetHandValue() => Cards.Sum(c => GetCardValue(c.Rank));
 
-        private int GetAceCount() => 
-            Cards.Count(c => c.Rank.Equals(CardRank.Ace));
+        private int GetAceCount() => Cards.Count(c => c.Rank.Equals(CardRank.Ace));
 
         private int ReduceAceValueIfBustHand(int value) => 
-            value > BlackJackConstants.BlackJack ? value : value - 10;
+			value > BlackJackConstants.BlackJack ? 
+			value : 
+			value - 10;
 
         private int GetCardValue(CardRank rank)
         {
@@ -56,7 +56,7 @@ namespace Entities
                 case CardRank.Six:
                     value = 6;
                     break;
-                case CardRank.Seven:
+				case CardRank.Seven:
                     value = 7;
                     break;
                 case CardRank.Eight:

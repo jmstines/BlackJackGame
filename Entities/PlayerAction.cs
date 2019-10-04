@@ -1,8 +1,8 @@
 ﻿namespace Entities
 {
-    public enum PlayerAction
+	public enum PlayerAction
     {
-        Add,
+		Add = 1,
         Start,
         Hold,
         Draw,

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Entities
+﻿namespace Entities
 {
-    public enum CardSuit
+	public enum CardSuit
     {
         Clubs = 1,
         Diamonds,

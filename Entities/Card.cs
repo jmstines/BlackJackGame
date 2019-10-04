@@ -4,10 +4,10 @@ namespace Entities
 {
     public struct Card
     {
-		public readonly CardSuit Suit;
-        public readonly CardRank Rank;
+		public CardSuit Suit { get; private set; }
+        public CardRank Rank { get; private set; }
 
-        public Card(CardSuit suit, CardRank rank)
+		public Card(CardSuit suit, CardRank rank)
         {
             Suit = suit;
             Rank = rank;

@@ -5,25 +5,25 @@ using Entities;
 
 namespace Interactors.Providers
 {
-    public class ShuffledDeckProvider : IShuffledDeckProvider
+    public class DeckShuffler
     {
         private List<Card> SourceDeck;
-        private readonly IRandomProvider Random;
+        private Random Random;
 
-		public ShuffledDeckProvider(IEnumerable<Card> deck, IRandomProvider random)
+		public DeckShuffler(IEnumerable<Card> deck)
         {
             SourceDeck = new List<Card>(deck) ?? throw new ArgumentNullException(nameof(deck));
-            Random = random ?? throw new ArgumentNullException(nameof(random));
-        }
+		}
 
         public IEnumerable<Card> Shuffle()
         {
-            List<Card> ShuffledDeck = new List<Card>();
+			Random = new Random((int)DateTime.UtcNow.Ticks);
+			var ShuffledDeck = new List<Card>();
             while (SourceDeck.Any())
             {
-                Card currentCard = SourceDeck.ElementAt(GetCardIndex());
-                ShuffledDeck.Add(currentCard);
-                SourceDeck.Remove(currentCard);
+                var currentCard = SourceDeck.ElementAt(GetCardIndex());
+				SourceDeck.Remove(currentCard);
+				ShuffledDeck.Add(currentCard);
             }
             SourceDeck = ShuffledDeck;
             return ShuffledDeck;

@@ -2,13 +2,12 @@
 
 namespace Entities
 {
-	public class CardHand
+	public class Hand
 	{
-		private List<BlackJackCard> cards = new List<BlackJackCard>();
+		private readonly List<BlackJackCard> cards = new List<BlackJackCard>();
 
 		public IEnumerable<BlackJackCard> Cards => cards;
 		public int PointValue { get; set; }
-
 		public void AddCard(BlackJackCard card) => cards.Add(card);
 	}
 }

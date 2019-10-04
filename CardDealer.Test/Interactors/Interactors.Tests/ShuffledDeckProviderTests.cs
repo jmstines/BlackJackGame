@@ -15,7 +15,7 @@ namespace Interactors.Tests
         {
             var random = new RandomProvider((int)DateTime.UtcNow.Ticks);
             IEnumerable<Card> deck = new CardDeckProvider().Deck;
-            IEnumerable<Card> deckSuffled = new ShuffledDeckProvider(deck, random).Shuffle();
+            IEnumerable<Card> deckSuffled = new DeckShuffler(deck, random).Shuffle();
 
             Assert.AreNotEqual(deck, deckSuffled);
         }
@@ -25,7 +25,7 @@ namespace Interactors.Tests
         {
             IEnumerable<Card> deck = new CardDeckProvider().Deck;
             var random = new RandomProviderMock(deck.Count());
-            IEnumerable<Card> deckSuffled = new ShuffledDeckProvider(deck, random).Shuffle();
+            IEnumerable<Card> deckSuffled = new DeckShuffler(deck, random).Shuffle();
             Assert.AreEqual(deck.Reverse(), deckSuffled);
         }
     }

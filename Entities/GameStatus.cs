@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Entities
+﻿namespace Entities
 {
-    public enum GameStatus
+	public enum GameStatus
     {
         Waiting = 1,
         InProgress,

@@ -17,38 +17,29 @@ namespace Interactors.Tests
         [Test]
         public void CreateNewDeck_CardCount_52()
         {
-            IEnumerable<Card> deck = new CardDeckProvider().Deck;
-            Assert.AreEqual(52, deck.Count());
+            List<Card> deck = new CardDeckProvider().Deck.ToList();
+            Assert.AreEqual(52, deck.Count);
         }
 
         [Test]
         public void CreateNewDeck_2ofClubs_FirstCard()
         {
             IEnumerable<Card> deck = new CardDeckProvider().Deck;
-            var card = deck.Single(c => c.Rank.Equals("2") && c.Suit.Equals(CardSuit.Clubs));
+            var card = deck.Single(c => c.Rank.Equals(CardRank.Two) && c.Suit.Equals(CardSuit.Clubs));
 
             Assert.AreEqual(deck.First(), card);
         }
 
         [Test]
-        public void CreateNewDeck_AceOfSpades_LastCard()
-        {
-            IEnumerable<Card> deck = new CardDeckProvider().Deck;
-            var card = deck.Single(c => c.Rank.Equals("A") && c.Suit.Equals(CardSuit.Spades));
-
-            Assert.AreEqual(deck.Last(), card);
-        }
-
-        [Test]
         public void CreateCustomDeck_AceOfSpades_AllCards()
         {
-            IEnumerable<CardDetail> CardDetails = new List<CardDetail>{
-                new CardDetail("A", "Ace"), new CardDetail("A", "Ace"),
-                new CardDetail("A", "Ace"), new CardDetail("A", "Ace")};
+            IEnumerable<CardRank> CardDetails = new List<CardRank>{
+				CardRank.Ace, CardRank.Ace,
+				CardRank.Ace, CardRank.Ace};
 
             IEnumerable<Card> deck = new CardDeckProvider(CardDetails).Deck;
             Assert.AreEqual(deck.Count(), 16);
-            Assert.AreEqual(deck.Where(c => c.Rank.Equals("A")).Count(), 16);
+            Assert.AreEqual(deck.Where(c => c.Rank.Equals(CardRank.Ace)).Count(), 16);
         }
     }
 }

@@ -7,16 +7,14 @@ namespace Interactors.Providers
 {
     public class DeckShuffler
     {
-        private List<Card> SourceDeck;
-        private Random Random;
+        private static List<Card> SourceDeck;
+        private static Random Random;
 
-		public DeckShuffler(IEnumerable<Card> deck)
-        {
-            SourceDeck = new List<Card>(deck) ?? throw new ArgumentNullException(nameof(deck));
-		}
+		private DeckShuffler() { }
 
-        public IEnumerable<Card> Shuffle()
+        public static IEnumerable<Card> Shuffle(IEnumerable<Card> deck)
         {
+			SourceDeck = new List<Card>(deck) ?? throw new ArgumentNullException(nameof(deck));
 			Random = new Random((int)DateTime.UtcNow.Ticks);
 			var ShuffledDeck = new List<Card>();
             while (SourceDeck.Any())
@@ -29,6 +27,6 @@ namespace Interactors.Providers
             return ShuffledDeck;
         }
 
-        private int GetCardIndex() => Random.Next(minValue: 0, maxValue: SourceDeck.Count);
+        private static int GetCardIndex() => Random.Next(minValue: 0, maxValue: SourceDeck.Count);
     }
 }

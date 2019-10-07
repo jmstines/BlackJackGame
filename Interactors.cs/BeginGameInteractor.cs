@@ -29,10 +29,9 @@ namespace Interactors
 
         public async Task<Response> HandleRequestAsync(Request request)
         {
-			var deck = new DeckShuffler(CardDeckProvider.Deck).Shuffle();
 			var game = await GameRepository.ReadAsync(request.Identifier);
 			game.AddPlayer(request.Dealer);
-			game.DealHands(deck);
+			game.DealHands(CardDeckProvider.Deck);
 			new BlackJackOutcomes(game).UpdateStatus();
 
 			await GameRepository.UpdateAsync(request.Identifier, game);

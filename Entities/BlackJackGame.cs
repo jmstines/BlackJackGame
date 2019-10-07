@@ -24,6 +24,7 @@ namespace Entities
 			{
 				throw new ArgumentOutOfRangeException(nameof(player), "Player Count must be less than 5 Players.");
 			}
+			player.PlayerIndex = players.Count;
 			players.Add(player);
 			SetInProgressOnMaxPlayers();
 		}
@@ -47,7 +48,7 @@ namespace Entities
 
 		public void PlayerHolds() => SetCurrentPlayerToNext();
 
-		public void PlayerDrawsCard() => DrawCard();
+		public void PlayerHits() => DrawCard();
 
 		private void DrawCard()
 		{
@@ -56,9 +57,7 @@ namespace Entities
 			if (card.Rank.Equals(0) || card.Suit.Equals(0)) throw new NullReferenceException(nameof(card));
 
 			deck.Remove(card);
-			var hand = CurrentPlayer.Hand;
-			hand.AddCard(new BlackJackCard(card, GetIsCardFaceDown()));
-			hand.PointValue = new HandValueCalculator(hand.Cards).Value();
+			CurrentPlayer.Hand.AddCard(new BlackJackCard(card, GetIsCardFaceDown()));
 		}
 
 		private bool GetIsCardFaceDown() => CurrentPlayer.Hand.Cards.Any() ? false : true;

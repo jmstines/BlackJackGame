@@ -1,6 +1,6 @@
 ﻿namespace Entities
 {
-	public enum PlayerAction
+	public enum PlayerActionTypes
     {
 		Add = 1,
         Start,

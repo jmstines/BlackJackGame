@@ -4,7 +4,8 @@ namespace Entities
 {
     public class Player
     {
-        public readonly string Name;
+		public string Name { get; private set; }
+		public int PlayerIndex { get; set; }
 		public Hand Hand { get; private set; } = new Hand();
 		public PlayerStatus Status { get; set; } = PlayerStatus.InProgress;
 

@@ -25,6 +25,10 @@ namespace Entities
 				throw new ArgumentOutOfRangeException(nameof(player), "Player Count must be less than 5 Players.");
 			}
 			player.PlayerIndex = players.Count;
+			if (!Players.Any())
+			{
+				CurrentPlayer = player;
+			}
 			players.Add(player);
 			SetInProgressOnMaxPlayers();
 		}

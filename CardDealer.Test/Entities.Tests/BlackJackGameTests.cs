@@ -66,46 +66,32 @@ namespace Entities.Tests
 			Assert.AreEqual(GameStatus.InProgress, game.Status);
 		}
 
-        //[Test]
-        //public void NewGame_SinglePlayerAndDealer_CurrentPlayerIndexZero()
-        //{
-        //    var players = new List<string>() {
-        //        playerName,
-        //    };
-        //    var game = new CardGame(deck, players, "");
-        //    Assert.AreEqual(players.First(), game.CurrentPlayer.Name);
-        //}
+		[Test]
+		public void NewGame_SinglePlayerAndDealer_CurrentPlayerIndexZero()
+		{
+			var game = new BlackJackGame();
+			game.AddPlayer(new Player(playerName));
+			game.AddPlayer(new Player(playerName2));
+			Assert.AreEqual(playerName, game.CurrentPlayer.Name);
+			Assert.AreEqual(0, game.CurrentPlayer.PlayerIndex);
+		}
 
-        //[Test]
-        //public void NewGame_SinglePlayerAndDealer_CardCount52()
-        //{
-        //    var players = new List<string>() {
-        //        playerName,
-        //    };
-        //    var game = new CardGame(deck, players, "");
-        //    Assert.AreEqual(52, game.Deck.Count);
-        //}
+		[Test]
+		public void NewGame_NoPlayers_CardCountZero()
+		{
+			var game = new BlackJackGame();
+			Assert.AreEqual(0, game.Deck.Count());
+		}
 
-        //[Test]
-        //public void NewGame_SinglePlayerAndDealer_DealerNameJeff()
-        //{
-        //    var players = new List<string>() {
-        //        playerName,
-        //    };
-        //    var dealerName = "Jeff";
-        //    var game = new CardGame(deck, players, dealerName);
-        //    Assert.AreEqual(dealerName, game.Players.Last().Name);
-        //}
-
-        //[Test]
-        //public void NewGame_SinglePlayerAndDealer_DealerCardCountZero()
-        //{
-        //    var players = new List<string>() {
-        //        playerName,
-        //    };
-        //    var dealerName = "Jeff";
-        //    var game = new CardGame(deck, players, dealerName);
-        //    Assert.AreEqual(0, game.Players.Last().Hand.Count);
-        //}
-    }
+		[Test]
+		public void NewGame_SinglePlayerAndDealer_DealerCardCountZero()
+		{
+			var dealerName = "Jeff";
+			var game = new BlackJackGame();
+			game.AddPlayer(new Player(playerName));
+			game.AddPlayer(new Player(dealerName));
+			game.DealHands(deck);
+			Assert.AreEqual(2, game.Players.Last().Hand.Cards.Count());
+		}
+	}
 }

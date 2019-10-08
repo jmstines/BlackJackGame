@@ -29,6 +29,6 @@ namespace Interactors.Providers
 			Deck = new List<Card>(deck) ?? throw new ArgumentNullException(nameof(deck));
 
 		private IEnumerable<Card> BuildDefualtDeck() =>
-			 Suits.SelectMany(s => CardRanks.Select(d => new Card(s, d)));
+			 Suits.SelectMany(suit => CardRanks.Select(rank => new Card(suit, rank)));
 	}
 }

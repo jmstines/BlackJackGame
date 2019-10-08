@@ -20,7 +20,7 @@ namespace Entities
 		public void AddPlayer(Player player)
 		{
 			_ = player ?? throw new ArgumentNullException(nameof(player));
-			if (players.Count > BlackJackConstants.MaxPlayerCount + 1 )
+			if (players.Count > BlackJackConstants.MaxPlayerCount )
 			{
 				throw new ArgumentOutOfRangeException(nameof(player), "Player Count must be less than 5 Players.");
 			}

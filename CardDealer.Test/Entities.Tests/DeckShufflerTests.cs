@@ -1,14 +1,11 @@
-﻿using Interactors.Mocks;
-using Interactors.Providers;
-using Entities;
+﻿using Interactors.Providers;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace Interactors.Tests
+namespace Entities.Tests
 {
-    class ShuffledDeckProviderTests
+	class DeckShufflerTests
     {
 		[Test]
 		public void CreateNewDeck_NullDeck_ArgumentNullException()

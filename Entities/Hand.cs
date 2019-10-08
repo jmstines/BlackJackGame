@@ -11,7 +11,7 @@ namespace Entities
 		public void AddCard(BlackJackCard card)
 		{
 			cards.Add(card);
-			PointValue = HandValue.Calculate(Cards);
+			PointValue = Cards.Value();
 		}
 	}
 }

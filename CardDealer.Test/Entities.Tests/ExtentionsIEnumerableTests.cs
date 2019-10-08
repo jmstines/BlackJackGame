@@ -9,13 +9,6 @@ namespace Entities.Tests
 	class ExtentionsIEnumerableTests
 	{
 		[Test]
-		public void CreateNewDeck_NullDeck_ArgumentNullException()
-		{
-			IEnumerable<Card> deck = null;
-			Assert.Throws<ArgumentNullException>(() => deck.Shuffle());
-		}
-
-		[Test]
 		public void CreateNewDeck_Suffle_CardsShuffled()
 		{
 			IEnumerable<Card> deck = new CardDeckProvider().Deck;

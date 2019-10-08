@@ -8,7 +8,7 @@ namespace Entities
 	{
 		public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> list)
 		{
-			var source = new List<T>(list) ?? throw new ArgumentNullException(nameof(list));
+			var source = new List<T>(list);
 			var Random = new Random((int)DateTime.UtcNow.Ticks);
 			var shuffled = new List<T>();
 			while (source.Any())
@@ -23,7 +23,6 @@ namespace Entities
 
 		public static int Value(this IEnumerable<BlackJackCard> cards)
 		{
-			_ = cards ?? throw new ArgumentNullException(nameof(cards));
 			int value = cards.Sum(c => GetCardValue(c.Rank));
 			var aceCount = cards.Count(c => c.Rank.Equals(CardRank.Ace));
 			for (int i = 0; i < aceCount; i++)

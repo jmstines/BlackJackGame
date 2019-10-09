@@ -20,9 +20,9 @@ namespace Entities
 		public void AddPlayer(Player player)
 		{
 			_ = player ?? throw new ArgumentNullException(nameof(player));
-			if (players.Count > BlackJackConstants.MaxPlayerCount )
+			if (Status.Equals(GameStatus.InProgress))
 			{
-				throw new ArgumentOutOfRangeException(nameof(player), "Player Count must be less than 5 Players.");
+				throw new InvalidOperationException($"{player.Name} can not join game, The game Status is {Status}.");
 			}
 			player.PlayerIndex = players.Count;
 			if (!Players.Any())
@@ -41,7 +41,7 @@ namespace Entities
 		public void DealHands(IEnumerable<Card> deck)
 		{
 			this.deck = deck?.ToList() ?? throw new ArgumentNullException(nameof(deck));
-
+			Status = GameStatus.InProgress;
 			int twoCardsPerPlayer = players.Count * 2;
 			for (int i = 0; i < twoCardsPerPlayer; i++)
 			{
@@ -56,15 +56,13 @@ namespace Entities
 
 		private void DrawCard()
 		{
-			var card = Deck.FirstOrDefault();
-
-			if (card.Rank.Equals(0) || card.Suit.Equals(0)) throw new NullReferenceException(nameof(card));
-
+			if (!Deck.Any()) throw new ArgumentOutOfRangeException(nameof(Deck), "Card Deck out of Cards.");
+			var card = Deck.First();
 			deck.Remove(card);
-			CurrentPlayer.Hand.AddCard(new BlackJackCard(card, GetIsCardFaceDown()));
+			CurrentPlayer.Hand.AddCard(new BlackJackCard(card, IsCardFaceDown()));
 		}
 
-		private bool GetIsCardFaceDown() => CurrentPlayer.Hand.Cards.Any() ? false : true;
+		private bool IsCardFaceDown() => !CurrentPlayer.Hand.Cards.Any();
 
 		private void SetCurrentPlayerToNext() => CurrentPlayer = GetIsDealerCurrentPlayer() ?
 			Players.First() :

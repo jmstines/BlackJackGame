@@ -24,7 +24,6 @@ namespace Entities
 			{
 				throw new InvalidOperationException($"{player.Name} can not join game, The game Status is {Status}.");
 			}
-			player.PlayerIndex = players.Count;
 			if (!Players.Any())
 			{
 				CurrentPlayer = player;

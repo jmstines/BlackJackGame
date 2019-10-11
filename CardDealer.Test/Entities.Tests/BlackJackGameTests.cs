@@ -37,7 +37,6 @@ namespace Entities.Tests
             var game = new BlackJackGame();
 			game.AddPlayer(new Player(playerName));
             Assert.AreEqual(1, game.Players.Count());
-			Assert.AreEqual(0, game.Players.First().PlayerIndex);
 			Assert.AreEqual(GameStatus.Waiting, game.Status);
         }
 
@@ -50,7 +49,6 @@ namespace Entities.Tests
 			game.AddPlayer(new Player(playerName));
 			game.AddPlayer(new Player(playerName));
 			Assert.AreEqual(5, game.Players.Count());
-			Assert.AreEqual(4, game.Players.Last().PlayerIndex);
 			Assert.AreEqual(GameStatus.InProgress, game.Status);
 		}
 
@@ -61,7 +59,6 @@ namespace Entities.Tests
 			game.AddPlayer(new Player(playerName));
 			game.AddPlayer(new Player(playerName2));
 			Assert.AreEqual(playerName, game.CurrentPlayer.Name);
-			Assert.AreEqual(0, game.CurrentPlayer.PlayerIndex);
 		}
 
 		[Test]

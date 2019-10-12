@@ -7,17 +7,17 @@ namespace Entities
 	[Serializable]
 	public class BlackJackGame
 	{
-		private readonly List<Player> players = new List<Player>();
+		private readonly List<BlackJackPlayer> players = new List<BlackJackPlayer>();
 		private List<Card> deck = new List<Card>();
 
-		public IEnumerable<Player> Players => players;
+		public IEnumerable<BlackJackPlayer> Players => players;
 		public IEnumerable<Card> Deck => deck;
-		public Player CurrentPlayer { get; set; }
+		public BlackJackPlayer CurrentPlayer { get; set; }
 		public GameStatus Status { get; set; } = GameStatus.Waiting;
 
 		public BlackJackGame() { }
 
-		public void AddPlayer(Player player)
+		public void AddPlayer(BlackJackPlayer player)
 		{
 			_ = player ?? throw new ArgumentNullException(nameof(player));
 			if (Status.Equals(GameStatus.InProgress))
@@ -28,6 +28,7 @@ namespace Entities
 			{
 				CurrentPlayer = player;
 			}
+
 			players.Add(player);
 			SetInProgressOnMaxPlayers();
 		}

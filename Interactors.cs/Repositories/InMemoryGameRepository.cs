@@ -11,7 +11,7 @@ namespace Interactors.Repositories
 
 		public InMemoryGameRepository() => Games = new Dictionary<string, BlackJackGame>();
 
-		public async Task CreateGameAsync(string identifier, BlackJackGame game) =>
+		public async Task CreateAsync(string identifier, BlackJackGame game) =>
 			await Task.Run(() => Games.Add(identifier, game));
 
 		public async Task<BlackJackGame> ReadAsync(string identifier) =>
@@ -24,13 +24,20 @@ namespace Interactors.Repositories
 				Games.Add(identifier, game);
 			});
 
-		public async Task<string> AddPlayerToGameAsync(Player player)
+		public async Task<KeyValuePair<string, BlackJackGame>> FindByStatusFirstOrDefault(GameStatus status)
 		{
-			var valuePair = await Task.Run(() => Games.FirstOrDefault(g => g.Value.Status == GameStatus.InProgress
-				&& g.Value.Players.Count() < BlackJackConstants.MaxPlayerCount));
+			return await Task.Run(() => Games.FirstOrDefault(g => 
+				g.Value.Status == status && 
+				g.Value.Players.Count() < BlackJackConstants.MaxPlayerCount)
+			);
+		}
+
+		public async Task<string> AddPlayerAsync(Player player)
+		{
+			KeyValuePair<string, BlackJackGame> valuePair = await FindByStatusFirstOrDefault(GameStatus.InProgress);
 			if (valuePair.Key != null)
 			{
-				valuePair.Value.AddPlayer(player);
+				valuePair.Value.AddPlayer(new BlackJackPlayer(player));
 				await Task.Run(() => UpdateAsync(valuePair.Key, valuePair.Value));
 			}
 

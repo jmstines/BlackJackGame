@@ -11,7 +11,7 @@ namespace Interactors
 		public class Request
 		{
 			public string Identifier { get; set; }
-			public Player Dealer { get; set; }
+			public BlackJackPlayer Dealer { get; set; }
 		}
 
 		public class Response

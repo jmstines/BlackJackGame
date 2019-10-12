@@ -2,6 +2,7 @@
 using Interactors.Providers;
 using Interactors.Repositories;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Interactors
@@ -27,16 +28,23 @@ namespace Interactors
         public async Task<Response> HandleRequestAsync(string playerIdentifier)
         {
 			_ = playerIdentifier ?? throw new ArgumentNullException(nameof(playerIdentifier));
-			// ?? What happens when a player isn't found??
+
 			var player = await PlayerRepository.ReadAsync(playerIdentifier);
-            var identifier = await GameRepository.AddPlayerToGameAsync(player);
-            if (identifier == string.Empty)
-            {
-                var game = new BlackJackGame();
-				game.AddPlayer(player);
-                identifier = IdentifierProvider.Generate();
-                await GameRepository.CreateGameAsync(identifier, game);
-            }
+			var currentPlayer = new BlackJackPlayer(playerIdentifier, player);
+
+			KeyValuePair<string, BlackJackGame> valuePair = await GameRepository.FindByStatusFirstOrDefault(GameStatus.Waiting);
+			var identifier = valuePair.Key ?? IdentifierProvider.Generate();
+			var game = valuePair.Value ?? new BlackJackGame();
+			game.AddPlayer(currentPlayer);
+			if (valuePair.Key == null)
+			{
+				await GameRepository.CreateAsync(identifier, game);
+			}
+			else
+			{
+				await GameRepository.UpdateAsync(identifier, game);
+			}
+
             return new Response() { Identifier = identifier };
         }
     }

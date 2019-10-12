@@ -25,29 +25,31 @@ namespace Entities.Tests
         public void NewGame_NullDeck_PlayerArgumentNullException()
         {
 			var game = new BlackJackGame();
-			game.AddPlayer(new Player(playerName));
-			game.AddPlayer(new Player(playerName));
+			var player = new Player(playerName);
+			game.AddPlayer(new BlackJackPlayer(player));
+			game.AddPlayer(new BlackJackPlayer(player));
 
-			Assert.Throws<ArgumentOutOfRangeException>(() => game.AddPlayer(new Player(playerName)));
+			Assert.Throws<ArgumentOutOfRangeException>(() => game.AddPlayer(new BlackJackPlayer(player)));
         }
 
         [Test]
         public void NewGame_SinglePlayer_PlayerCountOne()
         {
             var game = new BlackJackGame();
-			game.AddPlayer(new Player(playerName));
-            Assert.AreEqual(1, game.Players.Count());
+			var player = new Player(playerName);
+			game.AddPlayer(new BlackJackPlayer(player));
+			Assert.AreEqual(1, game.Players.Count());
 			Assert.AreEqual(GameStatus.Waiting, game.Status);
         }
 
 		public void NewGame_FullGame_AutoStarts()
 		{
 			var game = new BlackJackGame();
-			game.AddPlayer(new Player(playerName));
-			game.AddPlayer(new Player(playerName));
-			game.AddPlayer(new Player(playerName));
-			game.AddPlayer(new Player(playerName));
-			game.AddPlayer(new Player(playerName));
+			var player = new Player(playerName);
+			game.AddPlayer(new BlackJackPlayer(player));
+			game.AddPlayer(new BlackJackPlayer(player));
+			game.AddPlayer(new BlackJackPlayer(player));
+			game.AddPlayer(new BlackJackPlayer(player));
 			Assert.AreEqual(5, game.Players.Count());
 			Assert.AreEqual(GameStatus.InProgress, game.Status);
 		}
@@ -56,8 +58,10 @@ namespace Entities.Tests
 		public void NewGame_SinglePlayerAndDealer_CurrentPlayerIndexZero()
 		{
 			var game = new BlackJackGame();
-			game.AddPlayer(new Player(playerName));
-			game.AddPlayer(new Player(playerName2));
+			var player = new Player(playerName);
+			var player2 = new Player(playerName2);
+			game.AddPlayer(new BlackJackPlayer(player));
+			game.AddPlayer(new BlackJackPlayer(player2));
 			Assert.AreEqual(playerName, game.CurrentPlayer.Name);
 		}
 
@@ -73,8 +77,10 @@ namespace Entities.Tests
 		{
 			var dealerName = "Jeff";
 			var game = new BlackJackGame();
-			game.AddPlayer(new Player(playerName));
-			game.AddPlayer(new Player(dealerName));
+			var player = new Player(playerName);
+			var dealer = new Player(dealerName);
+			game.AddPlayer(new BlackJackPlayer(player));
+			game.AddPlayer(new BlackJackPlayer(dealer));
 			Assert.Throws<ArgumentNullException>(() => game.DealHands(null));
 		}
 
@@ -83,10 +89,12 @@ namespace Entities.Tests
 		{
 			var dealerName = "Jeff";
 			var game = new BlackJackGame();
-			game.AddPlayer(new Player(playerName));
-			game.AddPlayer(new Player(dealerName));
+			var player = new Player(playerName);
+			var dealer = new Player(dealerName);
+			game.AddPlayer(new BlackJackPlayer(player));
+			game.AddPlayer(new BlackJackPlayer(dealer));
 			game.DealHands(deck);
-			Assert.Throws<InvalidOperationException>(() => game.AddPlayer(new Player(playerName2)));
+			Assert.Throws<InvalidOperationException>(() => game.AddPlayer(new BlackJackPlayer(player)));
 		}
 
 		[Test]
@@ -95,8 +103,10 @@ namespace Entities.Tests
 			var dealerName = "Jeff";
 			var game = new BlackJackGame();
 			var currentDeck = deck.Take(4);
-			game.AddPlayer(new Player(playerName));
-			game.AddPlayer(new Player(dealerName));
+			var player = new Player(playerName);
+			var dealer = new Player(dealerName);
+			game.AddPlayer(new BlackJackPlayer(player));
+			game.AddPlayer(new BlackJackPlayer(dealer));
 			game.DealHands(currentDeck);
 			Assert.Throws<ArgumentOutOfRangeException>(() => game.PlayerHits());
 		}
@@ -106,8 +116,10 @@ namespace Entities.Tests
 		{
 			var dealerName = "Jeff";
 			var game = new BlackJackGame();
-			game.AddPlayer(new Player(playerName));
-			game.AddPlayer(new Player(dealerName));
+			var player = new Player(playerName);
+			var dealer = new Player(dealerName);
+			game.AddPlayer(new BlackJackPlayer(player));
+			game.AddPlayer(new BlackJackPlayer(dealer));
 			game.DealHands(deck);
 			Assert.AreEqual(2, game.Players.Last().Hand.Cards.Count());
 			Assert.AreEqual(6, game.Players.First().Hand.PointValue);
@@ -122,8 +134,10 @@ namespace Entities.Tests
 		{
 			var dealerName = "Jeff";
 			var game = new BlackJackGame();
-			game.AddPlayer(new Player(playerName));
-			game.AddPlayer(new Player(dealerName));
+			var player = new Player(playerName);
+			var dealer = new Player(dealerName);
+			game.AddPlayer(new BlackJackPlayer(player));
+			game.AddPlayer(new BlackJackPlayer(dealer));
 			game.DealHands(deck);
 			game.PlayerHits();
 			Assert.AreEqual(2, game.Players.Last().Hand.Cards.Count());
@@ -139,8 +153,10 @@ namespace Entities.Tests
 		{
 			var dealerName = "Jeff";
 			var game = new BlackJackGame();
-			game.AddPlayer(new Player(playerName));
-			game.AddPlayer(new Player(dealerName));
+			var player = new Player(playerName);
+			var dealer = new Player(dealerName);
+			game.AddPlayer(new BlackJackPlayer(player));
+			game.AddPlayer(new BlackJackPlayer(dealer));
 			game.DealHands(deck);
 			game.PlayerHolds();
 

@@ -10,6 +10,5 @@ namespace Interactors.Repositories
         Task<BlackJackGame> ReadAsync(string identifier);
         Task UpdateAsync(string identifier, BlackJackGame game);
 		Task<KeyValuePair<string, BlackJackGame>> FindByStatusFirstOrDefault(GameStatus status);
-        Task<string> AddPlayerAsync(Player player);
     }
 }

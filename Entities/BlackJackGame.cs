@@ -20,7 +20,7 @@ namespace Entities
 		public void AddPlayer(BlackJackPlayer player)
 		{
 			_ = player ?? throw new ArgumentNullException(nameof(player));
-			if (Status.Equals(GameStatus.InProgress))
+			if (players.Count > BlackJackConstants.MaxPlayerCount)
 			{
 				throw new InvalidOperationException($"{player.Name} can not join game, The game Status is {Status}.");
 			}

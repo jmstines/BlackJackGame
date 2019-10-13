@@ -31,17 +31,5 @@ namespace Interactors.Repositories
 				g.Value.Players.Count() < BlackJackConstants.MaxPlayerCount)
 			);
 		}
-
-		public async Task<string> AddPlayerAsync(Player player)
-		{
-			KeyValuePair<string, BlackJackGame> valuePair = await FindByStatusFirstOrDefault(GameStatus.InProgress);
-			if (valuePair.Key != null)
-			{
-				valuePair.Value.AddPlayer(new BlackJackPlayer(player));
-				await Task.Run(() => UpdateAsync(valuePair.Key, valuePair.Value));
-			}
-
-			return valuePair.Key ?? string.Empty;
-		}
 	}
 }

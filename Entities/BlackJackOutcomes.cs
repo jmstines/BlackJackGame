@@ -43,15 +43,15 @@ namespace Entities
                 }
             }
         }
-		private IEnumerable<Player> GetPlayers() => Game.Players.Where(p => !p.Equals(Game.Players.Last()));
-		private Player GetDealer() => Game.Players.Last();
-		private void DealerBlackJackUpdatePlayers(IEnumerable<Player> players) => 
+		private IEnumerable<BlackJackPlayer> GetPlayers() => Game.Players.Where(p => !p.Equals(Game.Players.Last()));
+		private BlackJackPlayer GetDealer() => Game.Players.Last();
+		private void DealerBlackJackUpdatePlayers(IEnumerable<BlackJackPlayer> players) => 
 			players.ToList().ForEach(p => p.Status = HasBlackjack(p) ? PlayerStatus.Push : PlayerStatus.PlayerLoses);
-		private void DealerBustUpdatePlayers(IEnumerable<Player> players) => 
+		private void DealerBustUpdatePlayers(IEnumerable<BlackJackPlayer> players) => 
 			players.ToList().ForEach(p => p.Status = BustHand(p) ? PlayerStatus.PlayerLoses : PlayerStatus.PlayerWins);
-		private bool HasBlackjack(Player player) => player.Hand.PointValue == BlackJackConstants.BlackJack;
-        private bool BustHand(Player player) => player.Hand.PointValue > BlackJackConstants.BlackJack;
-        private bool PlayerPointsLessThanDealer(Player player) => player.Hand.PointValue < Game.Players.Last().Hand.PointValue;
-        private bool PlayerPointsEqualsDealer(Player player) => player.Hand.PointValue == Game.Players.Last().Hand.PointValue;
+		private bool HasBlackjack(BlackJackPlayer player) => player.Hand.PointValue == BlackJackConstants.BlackJack;
+        private bool BustHand(BlackJackPlayer player) => player.Hand.PointValue > BlackJackConstants.BlackJack;
+        private bool PlayerPointsLessThanDealer(BlackJackPlayer player) => player.Hand.PointValue < Game.Players.Last().Hand.PointValue;
+        private bool PlayerPointsEqualsDealer(BlackJackPlayer player) => player.Hand.PointValue == Game.Players.Last().Hand.PointValue;
     }
 }

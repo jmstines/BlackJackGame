@@ -1,14 +1,18 @@
 ﻿using Entities;
+using Interactors.Boundaries;
 using Interactors.Providers;
 using Interactors.Repositories;
 using System;
-using System.Threading.Tasks;
 
 namespace Interactors
 {
-	public class CreateAvitar
+	public class CreateAvitar : IInputBoundary<CreateAvitar.RequestModel, CreateAvitar.ResponseModel>
 	{
-		public class Response
+		public class RequestModel
+		{
+			public string PlayerName { get; set; }
+		}
+		public class ResponseModel
 		{
 			public string Identifier { get; set; }
 		}
@@ -21,14 +25,17 @@ namespace Interactors
 			IdentifierProvider = identifierProvider ?? throw new ArgumentNullException(nameof(identifierProvider));
 		}
 
-		public async Task<Response> HandleRequestAsync(string playerName)
+		public async void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
 		{
-			_ = playerName ?? throw new ArgumentNullException(nameof(playerName));
-			var player = new Player(playerName);
+			_ = requestModel.PlayerName ?? throw new ArgumentNullException(nameof(requestModel.PlayerName));
+			var player = new Player(requestModel.PlayerName);
 			var identifier = IdentifierProvider.Generate();
 			await PlayerRepository.CreatePlayerAsync(identifier, player);
 
-			return new Response() { Identifier = identifier };
+			outputBoundary.HandleResponse(new ResponseModel()
+			{
+				 Identifier = identifier
+			});
 		}
 	}
 }

@@ -3,13 +3,18 @@ using Interactors.Providers;
 using Interactors.Repositories;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Interactors.Boundaries;
 
 namespace Interactors
 {
-    public class JoinGameInteractor
+    public class JoinGameInteractor: IInputBoundary<JoinGameInteractor.RequestModel, JoinGameInteractor.ResponseModel>
     {
-		public class Response
+		public class RequestModel
+		{
+			public string PlayerId;
+		}
+		
+		public class ResponseModel
         {
 			public string Identifier { get; set; }
         }
@@ -25,12 +30,12 @@ namespace Interactors
 			PlayerRepository = playerRepository ?? throw new ArgumentNullException(nameof(playerRepository));
         }
 
-        public async Task<Response> HandleRequestAsync(string playerIdentifier)
-        {
-			_ = playerIdentifier ?? throw new ArgumentNullException(nameof(playerIdentifier));
+		public async void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
+		{
+			_ = requestModel?.PlayerId ?? throw new ArgumentNullException(nameof(requestModel.PlayerId));
 
-			var player = await PlayerRepository.ReadAsync(playerIdentifier);
-			var currentPlayer = new BlackJackPlayer(playerIdentifier, player);
+			var player = await PlayerRepository.ReadAsync(requestModel.PlayerId);
+			var currentPlayer = new BlackJackPlayer(requestModel.PlayerId, player);
 
 			KeyValuePair<string, BlackJackGame> valuePair = await GameRepository.FindByStatusFirstOrDefault(GameStatus.Waiting);
 			var identifier = valuePair.Key ?? IdentifierProvider.Generate();
@@ -45,7 +50,7 @@ namespace Interactors
 				await GameRepository.UpdateAsync(identifier, game);
 			}
 
-            return new Response() { Identifier = identifier };
+            outputBoundary.HandleResponse(new ResponseModel() { Identifier = identifier });
         }
     }
 }

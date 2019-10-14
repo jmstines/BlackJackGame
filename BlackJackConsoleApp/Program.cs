@@ -1,52 +1,54 @@
 ﻿using Interactors.Providers;
 using System;
+using SimpleInjector;
+using Interactors.Boundaries;
+using Interactors.Repositories;
 using System.Text;
 using System.Collections.Generic;
+using Entities;
+using Interactors;
 
 namespace BlackJackConsoleApp
 {
-    public class Program
-    {
-        static void Main(string[] args)
-        {
-            List<string> PlayerNames = new List<string>() { "Jeff", "Bryan" };
-            //Console.WriteLine("Max of 4 names.");
-            //Console.WriteLine("Enter Player Names:");
-            //Console.Write("1");
-            //string input;
-            //for(int i = 0; i < 4; i++) {
-            //    input = Console.ReadLine();
-            //    if (string.IsNullOrWhiteSpace(input))
-            //    {
-            //        PlayerNames.Add(input);
-            //        Console.Write(i + 1);
-            //    }
-            //    else break;
-            //}
+	public class Program
+	{
+		private static readonly Container container = new Container();
 
-            //foreach (var name in PlayerNames)
-            //{
-            //    Console.WriteLine(name);
-            //}
-            //Console.ReadKey();
-            
-        }
+		public static void Main(string[] args)
+		{
+			FillContainer();
+			Console.WriteLine("Welcome to Casino Black Jack 101!");
+			Console.WriteLine("Please enter your name.");
+			var playerName = Console.ReadLine();
+			var creatAvitarResponse = GetResponse<CreateAvitar.RequestModel, CreateAvitar.ResponseModel>(new CreateAvitar.RequestModel() 
+			{
+				PlayerName = playerName
+			});
+			var startNewGameResponse = GetResponse<JoinGameInteractor.RequestModel, JoinGameInteractor.ResponseModel>(new JoinGameInteractor.RequestModel()
+			{
+				PlayerId = creatAvitarResponse.Identifier
+			});
 
-        //public void GetPlayerNames()
-        //{
-        //    string name = string.Empty;
-        //    for (int i = 0; i < 4; i++)
-        //    {
-        //        Console.WriteLine("Enter Player Name:");
-        //        name = Console.ReadLine();
-        //        if (!string.IsNullOrWhiteSpace(name))
-        //        {
-        //            break;
-        //        }
-        //        else PlayerNames.Add(name);
-        //    }
-        //}
+		}
 
-        public string CreateNewBlackJackGame() => new GuidBasedIdentifierProvider().Generate();
-    }
+		private static void FillContainer()
+		{
+			container.RegisterSingleton<IPlayerRepository, InMemoryPlayerRepository>();
+			container.RegisterSingleton<IGameRepository, InMemoryGameRepository>();
+			container.RegisterSingleton<IIdentifierProvider, GuidBasedIdentifierProvider>();
+			//container.Register(typeof(IOutputBoundary<>), typeof(IOutputBoundary<>).Assembly);
+			//container.Register(typeof(IInputBoundary<,>), typeof(IInputBoundary<,>).Assembly);
+			//container.RegisterInitializer<InMemoryGameRepository>();
+
+			//container.Verify();
+		}
+
+		private static TResponseModel GetResponse<TRequestModel, TResponseModel>(TRequestModel requestModel)
+		{
+			var interactor = container.GetInstance<IInputBoundary<TRequestModel, TResponseModel>>();
+			var presenter = new Presenter<TResponseModel>();
+			interactor.HandleRequestAsync(requestModel, presenter);
+			return presenter.ResponseModel;
+		}
+	}
 }

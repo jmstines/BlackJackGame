@@ -30,7 +30,14 @@ namespace Interactors
 
 		public async Task<Response> HandleRequestAsync(Request request) 
 		{
-		
+			var game = await GameRepository.ReadAsync(request.GameIdentifier);
+			game.PlayerHits();
+			new BlackJackOutcomes(game).UpdateStatus();
+			if(game.CurrentPlayer.Hand.PointValue > BlackJackConstants.BlackJack)
+			{
+				game.PlayerHolds();
+			}
+			return new Response() { Outcome = game.Status };
 		}
 	}
 }

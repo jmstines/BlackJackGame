@@ -6,20 +6,20 @@ namespace Entities
 	public class Hand
 	{
 		private readonly List<BlackJackCard> cards;
-		private readonly List<HandActions> actions;
+		private readonly List<HandActionTypes> actions;
 
-		public IEnumerable<HandActions> Actions => actions;
+		public IEnumerable<HandActionTypes> Actions => actions;
 		public IEnumerable<BlackJackCard> Cards => cards;
 		public int PointValue { get; set; }
 
 		public Hand()
 		{
 			cards = new List<BlackJackCard>();
-			actions = new List<HandActions>
+			actions = new List<HandActionTypes>
 			{
-				HandActions.Draw,
-				HandActions.Hold,
-				HandActions.Split
+				HandActionTypes.Draw,
+				HandActionTypes.Hold,
+				HandActionTypes.Split
 			};
 			PointValue = 0;
 		}

@@ -18,8 +18,7 @@ namespace Entities
 			actions = new List<HandActionTypes>
 			{
 				HandActionTypes.Draw,
-				HandActionTypes.Hold,
-				HandActionTypes.Split
+				HandActionTypes.Hold
 			};
 			PointValue = 0;
 		}

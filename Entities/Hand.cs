@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Entities
 {
 	public class Hand
 	{
 		private readonly List<BlackJackCard> cards;
-		private readonly List<HandActionTypes> actions;
+		private List<HandActionTypes> actions;
 
 		public IEnumerable<HandActionTypes> Actions => actions;
 		public IEnumerable<BlackJackCard> Cards => cards;
@@ -29,6 +30,9 @@ namespace Entities
 			PointValue = Cards.Value();
 		}
 
-		public void UpdateActions()
+		public void SetActions(List<HandActionTypes> actions)
+		{
+			this.actions = actions;
+		}
 	}
 }

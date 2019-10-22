@@ -38,7 +38,7 @@ namespace Interactors
 			_ = requestModel?.PlayerId ?? throw new ArgumentNullException(nameof(requestModel.PlayerId));
 
 			var player = await PlayerRepository.ReadAsync(requestModel.PlayerId);
-			var playerIdentifier = PlayerIdentifierProvider.Generate()
+			var playerIdentifier = PlayerIdentifierProvider.Generate();
 			var currentPlayer = new BlackJackPlayer(playerIdentifier, player);
 
 			KeyValuePair<string, BlackJackGame> valuePair = await GameRepository.FindByStatusFirstOrDefault(GameStatus.Waiting);

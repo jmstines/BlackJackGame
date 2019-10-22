@@ -3,11 +3,10 @@ using Interactors.Providers;
 using Interactors.Repositories;
 using System;
 using Interactors.Boundaries;
-using System.Threading.Tasks;
 
 namespace Interactors
 {
-    public class BeginGameInteractor : IInputBoundary<BeginGameInteractor.RequestModel, BeginGameInteractor.ResponseModel>
+	public class BeginGameInteractor : IInputBoundary<BeginGameInteractor.RequestModel, BeginGameInteractor.ResponseModel>
 	{
 		public class RequestModel
 		{

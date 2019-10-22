@@ -18,10 +18,10 @@ namespace Interactors
 		}
 
 		private readonly IPlayerRepository PlayerRepository;
-		private readonly IIdentifierProvider IdentifierProvider;
-		public CreateAvitar(IPlayerRepository gameRepository, IIdentifierProvider identifierProvider)
+		private readonly IAvitarIdentifierProvider IdentifierProvider;
+		public CreateAvitar(IPlayerRepository playerRepository, IAvitarIdentifierProvider identifierProvider)
 		{
-			PlayerRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
+			PlayerRepository = playerRepository ?? throw new ArgumentNullException(nameof(playerRepository));
 			IdentifierProvider = identifierProvider ?? throw new ArgumentNullException(nameof(identifierProvider));
 		}
 

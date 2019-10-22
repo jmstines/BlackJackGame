@@ -16,41 +16,45 @@ namespace Interactors
 		
 		public class ResponseModel
         {
-			public string Identifier { get; set; }
+			public string GameIdentifier { get; set; }
+			public string PlayerIdentifier { get; set; }
         }
 
 		private readonly IGameRepository GameRepository;
-		private readonly IIdentifierProvider IdentifierProvider;
+		private readonly IGameIdentifierProvider GameIdentifierProvider;
+		private readonly IPlayerIdentifierProvider PlayerIdentifierProvider;
 		private readonly IPlayerRepository PlayerRepository;
 
-		public JoinGameInteractor(IGameRepository gameRepository, IPlayerRepository playerRepository, IIdentifierProvider identifierProvider)
+		public JoinGameInteractor(IGameRepository gameRepository, IPlayerRepository playerRepository, IGameIdentifierProvider gameIdentifierProvider, IPlayerIdentifierProvider playerIdentifierProvider)
         {
 			GameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
-			IdentifierProvider = identifierProvider ?? throw new ArgumentNullException(nameof(identifierProvider));
+			GameIdentifierProvider = gameIdentifierProvider ?? throw new ArgumentNullException(nameof(gameIdentifierProvider));
 			PlayerRepository = playerRepository ?? throw new ArgumentNullException(nameof(playerRepository));
-        }
+			PlayerIdentifierProvider = playerIdentifierProvider ?? throw new ArgumentNullException(nameof(playerIdentifierProvider));
+		}
 
 		public async void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
 		{
 			_ = requestModel?.PlayerId ?? throw new ArgumentNullException(nameof(requestModel.PlayerId));
 
 			var player = await PlayerRepository.ReadAsync(requestModel.PlayerId);
-			var currentPlayer = new BlackJackPlayer(requestModel.PlayerId, player);
+			var playerIdentifier = PlayerIdentifierProvider.Generate()
+			var currentPlayer = new BlackJackPlayer(playerIdentifier, player);
 
 			KeyValuePair<string, BlackJackGame> valuePair = await GameRepository.FindByStatusFirstOrDefault(GameStatus.Waiting);
-			var identifier = valuePair.Key ?? IdentifierProvider.Generate();
+			var gameIdentifier = valuePair.Key ?? GameIdentifierProvider.Generate();
 			var game = valuePair.Value ?? new BlackJackGame();
 			game.AddPlayer(currentPlayer);
 			if (valuePair.Key == null)
 			{
-				await GameRepository.CreateAsync(identifier, game);
+				await GameRepository.CreateAsync(gameIdentifier, game);
 			}
 			else
 			{
-				await GameRepository.UpdateAsync(identifier, game);
+				await GameRepository.UpdateAsync(gameIdentifier, game);
 			}
 
-            outputBoundary.HandleResponse(new ResponseModel() { Identifier = identifier });
+            outputBoundary.HandleResponse(new ResponseModel() { GameIdentifier = gameIdentifier, PlayerIdentifier = playerIdentifier });
         }
     }
 }

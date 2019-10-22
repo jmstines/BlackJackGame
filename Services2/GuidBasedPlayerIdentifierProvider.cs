@@ -2,7 +2,7 @@
 
 namespace Interactors.Providers
 {
-	public class GuidBasedIdentifierProvider : IIdentifierProvider
+	public class GuidBasedPlayerIdentifierProvider : IPlayerIdentifierProvider
 	{
 		private const int identifierLength = 8;
 

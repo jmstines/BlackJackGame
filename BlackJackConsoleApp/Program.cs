@@ -19,8 +19,9 @@ namespace BlackJackConsoleApp
 		{
 			FillContainer();
 			Console.WriteLine("Welcome to Casino Black Jack 101!");
-			string gameId = string.Empty;
-			List<string> playerIdentifiers = new List<string>();
+			string gameIdentifier = string.Empty;
+			string playerIdentifier = string.Empty;
+			List<string> avitarIdentifiers = new List<string>();
 			// these loops are set up for one player 
 			// this will not nessasarly work for more than 4 players.
 			for (int i = 0; i < BlackJackConstants.MaxPlayerCount; i++)
@@ -31,25 +32,26 @@ namespace BlackJackConsoleApp
 				{
 					PlayerName = playerName
 				});
-				playerIdentifiers.Add(creatAvitarResponse.Identifier);
+				avitarIdentifiers.Add(creatAvitarResponse.Identifier);
 			}
 
-			foreach(string  playerId in playerIdentifiers) { 
+			foreach(string id in avitarIdentifiers) { 
 				var joinGameResponse = GetResponse<JoinGameInteractor.RequestModel, JoinGameInteractor.ResponseModel>(new JoinGameInteractor.RequestModel()
 				{
-					PlayerId = playerId
+					PlayerId = id
 				});
-				gameId = joinGameResponse.Identifier;
+				gameIdentifier = joinGameResponse.GameIdentifier;
+				playerIdentifier = joinGameResponse.PlayerIdentifier;
 			}
 			// assumes that the gameId came back with good response and not multiple different id's
-			var startGameResponse = GetResponse<BeginGameInteractor.RequestModel, BeginGameInteractor.ResponseModel>(new BeginGameInteractor.RequestModel()
+			var beginGameResponse = GetResponse<BeginGameInteractor.RequestModel, BeginGameInteractor.ResponseModel>(new BeginGameInteractor.RequestModel()
 			{
-				Identifier = gameId,
+				Identifier = gameIdentifier,
 				Dealer = new BlackJackPlayer("The_House_Always_Wins", new Player("Data"))
 			});
 
-			var gameStatus = startGameResponse.Outcome;
-			var game = startGameResponse.Game;
+			var gameStatus = beginGameResponse.Outcome;
+			var game = beginGameResponse.Game;
 			var currentPlayer = game.CurrentPlayer;
 			while(gameStatus != GameStatus.Complete)
 			{
@@ -66,13 +68,23 @@ namespace BlackJackConsoleApp
 				switch (key)
 				{
 					case ConsoleKey.D:
-						validKeys.Add();
+						var holdGameResponse = GetResponse<HoldGameInteractor.RequestModel, HoldGameInteractor.ResponseModel>(new HoldGameInteractor.RequestModel()
+						{
+							Identifier = gameIdentifier
+						});
+						currentPlayer = holdGameResponse.CurrentPlayer;
+						gameStatus = holdGameResponse.Outcome;
 						break;
 					case ConsoleKey.W:
-						validKeys.Add();
+						var hitGameResponse = GetResponse<HitGameInteractor.RequestModel, HitGameInteractor.ResponseModel>(new HitGameInteractor.RequestModel()
+						{
+							Identifier = gameIdentifier
+						});
+						currentPlayer = hitGameResponse.CurrentPlayer;
+						gameStatus = hitGameResponse.Outcome;
 						break;
 					case ConsoleKey.S:
-						validKeys.Add();
+						Console.WriteLine("Split Function Not Supported Currently");						
 						break;
 					default:
 						throw new NotSupportedException();
@@ -141,12 +153,13 @@ namespace BlackJackConsoleApp
 		{
 			container.RegisterSingleton<IPlayerRepository, InMemoryPlayerRepository>();
 			container.RegisterSingleton<IGameRepository, InMemoryGameRepository>();
-			container.RegisterSingleton<IIdentifierProvider, GuidBasedIdentifierProvider>();
-			//container.Register(typeof(IOutputBoundary<>), typeof(IOutputBoundary<>).Assembly);
-			//container.Register(typeof(IInputBoundary<,>), typeof(IInputBoundary<,>).Assembly);
+			container.RegisterSingleton<IGameIdentifierProvider, GuidBasedGameIdentifierProvider>();
+			container.RegisterSingleton<IGameIdentifierProvider, GuidBasedPlayerIdentifierProvider>();
+			container.Register(typeof(IOutputBoundary<>), typeof(IOutputBoundary<>).Assembly);
+			container.Register(typeof(IInputBoundary<,>), typeof(IInputBoundary<,>).Assembly);
 			//container.RegisterInitializer<InMemoryGameRepository>();
 
-			//container.Verify();
+			container.Verify();
 		}
 
 		private static TResponseModel GetResponse<TRequestModel, TResponseModel>(TRequestModel requestModel)

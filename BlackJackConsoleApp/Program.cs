@@ -72,16 +72,18 @@ namespace BlackJackConsoleApp
 						{
 							Identifier = gameIdentifier
 						});
-						currentPlayer = holdGameResponse.CurrentPlayer;
-						gameStatus = holdGameResponse.Outcome;
+						game = holdGameResponse.Game;
+						currentPlayer = holdGameResponse.Game.CurrentPlayer;
+						gameStatus = holdGameResponse.Game.Status;
 						break;
 					case ConsoleKey.W:
 						var hitGameResponse = GetResponse<HitGameInteractor.RequestModel, HitGameInteractor.ResponseModel>(new HitGameInteractor.RequestModel()
 						{
 							Identifier = gameIdentifier
 						});
-						currentPlayer = hitGameResponse.CurrentPlayer;
-						gameStatus = hitGameResponse.Outcome;
+						game = hitGameResponse.Game;
+						currentPlayer = hitGameResponse.Game.CurrentPlayer;
+						gameStatus = hitGameResponse.Game.Status;
 						break;
 					case ConsoleKey.S:
 						Console.WriteLine("Split Function Not Supported Currently");						
@@ -154,7 +156,7 @@ namespace BlackJackConsoleApp
 			container.RegisterSingleton<IPlayerRepository, InMemoryPlayerRepository>();
 			container.RegisterSingleton<IGameRepository, InMemoryGameRepository>();
 			container.RegisterSingleton<IGameIdentifierProvider, GuidBasedGameIdentifierProvider>();
-			container.RegisterSingleton<IGameIdentifierProvider, GuidBasedPlayerIdentifierProvider>();
+			container.RegisterSingleton<IPlayerIdentifierProvider, GuidBasedPlayerIdentifierProvider>();
 			container.Register(typeof(IOutputBoundary<>), typeof(IOutputBoundary<>).Assembly);
 			container.Register(typeof(IInputBoundary<,>), typeof(IInputBoundary<,>).Assembly);
 			//container.RegisterInitializer<InMemoryGameRepository>();

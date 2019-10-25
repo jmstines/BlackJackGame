@@ -14,8 +14,7 @@ namespace Interactors
 
 		public class ResponseModel
 		{
-			public GameStatus Outcome { get; set; }
-			public BlackJackPlayer CurrentPlayer { get; set; }
+			public BlackJackGame Game { get; set; }
 		}
 
 		private readonly IGameRepository GameRepository;
@@ -33,7 +32,7 @@ namespace Interactors
 			new BlackJackOutcomes(game).UpdateStatus();
 
 			await GameRepository.UpdateAsync(requestModel.Identifier, game);
-			outputBoundary.HandleResponse(new ResponseModel() { Outcome = game.Status, CurrentPlayer = game.CurrentPlayer });
+			outputBoundary.HandleResponse(new ResponseModel() { Game = game });
 		}
 	}
 }

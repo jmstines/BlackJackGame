@@ -6,9 +6,9 @@ namespace Interactors.Repositories
 {
     public interface IGameRepository
     {
-        Task CreateAsync(string identifier, BlackJackGame game);
-        Task<BlackJackGame> ReadAsync(string identifier);
-        Task UpdateAsync(string identifier, BlackJackGame game);
-		Task<KeyValuePair<string, BlackJackGame>> FindByStatusFirstOrDefault(GameStatus status);
+        void CreateAsync(string identifier, BlackJackGame game);
+        BlackJackGame ReadAsync(string identifier);
+        void UpdateAsync(string identifier, BlackJackGame game);
+		KeyValuePair<string, BlackJackGame> FindByStatusFirstOrDefault(GameStatus status);
     }
 }

@@ -29,14 +29,14 @@ namespace Interactors
 			CardDeckProvider = deckProvider ?? throw new ArgumentNullException(nameof(deckProvider));
         }
 
-        public async void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
+        public void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
 		{
-			var game = await GameRepository.ReadAsync(requestModel.Identifier);
+			var game = GameRepository.ReadAsync(requestModel.Identifier);
 			game.AddPlayer(requestModel.Dealer);
 			game.DealHands(CardDeckProvider.Deck);
 			new BlackJackOutcomes(game).UpdateStatus();
 
-			await GameRepository.UpdateAsync(requestModel.Identifier, game);
+			GameRepository.UpdateAsync(requestModel.Identifier, game);
 			outputBoundary.HandleResponse(new ResponseModel() { Outcome = game.Status, Game = game });
 		}
     }

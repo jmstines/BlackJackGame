@@ -8,8 +8,8 @@ namespace Interactors.Repositories
 {
 	public interface IPlayerRepository
 	{
-		Task CreatePlayerAsync(string identifier, Player player);
-		Task<Player> ReadAsync(string identifier);
-		Task UpdatePlayer(string identifier, Player player);
+		void CreatePlayerAsync(string identifier, Player player);
+		Player ReadAsync(string identifier);
+		void UpdatePlayer(string identifier, Player player);
 	}
 }

@@ -24,14 +24,14 @@ namespace Interactors
 			GameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
 		}
 
-		public async void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
+		public void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
 		{
-			var game = await GameRepository.ReadAsync(requestModel.Identifier);
+			var game = GameRepository.ReadAsync(requestModel.Identifier);
 
 			game.PlayerHolds();
 			new BlackJackOutcomes(game).UpdateStatus();
 
-			await GameRepository.UpdateAsync(requestModel.Identifier, game);
+			GameRepository.UpdateAsync(requestModel.Identifier, game);
 			outputBoundary.HandleResponse(new ResponseModel() { Game = game });
 		}
 	}

@@ -10,20 +10,16 @@ namespace Interactors.Repositories
 	{
 		private readonly Dictionary<string, Player> Players;
 
-		public InMemoryPlayerRepository(Dictionary<string, Player> players) =>
-			Players = players ?? throw new ArgumentNullException(nameof(players));
+		public InMemoryPlayerRepository() => Players = new Dictionary<string, Player>();
 
-		public async Task CreatePlayerAsync(string identifier, Player player) =>
-			await Task.Run(() => Players.Add(identifier, player));
+		public void CreatePlayerAsync(string identifier, Player player) =>Players.Add(identifier, player);
 
-		public async Task<Player> ReadAsync(string identifier) =>
-			await Task.Run(() => Players.Single(g => g.Key.Equals(identifier)).Value);
+		public Player ReadAsync(string identifier) => Players.Single(g => g.Key.Equals(identifier)).Value;
 
-		public async Task UpdatePlayer(string identifier, Player player) =>
-			await Task.Run(() =>
-			{
-				Players.Remove(identifier);
-				Players.Add(identifier, player);
-			});
+		public void UpdatePlayer(string identifier, Player player)
+		{
+			Players.Remove(identifier);
+			Players.Add(identifier, player);
+		}
 	}
 }

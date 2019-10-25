@@ -19,14 +19,14 @@ namespace Interactors.Providers
 
 		public CardDeckProvider() => Deck = BuildDefualtDeck();
 
-		public CardDeckProvider(IEnumerable<CardRank> cardRanks)
-		{
-			CardRanks = cardRanks ?? throw new ArgumentNullException(nameof(cardRanks));
-			Deck = BuildDefualtDeck();
-		}
+		//public CardDeckProvider(IEnumerable<CardRank> cardRanks)
+		//{
+		//	CardRanks = cardRanks ?? throw new ArgumentNullException(nameof(cardRanks));
+		//	Deck = BuildDefualtDeck();
+		//}
 
-		public CardDeckProvider(IEnumerable<Card> deck) =>
-			Deck = new List<Card>(deck) ?? throw new ArgumentNullException(nameof(deck));
+		//public CardDeckProvider(IEnumerable<Card> deck) =>
+		//	Deck = new List<Card>(deck) ?? throw new ArgumentNullException(nameof(deck));
 
 		private IEnumerable<Card> BuildDefualtDeck() =>
 			 Suits.SelectMany(suit => CardRanks.Select(rank => new Card(suit, rank)));

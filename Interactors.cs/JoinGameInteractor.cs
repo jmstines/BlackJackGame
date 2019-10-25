@@ -33,25 +33,25 @@ namespace Interactors
 			PlayerIdentifierProvider = playerIdentifierProvider ?? throw new ArgumentNullException(nameof(playerIdentifierProvider));
 		}
 
-		public async void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
+		public void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
 		{
 			_ = requestModel?.PlayerId ?? throw new ArgumentNullException(nameof(requestModel.PlayerId));
 
-			var player = await PlayerRepository.ReadAsync(requestModel.PlayerId);
+			var player = PlayerRepository.ReadAsync(requestModel.PlayerId);
 			var playerIdentifier = PlayerIdentifierProvider.Generate();
 			var currentPlayer = new BlackJackPlayer(playerIdentifier, player);
 
-			KeyValuePair<string, BlackJackGame> valuePair = await GameRepository.FindByStatusFirstOrDefault(GameStatus.Waiting);
+			KeyValuePair<string, BlackJackGame> valuePair = GameRepository.FindByStatusFirstOrDefault(GameStatus.Waiting);
 			var gameIdentifier = valuePair.Key ?? GameIdentifierProvider.Generate();
 			var game = valuePair.Value ?? new BlackJackGame();
 			game.AddPlayer(currentPlayer);
 			if (valuePair.Key == null)
 			{
-				await GameRepository.CreateAsync(gameIdentifier, game);
+				GameRepository.CreateAsync(gameIdentifier, game);
 			}
 			else
 			{
-				await GameRepository.UpdateAsync(gameIdentifier, game);
+				GameRepository.UpdateAsync(gameIdentifier, game);
 			}
 
             outputBoundary.HandleResponse(new ResponseModel() { GameIdentifier = gameIdentifier, PlayerIdentifier = playerIdentifier });

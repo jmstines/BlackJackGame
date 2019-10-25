@@ -25,12 +25,12 @@ namespace Interactors
 			IdentifierProvider = identifierProvider ?? throw new ArgumentNullException(nameof(identifierProvider));
 		}
 
-		public async void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
+		public void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
 		{
 			_ = requestModel.PlayerName ?? throw new ArgumentNullException(nameof(requestModel.PlayerName));
 			var player = new Player(requestModel.PlayerName);
 			var identifier = IdentifierProvider.Generate();
-			await PlayerRepository.CreatePlayerAsync(identifier, player);
+			PlayerRepository.CreatePlayerAsync(identifier, player);
 
 			outputBoundary.HandleResponse(new ResponseModel()
 			{

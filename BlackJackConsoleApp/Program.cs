@@ -53,17 +53,25 @@ namespace BlackJackConsoleApp
 			var gameStatus = beginGameResponse.Outcome;
 			var game = beginGameResponse.Game;
 			var currentPlayer = game.CurrentPlayer;
+			var dealer = game.Players.Last();
 			while(gameStatus != GameStatus.Complete)
 			{
 				ConsoleKey key;
 				var validKeys = ActionKeys(currentPlayer.Hand.Actions.ToList());
 				do
 				{
+					
 					Console.Clear();
-					Console.WriteLine($"Player: {currentPlayer.Name}");
+					Console.WriteLine(" Dealer's Visible Cards.");
+					Console.Write(VisibleCards(dealer.Hand, false));
+					Console.WriteLine("---------------------------------------------");
+					Console.WriteLine($" Player: {currentPlayer.Name}");
+					Console.Write(VisibleCards(currentPlayer.Hand, true));
 					Console.WriteLine(ActionMenuBuilder(currentPlayer.Hand.Actions.ToList()));
+					
 					key = Console.ReadKey(true).Key;
 				} while (IsValidActionKey(validKeys, key));
+
 
 				switch (key)
 				{
@@ -121,6 +129,23 @@ namespace BlackJackConsoleApp
 				}
 			}
 			return actionKeys;
+		}
+
+		private static string VisibleCards(Hand hand, bool showAll)
+		{
+			string output = $" {hand.PointValue}\t";
+			foreach(var card in hand.Cards)
+			{
+				if (showAll || !card.FaceDown)
+				{
+					output += $"[{card.Rank.ToString()} {card.Suit.ToString()}]";
+					if (hand.Cards.Count() > 1)
+					{
+						output += card.Equals(hand.Cards.Last()) ? "\n" : ", ";
+					}
+				}
+			}
+			return output;
 		}
 
 		private static IEnumerable<ConsoleKey> ActionKeys(List<HandActionTypes> actions)

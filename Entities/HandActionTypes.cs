@@ -4,6 +4,7 @@
     {
         Hold = 1,
         Draw,
-        Split
+		Split,
+		Pass
     }
 }

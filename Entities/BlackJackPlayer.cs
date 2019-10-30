@@ -19,5 +19,29 @@ namespace Entities
 		}
 
 		public void AddCardToHand(BlackJackCard card) => Hand.AddCard(card);
+
+		public override bool Equals(object obj)
+		{
+			return obj is BlackJackPlayer player &&
+				   Name == player.Name &&
+				   PlayerIdentifier == player.PlayerIdentifier &&
+				   EqualityComparer<Hand>.Default.Equals(Hand, player.Hand) &&
+				   Status == player.Status;
+		}
+
+		public override int GetHashCode()
+		{
+			return HashCode.Combine(Name, PlayerIdentifier, Hand, Status);
+		}
+
+		public static bool operator ==(BlackJackPlayer left, BlackJackPlayer right)
+		{
+			return EqualityComparer<BlackJackPlayer>.Default.Equals(left, right);
+		}
+
+		public static bool operator !=(BlackJackPlayer left, BlackJackPlayer right)
+		{
+			return !(left == right);
+		}
 	}
 }

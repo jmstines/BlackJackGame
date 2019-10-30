@@ -12,6 +12,7 @@ namespace Entities
 		public IEnumerable<HandActionTypes> Actions => actions;
 		public IEnumerable<BlackJackCard> Cards => cards;
 		public int PointValue { get; set; }
+		public bool IsBust { get; set; }
 
 		public Hand()
 		{
@@ -22,6 +23,7 @@ namespace Entities
 				HandActionTypes.Hold
 			};
 			PointValue = 0;
+			IsBust = false;
 		}
 
 		public void AddCard(BlackJackCard card)

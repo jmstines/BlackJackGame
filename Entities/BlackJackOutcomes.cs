@@ -4,18 +4,26 @@ using System.Collections.Generic;
 
 namespace Entities
 {
+	// TODO - Needs to be set up to run on current player
+	//		- too Global
     public class BlackJackOutcomes
     {
 		private readonly BlackJackGame Game;
-		public BlackJackOutcomes(BlackJackGame game) => Game = game ?? throw new ArgumentNullException(nameof(game));
+		private readonly BlackJackPlayer Dealer;
+		public BlackJackOutcomes(BlackJackGame game)
+		{
+			Game = game ?? throw new ArgumentNullException(nameof(game));
+			Dealer = Game.Players.Last();
+		}
+
 		public void UpdateStatus()
         {
-            if (HasBlackjack(GetDealer()))
+            if (HasBlackjack(Dealer))
             {
 				DealerBlackJackUpdatePlayers(GetPlayers());
 				Game.Status = GameStatus.Complete;
             }
-            else if (BustHand(GetDealer()))
+            else if (BustHand(Dealer))
             {
 				DealerBustUpdatePlayers(GetPlayers());
 				Game.Status = GameStatus.Complete;
@@ -44,7 +52,6 @@ namespace Entities
             }
         }
 		private IEnumerable<BlackJackPlayer> GetPlayers() => Game.Players.Where(p => !p.Equals(Game.Players.Last()));
-		private BlackJackPlayer GetDealer() => Game.Players.Last();
 		private void DealerBlackJackUpdatePlayers(IEnumerable<BlackJackPlayer> players) => 
 			players.ToList().ForEach(p => p.Status = HasBlackjack(p) ? PlayerStatus.Push : PlayerStatus.PlayerLoses);
 		private void DealerBustUpdatePlayers(IEnumerable<BlackJackPlayer> players) => 

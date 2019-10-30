@@ -70,9 +70,8 @@ namespace BlackJackConsoleApp
 					Console.WriteLine(ActionMenuBuilder(currentPlayer.Hand.Actions.ToList()));
 					
 					key = Console.ReadKey(true).Key;
-				} while (IsValidActionKey(validKeys, key));
-
-
+				} while (InValidActionKey(validKeys, key));
+				
 				switch (key)
 				{
 					case ConsoleKey.D:
@@ -95,6 +94,16 @@ namespace BlackJackConsoleApp
 						break;
 					case ConsoleKey.S:
 						Console.WriteLine("Split Function Not Supported Currently");						
+						break;
+					case ConsoleKey.Enter:
+						Console.WriteLine("Player Loses, Continuing to Next Player.");
+						holdGameResponse = GetResponse<HoldGameInteractor.RequestModel, HoldGameInteractor.ResponseModel>(new HoldGameInteractor.RequestModel()
+						{
+							Identifier = gameIdentifier
+						});
+						game = holdGameResponse.Game;
+						currentPlayer = holdGameResponse.Game.CurrentPlayer;
+						gameStatus = holdGameResponse.Game.Status;
 						break;
 					default:
 						throw new NotSupportedException();
@@ -119,6 +128,9 @@ namespace BlackJackConsoleApp
 						break;
 					case HandActionTypes.Split:
 						actionKeys += "T = Split";
+						break;
+					case HandActionTypes.Pass:
+						actionKeys += "Entry - Continue";
 						break;
 					default:
 						throw new NotSupportedException();
@@ -164,6 +176,9 @@ namespace BlackJackConsoleApp
 					case HandActionTypes.Split:
 						validKeys.Add(ConsoleKey.S);
 						break;
+					case HandActionTypes.Pass:
+						validKeys.Add(ConsoleKey.Enter);
+						break;
 					default:
 						throw new NotSupportedException();
 				}
@@ -171,9 +186,9 @@ namespace BlackJackConsoleApp
 			return validKeys;
 		}
 
-		private static bool IsValidActionKey(IEnumerable<ConsoleKey> actions, ConsoleKey key)
+		private static bool InValidActionKey(IEnumerable<ConsoleKey> actions, ConsoleKey key)
 		{
-			return actions.Any(a => a.Equals(key));
+			return !actions.Any(a => a.Equals(key));
 		}
 
 		private static void FillContainer()

@@ -7,34 +7,20 @@ namespace Entities
 	public class Hand
 	{
 		private readonly List<BlackJackCard> cards;
-		private List<HandActionTypes> actions;
 
-		public IEnumerable<HandActionTypes> Actions => actions;
+		public IEnumerable<HandActionTypes> Actions => HandActions.GetActions(IsBust, cards.Count);
 		public IEnumerable<BlackJackCard> Cards => cards;
-		public int PointValue { get; set; }
-		public bool IsBust { get; set; }
+		public int PointValue => HandValue.GetValue(cards);
+		public bool IsBust => PointValue > BlackJackConstants.BlackJack;
 
 		public Hand()
 		{
-			cards = new List<BlackJackCard>();
-			actions = new List<HandActionTypes>
-			{
-				HandActionTypes.Draw,
-				HandActionTypes.Hold
-			};
-			PointValue = 0;
-			IsBust = false;
+			cards = new List<BlackJackCard>();	
 		}
 
 		public void AddCard(BlackJackCard card)
 		{
 			cards.Add(card);
-			PointValue = Cards.Value();
-		}
-
-		public void SetActions(List<HandActionTypes> actions)
-		{
-			this.actions = actions;
 		}
 	}
 }

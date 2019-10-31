@@ -30,10 +30,6 @@ namespace Interactors
 			var game = GameRepository.ReadAsync(requestModel.Identifier);
 
 			game.PlayerHits();
-			if(game.CurrentPlayer.Hand.PointValue > BlackJackConstants.BlackJack)
-			{
-				game.CurrentPlayer.Hand.IsBust = true;
-			}
 			
 			GameRepository.UpdateAsync(requestModel.Identifier, game);
 			outputBoundary.HandleResponse(new ResponseModel() { Game = game });

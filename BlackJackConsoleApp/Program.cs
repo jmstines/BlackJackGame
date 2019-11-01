@@ -59,8 +59,7 @@ namespace BlackJackConsoleApp
 				ConsoleKey key;
 				var validKeys = ActionKeys(currentPlayer.Hand.Actions.ToList());
 				do
-				{
-					
+				{		
 					Console.Clear();
 					Console.WriteLine(" Dealer's Visible Cards.");
 					Console.Write(VisibleCards(dealer.Hand, false));
@@ -80,8 +79,8 @@ namespace BlackJackConsoleApp
 							Identifier = gameIdentifier
 						});
 						game = holdGameResponse.Game;
-						currentPlayer = holdGameResponse.Game.CurrentPlayer;
-						gameStatus = holdGameResponse.Game.Status;
+						currentPlayer = game.CurrentPlayer;
+						gameStatus = game.Status;
 						break;
 					case ConsoleKey.W:
 						var hitGameResponse = GetResponse<HitGameInteractor.RequestModel, HitGameInteractor.ResponseModel>(new HitGameInteractor.RequestModel()
@@ -89,8 +88,8 @@ namespace BlackJackConsoleApp
 							Identifier = gameIdentifier
 						});
 						game = hitGameResponse.Game;
-						currentPlayer = hitGameResponse.Game.CurrentPlayer;
-						gameStatus = hitGameResponse.Game.Status;
+						currentPlayer = game.CurrentPlayer;
+						gameStatus = game.Status;
 						break;
 					case ConsoleKey.S:
 						Console.WriteLine("Split Function Not Supported Currently");						
@@ -102,8 +101,8 @@ namespace BlackJackConsoleApp
 							Identifier = gameIdentifier
 						});
 						game = holdGameResponse.Game;
-						currentPlayer = holdGameResponse.Game.CurrentPlayer;
-						gameStatus = holdGameResponse.Game.Status;
+						currentPlayer = game.CurrentPlayer;
+						gameStatus = game.Status;
 						break;
 					default:
 						throw new NotSupportedException();

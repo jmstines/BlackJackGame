@@ -30,16 +30,16 @@ namespace Interactors.Tests
             Assert.AreEqual(deck.First(), card);
         }
 
-        [Test]
-        public void CreateCustomDeck_AceOfSpades_AllCards()
-        {
-            IEnumerable<CardRank> CardDetails = new List<CardRank>{
-				CardRank.Ace, CardRank.Ace,
-				CardRank.Ace, CardRank.Ace};
+    //    [Test]
+    //    public void CreateCustomDeck_AceOfSpades_AllCards()
+    //    {
+    //        IEnumerable<CardRank> CardDetails = new List<CardRank>{
+				//CardRank.Ace, CardRank.Ace,
+				//CardRank.Ace, CardRank.Ace};
 
-            IEnumerable<Card> deck = new CardDeckProvider(CardDetails).Deck;
-            Assert.AreEqual(deck.Count(), 16);
-            Assert.AreEqual(deck.Where(c => c.Rank.Equals(CardRank.Ace)).Count(), 16);
-        }
+    //        IEnumerable<Card> deck = new CardDeckProvider(CardDetails).Deck;
+    //        Assert.AreEqual(deck.Count(), 16);
+    //        Assert.AreEqual(deck.Where(c => c.Rank.Equals(CardRank.Ace)).Count(), 16);
+    //    }
     }
 }

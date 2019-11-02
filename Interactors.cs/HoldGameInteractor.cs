@@ -2,6 +2,7 @@
 using Interactors.Repositories;
 using System;
 using Interactors.Boundaries;
+using System.Linq;
 
 namespace Interactors
 {
@@ -29,7 +30,10 @@ namespace Interactors
 			var game = GameRepository.ReadAsync(requestModel.Identifier);
 
 			game.PlayerHolds();
-			new BlackJackOutcomes(game).UpdateStatus();
+			if (game.CurrentPlayer.Equals(game.Players.Last()))
+			{
+				new BlackJackOutcomes(game).UpdateStatus();
+			}
 
 			GameRepository.UpdateAsync(requestModel.Identifier, game);
 			outputBoundary.HandleResponse(new ResponseModel() { Game = game });

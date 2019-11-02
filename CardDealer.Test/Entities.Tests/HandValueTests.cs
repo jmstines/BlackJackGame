@@ -17,7 +17,7 @@ namespace Entities.Tests
 			cards.Add(new BlackJackCard(aceSpades, false));
 			cards.Add(new BlackJackCard(tenSpades, false));
 
-			Assert.AreEqual(BlackJackConstants.BlackJack, HandValue.GetValue(cards));
+			Assert.AreEqual(BlackJackConstants.BlackJack, new HandValue(cards).Value);
 		}
 
 		[Test]
@@ -31,7 +31,7 @@ namespace Entities.Tests
 			cards.Add(new BlackJackCard(tenSpades, false));
 			cards.Add(new BlackJackCard(tenSpades, false));
 
-			Assert.AreEqual(BlackJackConstants.BlackJack, HandValue.GetValue(cards));
+			Assert.AreEqual(BlackJackConstants.BlackJack, new HandValue(cards).Value);
 		}
 
 		[Test]
@@ -45,7 +45,7 @@ namespace Entities.Tests
 			cards.Add(new BlackJackCard(aceSpades, false));
 			cards.Add(new BlackJackCard(tenSpades, false));
 
-			Assert.AreEqual(12, HandValue.GetValue(cards));
+			Assert.AreEqual(12, new HandValue(cards).Value);
 		}
 	}
 }

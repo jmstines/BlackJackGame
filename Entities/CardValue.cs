@@ -6,45 +6,48 @@ namespace Entities
 {
 	public class CardValue
 	{
-		private CardValue() { }
+		private readonly CardRank Rank;
+		public int Value { get; private set; } = 0;
+		public CardValue(CardRank rank) {
+			Rank = rank.Equals(0) ? throw new ArgumentNullException(nameof(rank)) : rank;
+			GetValue();
+		}
 
-		public static int GetValue(CardRank rank)
+		private void GetValue()
 		{
-			int value;
-			switch (rank)
+			switch (Rank)
 			{
 				case CardRank.Ace:
-					value = 11;
+					Value = 11;
 					break;
 				case CardRank.Two:
-					value = 2;
+					Value = 2;
 					break;
 				case CardRank.Three:
-					value = 3;
+					Value = 3;
 					break;
 				case CardRank.Four:
-					value = 4;
+					Value = 4;
 					break;
 				case CardRank.Five:
-					value = 5;
+					Value = 5;
 					break;
 				case CardRank.Six:
-					value = 6;
+					Value = 6;
 					break;
 				case CardRank.Seven:
-					value = 7;
+					Value = 7;
 					break;
 				case CardRank.Eight:
-					value = 8;
+					Value = 8;
 					break;
 				case CardRank.Nine:
-					value = 9;
+					Value = 9;
 					break;
 				default:
-					value = 10;
+					Value = 10;
 					break;
 			}
-			return value;
 		}
 	}
 }

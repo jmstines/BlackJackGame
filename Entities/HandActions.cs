@@ -1,34 +1,46 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Entities
 {
-	public static class HandActions
+	public class HandActions
 	{
-		public static IEnumerable<HandActionTypes> GetActions(HandStatusTypes status, IEnumerable<BlackJackCard> cards)
+		private readonly List<BlackJackCard> Cards;
+		private readonly HandStatusTypes Status;
+		private List<HandActionTypes> actions;
+
+		public IEnumerable<HandActionTypes> Actions => actions;
+		public HandActions(HandStatusTypes status, IEnumerable<BlackJackCard> cards)
 		{
-			var Actions = new List<HandActionTypes>();
-			if(status.Equals(HandStatusTypes.Bust))
+			Cards = cards?.ToList() ?? throw new ArgumentNullException(nameof(cards));
+			Status = status.Equals(0) ? throw new ArgumentOutOfRangeException(nameof(status)) : status;
+			GetActions();
+		}
+
+		private void GetActions()
+		{
+			actions = new List<HandActionTypes>();
+			if(Status.Equals(HandStatusTypes.Bust))
 			{
-				Actions.Add(HandActionTypes.Pass);
+				actions.Add(HandActionTypes.Pass);
 			}
-			else if(cards.Count() <= 2 && AllowSplit(cards))
+			else if(Cards.Count == 2 && AllowSplit())
 			{
-				Actions.Add(HandActionTypes.Draw);
-				Actions.Add(HandActionTypes.Hold);
-				Actions.Add(HandActionTypes.Split);
+				actions.Add(HandActionTypes.Draw);
+				actions.Add(HandActionTypes.Hold);
+				actions.Add(HandActionTypes.Split);
 			}
 			else
 			{
-				Actions.Add(HandActionTypes.Draw);
-				Actions.Add(HandActionTypes.Hold);
+				actions.Add(HandActionTypes.Draw);
+				actions.Add(HandActionTypes.Hold);
 			}
-			return Actions;
 		}
 
-		private static bool AllowSplit(IEnumerable<BlackJackCard> cards)
+		private bool AllowSplit()
 		{
-			return cards.Count() == 2 && cards.All(c => CardValue.GetValue(c.Rank) == 10);
+			return Cards.Count == 2 && Cards.All(c => new CardValue(c.Rank).Value == 10);
 		}
 	}
 }

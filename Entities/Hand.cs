@@ -6,25 +6,28 @@ namespace Entities
 	{
 		private readonly List<BlackJackCard> cards;
 
-		public IEnumerable<HandActionTypes> Actions => HandActions.GetActions(Status, cards);
+		public IEnumerable<HandActionTypes> Actions => new HandActions(Status, cards).Actions;
 		public IEnumerable<BlackJackCard> Cards => cards;
-		public int PointValue => HandValue.GetValue(cards);
-		public HandStatusTypes Status
-		{
-			get => Status;
-			set => Status = PointValue > BlackJackConstants.BlackJack ? HandStatusTypes.Bust : value;
-		}
+		public int PointValue { get; private set; }
+		public HandStatusTypes Status { get; private set; }
 
 		public Hand()
 		{
 			cards = new List<BlackJackCard>();
+			PointValue = 0;
 			Status = HandStatusTypes.InProgress;
 		}
 
 		public void AddCard(BlackJackCard card)
 		{
 			cards.Add(card);
-			Status = HandStatusTypes.InProgress;
+			PointValue = new HandValue(cards).Value;
+			SetStatus(HandStatusTypes.InProgress);
+		}
+
+		private void SetStatus(HandStatusTypes status)
+		{
+			Status = PointValue > BlackJackConstants.BlackJack ? HandStatusTypes.Bust : status;
 		}
 	}
 }

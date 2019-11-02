@@ -1,6 +1,6 @@
 ﻿namespace Entities
 {
-    public enum PlayerStatus
+    public enum PlayerStatusTypes
     {
         InProgress = 1,
         Push,

@@ -24,14 +24,14 @@ namespace Entities.Tests
 			var sam = new BlackJackPlayer("8625cf04-b7e2", player1);
 			Assert.AreEqual(false, sam.Hand.Cards.Any());
 			Assert.AreEqual(playerName, sam.Name);
-			Assert.AreEqual(PlayerStatus.InProgress, sam.Status);
+			Assert.AreEqual(PlayerStatusTypes.InProgress, sam.Status);
 		}
 
 		[Test]
 		public void NewPlayer_NoCards_StatusInProgress()
 		{
 			var sam = new BlackJackPlayer("8625cf04-b7e2", player1);
-			Assert.AreEqual(PlayerStatus.InProgress, sam.Status);
+			Assert.AreEqual(PlayerStatusTypes.InProgress, sam.Status);
 		}
 
 		[Test]

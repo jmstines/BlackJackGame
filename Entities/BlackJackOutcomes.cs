@@ -34,28 +34,28 @@ namespace Entities
                 {
                     if (BustHand(player))
                     {
-                        player.Status = PlayerStatus.PlayerLoses;
+                        player.Status = PlayerStatusTypes.PlayerLoses;
                     }
                     else if (PlayerPointsLessThanDealer(player))
                     {
-                        player.Status = PlayerStatus.PlayerLoses;
+                        player.Status = PlayerStatusTypes.PlayerLoses;
                     }
                     else if (PlayerPointsEqualsDealer(player))
                     {
-                        player.Status = PlayerStatus.Push;
+                        player.Status = PlayerStatusTypes.Push;
                     }
                     else
                     {
-                        player.Status = PlayerStatus.PlayerWins;
+                        player.Status = PlayerStatusTypes.PlayerWins;
                     }
                 }
             }
         }
 		private IEnumerable<BlackJackPlayer> GetPlayers() => Game.Players.Where(p => !p.Equals(Game.Players.Last()));
 		private void DealerBlackJackUpdatePlayers(IEnumerable<BlackJackPlayer> players) => 
-			players.ToList().ForEach(p => p.Status = HasBlackjack(p) ? PlayerStatus.Push : PlayerStatus.PlayerLoses);
+			players.ToList().ForEach(p => p.Status = HasBlackjack(p) ? PlayerStatusTypes.Push : PlayerStatusTypes.PlayerLoses);
 		private void DealerBustUpdatePlayers(IEnumerable<BlackJackPlayer> players) => 
-			players.ToList().ForEach(p => p.Status = BustHand(p) ? PlayerStatus.PlayerLoses : PlayerStatus.PlayerWins);
+			players.ToList().ForEach(p => p.Status = BustHand(p) ? PlayerStatusTypes.PlayerLoses : PlayerStatusTypes.PlayerWins);
 		private bool HasBlackjack(BlackJackPlayer player) => player.Hand.PointValue == BlackJackConstants.BlackJack;
         private bool BustHand(BlackJackPlayer player) => player.Hand.PointValue > BlackJackConstants.BlackJack;
         private bool PlayerPointsLessThanDealer(BlackJackPlayer player) => player.Hand.PointValue < Game.Players.Last().Hand.PointValue;

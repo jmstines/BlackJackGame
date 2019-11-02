@@ -129,7 +129,7 @@ namespace BlackJackConsoleApp
 						actionKeys += "T = Split";
 						break;
 					case HandActionTypes.Pass:
-						actionKeys += "Entry - Continue";
+						actionKeys += "Enter - Continue";
 						break;
 					default:
 						throw new NotSupportedException();

@@ -8,10 +8,8 @@ namespace Entities
 	public class BlackJackGame
 	{
 		private readonly List<BlackJackPlayer> players = new List<BlackJackPlayer>();
-		private List<Card> deck = new List<Card>();
 
 		public IEnumerable<BlackJackPlayer> Players => players;
-		public IEnumerable<Card> Deck => deck;
 		public BlackJackPlayer CurrentPlayer { get; set; }
 		public GameStatus Status { get; set; } = GameStatus.Waiting;
 
@@ -38,35 +36,17 @@ namespace Entities
 			GameStatus.InProgress :
 			GameStatus.Waiting;
 
-		public void DealHands(IEnumerable<Card> deck)
+		public void PlayerHolds() => CurrentPlayer = GetIsDealerCurrentPlayer() ?
+			Players.First() :
+			Players.ElementAt(players.IndexOf(CurrentPlayer) + 1);
+
+		public void PlayerHits(Card card)
 		{
-			this.deck = deck?.ToList() ?? throw new ArgumentNullException(nameof(deck));
-			Status = GameStatus.InProgress;
-			int twoCardsPerPlayer = players.Count * 2;
-			for (int i = 0; i < twoCardsPerPlayer; i++)
-			{
-				DrawCard();
-				SetCurrentPlayerToNext();
-			}
-		}
-
-		public void PlayerHolds() => SetCurrentPlayerToNext();
-
-		public void PlayerHits() => DrawCard();
-
-		private void DrawCard()
-		{
-			if (!Deck.Any()) throw new ArgumentOutOfRangeException(nameof(Deck), "Card Deck out of Cards.");
-			var card = Deck.First();
-			deck.Remove(card);
+			if (card.Rank == 0 || card.Suit == 0) throw new ArgumentOutOfRangeException(nameof(card));
 			CurrentPlayer.Hand.AddCard(new BlackJackCard(card, IsCardFaceDown()));
 		}
 
 		private bool IsCardFaceDown() => !CurrentPlayer.Hand.Cards.Any();
-
-		private void SetCurrentPlayerToNext() => CurrentPlayer = GetIsDealerCurrentPlayer() ?
-			Players.First() :
-			Players.ElementAt(players.IndexOf(CurrentPlayer) + 1);
 
 		private bool GetIsDealerCurrentPlayer() => CurrentPlayer.Equals(Players.Last());
 	}

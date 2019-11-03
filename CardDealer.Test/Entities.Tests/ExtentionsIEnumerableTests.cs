@@ -10,10 +10,12 @@ namespace Entities.Tests
 		[Test]
 		public void CreateNewDeck_Suffle_CardsShuffled()
 		{
-			IEnumerable<Card> deck = new CardDeckProvider().Deck;
+			IEnumerable<Card> deck = new Deck();
 			IEnumerable<Card> deckSuffled = deck.Shuffle();
 
 			Assert.AreNotEqual(deck, deckSuffled);
+			Assert.AreNotEqual(deck.First(), deckSuffled.First());
+			Assert.AreEqual(deck.Count(), deckSuffled.Count());
 		}
 	}
 }

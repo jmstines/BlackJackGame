@@ -3,6 +3,7 @@ using Interactors.Repositories;
 using System;
 using Interactors.Boundaries;
 using System.Linq;
+using Interactors.Providers;
 
 namespace Interactors
 {
@@ -19,17 +20,19 @@ namespace Interactors
 		}
 
 		private readonly IGameRepository GameRepository;
+		private readonly ICardProviderRandom CardProvider;
 
-		public HitGameInteractor(IGameRepository gameRepository)
+		public HitGameInteractor(IGameRepository gameRepository, ICardProviderRandom cardProvider)
 		{
 			GameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
+			CardProvider = cardProvider ?? throw new ArgumentNullException(nameof(cardProvider));
 		}
 
 		public void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
 		{
 			var game = GameRepository.ReadAsync(requestModel.Identifier);
 
-			game.PlayerHits();
+			game.PlayerHits(CardProvider.Card);
 			
 			GameRepository.UpdateAsync(requestModel.Identifier, game);
 			outputBoundary.HandleResponse(new ResponseModel() { Game = game });

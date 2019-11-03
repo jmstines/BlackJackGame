@@ -14,6 +14,7 @@ namespace Entities
 			CardRank.Ace };
 
 		private readonly IEnumerable<Card> Cards;
+
 		public Deck() => Cards = BuildDefualtDeck();
 
 		public IEnumerator<Card> GetEnumerator()

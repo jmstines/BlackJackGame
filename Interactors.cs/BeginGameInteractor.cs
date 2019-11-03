@@ -3,6 +3,8 @@ using Interactors.Providers;
 using Interactors.Repositories;
 using System;
 using Interactors.Boundaries;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Interactors
 {
@@ -21,19 +23,28 @@ namespace Interactors
 		}
 
 		private readonly IGameRepository GameRepository;
-		private readonly ICardDeckProvider CardDeckProvider;
+		private readonly ICardProviderRandom CardProvider;
 
-        public BeginGameInteractor(IGameRepository gameRepository, ICardDeckProvider deckProvider)
+        public BeginGameInteractor(IGameRepository gameRepository, ICardProviderRandom cardProvider)
         {
             GameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
-			CardDeckProvider = deckProvider ?? throw new ArgumentNullException(nameof(deckProvider));
+			CardProvider = cardProvider ?? throw new ArgumentNullException(nameof(cardProvider));
         }
 
         public void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
 		{
 			var game = GameRepository.ReadAsync(requestModel.Identifier);
 			game.AddPlayer(requestModel.Dealer);
-			game.DealHands(CardDeckProvider.Deck);
+
+			game.Status = GameStatus.InProgress;
+			int twoCardsPerPlayer = game.Players.Count() * 2;
+
+			for (int i = 0; i < twoCardsPerPlayer; i++)
+			{
+				game.PlayerHits(CardProvider.Card);
+				game.PlayerHolds();
+			}
+
 			new BlackJackOutcomes(game).UpdateStatus();
 
 			GameRepository.UpdateAsync(requestModel.Identifier, game);

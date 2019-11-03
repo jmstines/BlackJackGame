@@ -20,5 +20,12 @@ namespace Entities
 			}
 			return shuffled;
 		}
+
+		public static T RandomItem<T>(this IEnumerable<T> list) {
+			var Random = new Random((int)DateTime.UtcNow.Ticks);
+
+			var nextIndex = Random.Next(minValue: 0, maxValue: list.Count());
+			return list.ElementAt(nextIndex);
+		}
 	}
 }

@@ -31,8 +31,13 @@ namespace Interactors
 		public void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
 		{
 			var game = GameRepository.ReadAsync(requestModel.Identifier);
+			var card = CardProvider.Cards(1).First();
+			game.PlayerHits(card);
 
-			game.PlayerHits(CardProvider.Cards(1).First());
+			if (game.CurrentPlayer.Equals(game.Dealer))
+			{
+				new BlackJackOutcomes(game).UpdateStatus();
+			}
 			
 			GameRepository.UpdateAsync(requestModel.Identifier, game);
 			outputBoundary.HandleResponse(new ResponseModel() { Game = game });

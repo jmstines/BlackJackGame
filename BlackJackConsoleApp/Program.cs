@@ -20,7 +20,7 @@ namespace BlackJackConsoleApp
 			FillContainer();
 			Console.WriteLine("Welcome to Casino Black Jack 101!");
 			string gameIdentifier = string.Empty;
-			string playerIdentifier = string.Empty;
+			string playerIdentifier;
 			List<string> avitarIdentifiers = new List<string>();
 			// these loops are set up for one player 
 			// this will not nessasarly work for more than 4 players.

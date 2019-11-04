@@ -34,8 +34,7 @@ namespace Interactors
         public void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
 		{
 			var game = GameRepository.ReadAsync(requestModel.Identifier);
-			game.AddPlayer(requestModel.Dealer);
-
+			game.AddDealer(requestModel.Dealer);
 			game.Status = GameStatus.InProgress;
 			int twoCardsPerPlayer = game.Players.Count() * 2;
 			var cards = CardProvider.Cards(twoCardsPerPlayer);

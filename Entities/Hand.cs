@@ -25,7 +25,7 @@ namespace Entities
 			SetStatus(HandStatusTypes.InProgress);
 		}
 
-		private void SetStatus(HandStatusTypes status)
+		public void SetStatus(HandStatusTypes status)
 		{
 			Status = PointValue > BlackJackConstants.BlackJack ? HandStatusTypes.Bust : status;
 		}

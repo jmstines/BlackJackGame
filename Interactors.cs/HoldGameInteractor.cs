@@ -30,7 +30,7 @@ namespace Interactors
 			var game = GameRepository.ReadAsync(requestModel.Identifier);
 
 			game.PlayerHolds();
-			if (game.CurrentPlayer.Equals(game.Players.Last()))
+			if (game.CurrentPlayer.Equals(game.Dealer))
 			{
 				new BlackJackOutcomes(game).UpdateStatus();
 			}

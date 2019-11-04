@@ -21,7 +21,6 @@ namespace Entities
 		{
 			return Cards.GetEnumerator();
 		}
-
 		private IEnumerable<Card> BuildDefualtDeck() =>
 			Suits.SelectMany(suit => CardRanks.Select(rank => new Card(suit, rank)));
 

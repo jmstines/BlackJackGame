@@ -32,7 +32,7 @@ namespace Interactors
 		{
 			var game = GameRepository.ReadAsync(requestModel.Identifier);
 
-			game.PlayerHits(CardProvider.Card);
+			game.PlayerHits(CardProvider.Cards(1).First());
 			
 			GameRepository.UpdateAsync(requestModel.Identifier, game);
 			outputBoundary.HandleResponse(new ResponseModel() { Game = game });

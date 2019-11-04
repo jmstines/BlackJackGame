@@ -38,10 +38,10 @@ namespace Interactors
 
 			game.Status = GameStatus.InProgress;
 			int twoCardsPerPlayer = game.Players.Count() * 2;
-
-			for (int i = 0; i < twoCardsPerPlayer; i++)
+			var cards = CardProvider.Cards(twoCardsPerPlayer);
+			foreach (var card in cards)
 			{
-				game.PlayerHits(CardProvider.Card);
+				game.PlayerHits(card);
 				game.PlayerHolds();
 			}
 

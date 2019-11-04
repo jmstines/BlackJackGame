@@ -1,9 +1,10 @@
 ﻿using Entities;
+using System.Collections.Generic;
 
 namespace Interactors.Providers
 {
 	public interface ICardProviderRandom
 	{
-		Card Card { get; }
+		IEnumerable<Card> Cards(int count);
 	}
 }

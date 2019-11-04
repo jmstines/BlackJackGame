@@ -92,10 +92,12 @@ namespace BlackJackConsoleApp
 						gameStatus = game.Status;
 						break;
 					case ConsoleKey.S:
-						Console.WriteLine("Split Function Not Supported Currently");						
+						Console.WriteLine("Split Function Not Supported Currently");
+						Console.ReadKey();
 						break;
 					case ConsoleKey.Enter:
 						Console.WriteLine("Player Loses, Continuing to Next Player.");
+						Console.ReadKey();
 						holdGameResponse = GetResponse<HoldGameInteractor.RequestModel, HoldGameInteractor.ResponseModel>(new HoldGameInteractor.RequestModel()
 						{
 							Identifier = gameIdentifier
@@ -126,7 +128,7 @@ namespace BlackJackConsoleApp
 						actionKeys += "W = Draw";
 						break;
 					case HandActionTypes.Split:
-						actionKeys += "T = Split";
+						actionKeys += "S = Split";
 						break;
 					case HandActionTypes.Pass:
 						actionKeys += "Enter - Continue";

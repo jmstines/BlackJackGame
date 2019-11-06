@@ -5,6 +5,7 @@ using System;
 using Interactors.Boundaries;
 using System.Linq;
 using System.Collections.Generic;
+using Interactors.ResponceDtos;
 
 namespace Interactors
 {
@@ -20,6 +21,7 @@ namespace Interactors
 		{
 			public GameStatus Outcome { get; set; }
 			public BlackJackGame Game { get; set; }
+			public BlackJackGameDto game { get; set; }
 		}
 
 		private readonly IGameRepository GameRepository;

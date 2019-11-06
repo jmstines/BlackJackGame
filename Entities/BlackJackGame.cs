@@ -4,7 +4,6 @@ using System.Linq;
 
 namespace Entities
 {
-	[Serializable]
 	public class BlackJackGame
 	{
 		private readonly List<BlackJackPlayer> players = new List<BlackJackPlayer>();

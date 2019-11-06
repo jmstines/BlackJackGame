@@ -62,10 +62,10 @@ namespace BlackJackConsoleApp
 				{		
 					Console.Clear();
 					Console.WriteLine(" Dealer's Visible Cards.");
-					Console.Write(VisibleCards(dealer.Hand, false));
+					Console.Write($" \t{VisibleCards(dealer.Hand, false)}");
 					Console.WriteLine("---------------------------------------------");
 					Console.WriteLine($" Player: {currentPlayer.Name}");
-					Console.Write(VisibleCards(currentPlayer.Hand, true));
+					Console.Write($" {currentPlayer.Hand.PointValue}\t{VisibleCards(currentPlayer.Hand, true)}");
 					Console.WriteLine(ActionMenuBuilder(currentPlayer.Hand.Actions.ToList()));
 					
 					key = Console.ReadKey(true).Key;
@@ -146,7 +146,7 @@ namespace BlackJackConsoleApp
 
 		private static string VisibleCards(Hand hand, bool showAll)
 		{
-			string output = $" {hand.PointValue}\t";
+			string output = string.Empty;
 			foreach(var card in hand.Cards)
 			{
 				if (showAll || !card.FaceDown)

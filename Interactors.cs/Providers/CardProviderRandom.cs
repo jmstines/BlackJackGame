@@ -14,7 +14,7 @@ namespace Interactors.Providers
 		public CardProviderRandom(Deck deck) =>
 			Deck = deck ?? throw new ArgumentNullException(nameof(deck));
 
-		public IEnumerable<Card> RandomCards(int count)
+		private IEnumerable<Card> RandomCards(int count)
 		{
 			var source = new List<Card>(Deck);
 			var Random = new Random((int)DateTime.UtcNow.Ticks);

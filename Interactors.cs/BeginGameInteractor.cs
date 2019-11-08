@@ -4,8 +4,8 @@ using Interactors.Repositories;
 using System;
 using Interactors.Boundaries;
 using System.Linq;
-using System.Collections.Generic;
 using Interactors.ResponceDtos;
+using Interactors.ResponseDtoMapper;
 
 namespace Interactors
 {
@@ -13,30 +13,30 @@ namespace Interactors
 	{
 		public class RequestModel
 		{
-			public string Identifier { get; set; }
-			public BlackJackPlayer Dealer { get; set; }
+			public string GameIdentifier { get; set; }
+			public string PlayerIdentifier { get; set; }
 		}
 
 		public class ResponseModel
 		{
-			public GameStatus Outcome { get; set; }
-			public BlackJackGame Game { get; set; }
-			public BlackJackGameDto game { get; set; }
+			public BlackJackGameDto Game { get; set; }
 		}
 
 		private readonly IGameRepository GameRepository;
 		private readonly ICardProviderRandom CardProvider;
+		private readonly IDealerProvicer DealerProvider;
 
-        public BeginGameInteractor(IGameRepository gameRepository, ICardProviderRandom cardProvider)
+        public BeginGameInteractor(IGameRepository gameRepository, IDealerProvicer dealerProvider, ICardProviderRandom cardProvider)
         {
             GameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
+			DealerProvider = dealerProvider ?? throw new ArgumentNullException(nameof(dealerProvider));
 			CardProvider = cardProvider ?? throw new ArgumentNullException(nameof(cardProvider));
         }
 
         public void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
 		{
-			var game = GameRepository.ReadAsync(requestModel.Identifier);
-			game.AddDealer(requestModel.Dealer);
+			var game = GameRepository.ReadAsync(requestModel.GameIdentifier);
+			game.AddDealer(DealerProvider.Dealer);
 			game.Status = GameStatus.InProgress;
 			int twoCardsPerPlayer = game.Players.Count() * 2;
 			var cards = CardProvider.Cards(twoCardsPerPlayer);
@@ -48,8 +48,14 @@ namespace Interactors
 
 			new BlackJackOutcomes(game).UpdateStatus();
 
-			GameRepository.UpdateAsync(requestModel.Identifier, game);
-			outputBoundary.HandleResponse(new ResponseModel() { Outcome = game.Status, Game = game });
+			GameRepository.UpdateAsync(requestModel.GameIdentifier, game);
+			var gameDto = new BlackJackGameDtoMapper(game);
+			bool showAll = false;
+			if (game.CurrentPlayer.Equals(game.Dealer))
+			{
+				showAll = true;
+			}
+			outputBoundary.HandleResponse(new ResponseModel() { Game = gameDto.Map(showAll) });
 		}
     }
 }

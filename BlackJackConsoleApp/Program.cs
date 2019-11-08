@@ -8,6 +8,7 @@ using System.Text;
 using System.Collections.Generic;
 using Entities;
 using Interactors;
+using Interactors.ResponceDtos;
 
 namespace BlackJackConsoleApp
 {
@@ -46,14 +47,14 @@ namespace BlackJackConsoleApp
 			// assumes that the gameId came back with good response and not multiple different id's
 			var beginGameResponse = GetResponse<BeginGameInteractor.RequestModel, BeginGameInteractor.ResponseModel>(new BeginGameInteractor.RequestModel()
 			{
-				Identifier = gameIdentifier,
+				GameIdentifier = gameIdentifier,
 				Dealer = new BlackJackPlayer("The_House_Always_Wins", new Player("Data"))
 			});
 
-			var gameStatus = beginGameResponse.Outcome;
+			var gameStatus = beginGameResponse.Game.Status;
 			var game = beginGameResponse.Game;
 			var currentPlayer = game.CurrentPlayer;
-			var dealer = game.Players.Last();
+			var dealer = game.Dealer;
 			while(gameStatus != GameStatus.Complete)
 			{
 				ConsoleKey key;
@@ -76,7 +77,7 @@ namespace BlackJackConsoleApp
 					case ConsoleKey.D:
 						var holdGameResponse = GetResponse<HoldGameInteractor.RequestModel, HoldGameInteractor.ResponseModel>(new HoldGameInteractor.RequestModel()
 						{
-							Identifier = gameIdentifier
+							GameIdentifier = gameIdentifier
 						});
 						game = holdGameResponse.Game;
 						currentPlayer = game.CurrentPlayer;
@@ -85,7 +86,7 @@ namespace BlackJackConsoleApp
 					case ConsoleKey.W:
 						var hitGameResponse = GetResponse<HitGameInteractor.RequestModel, HitGameInteractor.ResponseModel>(new HitGameInteractor.RequestModel()
 						{
-							Identifier = gameIdentifier
+							GameIdentifier = gameIdentifier
 						});
 						game = hitGameResponse.Game;
 						currentPlayer = game.CurrentPlayer;
@@ -100,7 +101,7 @@ namespace BlackJackConsoleApp
 						Console.ReadKey();
 						holdGameResponse = GetResponse<HoldGameInteractor.RequestModel, HoldGameInteractor.ResponseModel>(new HoldGameInteractor.RequestModel()
 						{
-							Identifier = gameIdentifier
+							GameIdentifier = gameIdentifier
 						});
 						game = holdGameResponse.Game;
 						currentPlayer = game.CurrentPlayer;
@@ -144,7 +145,7 @@ namespace BlackJackConsoleApp
 			return actionKeys;
 		}
 
-		private static string VisibleCards(Hand hand, bool showAll)
+		private static string VisibleCards(HandDto hand, bool showAll)
 		{
 			string output = string.Empty;
 			foreach(var card in hand.Cards)

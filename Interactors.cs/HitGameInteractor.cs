@@ -4,6 +4,8 @@ using System;
 using Interactors.Boundaries;
 using System.Linq;
 using Interactors.Providers;
+using Interactors.ResponceDtos;
+using Interactors.ResponseDtoMapper;
 
 namespace Interactors
 {
@@ -11,12 +13,13 @@ namespace Interactors
 	{
 		public class RequestModel
 		{
-			public string Identifier { get; set; }
+			public string GameIdentifier { get; set; }
+			public string PlayerIdentifier { get; set; }
 		}
 
 		public class ResponseModel
 		{
-			public BlackJackGame Game { get; set; }
+			public BlackJackGameDto Game { get; set; }
 		}
 
 		private readonly IGameRepository GameRepository;
@@ -30,7 +33,7 @@ namespace Interactors
 
 		public void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
 		{
-			var game = GameRepository.ReadAsync(requestModel.Identifier);
+			var game = GameRepository.ReadAsync(requestModel.GameIdentifier);
 			var card = CardProvider.Cards(1).First();
 			game.PlayerHits(card);
 
@@ -39,8 +42,14 @@ namespace Interactors
 				new BlackJackOutcomes(game).UpdateStatus();
 			}
 			
-			GameRepository.UpdateAsync(requestModel.Identifier, game);
-			outputBoundary.HandleResponse(new ResponseModel() { Game = game });
+			GameRepository.UpdateAsync(requestModel.GameIdentifier, game);
+			var gameDto = new BlackJackGameDtoMapper(game);
+			bool showAll = false;
+			if (game.CurrentPlayer.Equals(game.Dealer))
+			{
+				showAll = true;
+			}
+			outputBoundary.HandleResponse(new ResponseModel() { Game = gameDto.Map(showAll) });
 		}
 	}
 }

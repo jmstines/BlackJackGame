@@ -31,14 +31,16 @@ namespace Interactors
 		public void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
 		{
 			var game = GameRepository.ReadAsync(requestModel.GameIdentifier);
-
-			game.PlayerHolds();
-			if (game.CurrentPlayer.Equals(game.Dealer))
+			if (game.CurrentPlayer.PlayerIdentifier.Equals(requestModel.PlayerIdentifier))
 			{
-				new BlackJackOutcomes(game).UpdateStatus();
-			}
+				game.PlayerHolds();
+				if (game.CurrentPlayer.Equals(game.Dealer))
+				{
+					new BlackJackOutcomes(game).UpdateStatus();
+				}
 
-			GameRepository.UpdateAsync(requestModel.GameIdentifier, game);
+				GameRepository.UpdateAsync(requestModel.GameIdentifier, game);
+			}
 			var gameDto = new BlackJackGameDtoMapper(game);
 			bool showAll = false;
 			if(game.CurrentPlayer.Equals(game.Dealer))

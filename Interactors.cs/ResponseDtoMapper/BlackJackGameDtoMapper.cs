@@ -8,7 +8,7 @@ namespace Interactors.ResponseDtoMapper
 {
 	class BlackJackGameDtoMapper
 	{
-		private BlackJackGame Game;
+		private readonly BlackJackGame Game;
 		public BlackJackGameDtoMapper(BlackJackGame game)
 		{
 			Game = game ?? throw new ArgumentNullException(nameof(game));

@@ -36,18 +36,21 @@ namespace Interactors
         public void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
 		{
 			var game = GameRepository.ReadAsync(requestModel.GameIdentifier);
-			game.AddDealer(DealerProvider.Dealer);
-			game.Status = GameStatus.InProgress;
-			int twoCardsPerPlayer = game.Players.Count() * 2;
-			var cards = CardProvider.Cards(twoCardsPerPlayer);
-			foreach (var card in cards)
+			game.SetPlayerStatusReady(requestModel.PlayerIdentifier);
+			if (game.Status.Equals(GameStatus.InProgress))
 			{
-				game.PlayerHits(card);
-				game.PlayerHolds();
+				game.AddDealer(DealerProvider.Dealer);
+
+				game.Status = GameStatus.InProgress;
+				int twoCardsPerPlayer = game.Players.Count() * 2;
+				var cards = CardProvider.Cards(twoCardsPerPlayer);
+				foreach (var card in cards)
+				{
+					game.PlayerHits(card);
+					game.PlayerHolds();
+				}
+				new BlackJackOutcomes(game).UpdateStatus();
 			}
-
-			new BlackJackOutcomes(game).UpdateStatus();
-
 			GameRepository.UpdateAsync(requestModel.GameIdentifier, game);
 			var gameDto = new BlackJackGameDtoMapper(game);
 			bool showAll = false;
@@ -55,6 +58,7 @@ namespace Interactors
 			{
 				showAll = true;
 			}
+
 			outputBoundary.HandleResponse(new ResponseModel() { Game = gameDto.Map(showAll) });
 		}
     }

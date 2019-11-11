@@ -11,7 +11,8 @@ namespace Interactors
     {
 		public class RequestModel
 		{
-			public string PlayerId;
+			public string PlayerId { get; set; }
+			public int MaxPlayers { get; set; }
 		}
 		
 		public class ResponseModel
@@ -41,9 +42,9 @@ namespace Interactors
 			var playerIdentifier = PlayerIdentifierProvider.Generate();
 			var currentPlayer = new BlackJackPlayer(playerIdentifier, player);
 
-			KeyValuePair<string, BlackJackGame> valuePair = GameRepository.FindByStatusFirstOrDefault(GameStatus.Waiting);
+			KeyValuePair<string, BlackJackGame> valuePair = GameRepository.FindByStatusFirstOrDefault(GameStatus.Waiting, requestModel.MaxPlayers);
 			var gameIdentifier = valuePair.Key ?? GameIdentifierProvider.Generate();
-			var game = valuePair.Value ?? new BlackJackGame();
+			var game = valuePair.Value ?? new BlackJackGame(requestModel.MaxPlayers);
 			game.AddPlayer(currentPlayer);
 			if (valuePair.Key == null)
 			{

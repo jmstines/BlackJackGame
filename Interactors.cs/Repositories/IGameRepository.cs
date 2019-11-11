@@ -9,6 +9,6 @@ namespace Interactors.Repositories
         void CreateAsync(string identifier, BlackJackGame game);
         BlackJackGame ReadAsync(string identifier);
         void UpdateAsync(string identifier, BlackJackGame game);
-		KeyValuePair<string, BlackJackGame> FindByStatusFirstOrDefault(GameStatus status);
+		KeyValuePair<string, BlackJackGame> FindByStatusFirstOrDefault(GameStatus status, int maxPlayers);
     }
 }

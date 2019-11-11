@@ -13,7 +13,7 @@ namespace Entities.Tests
 			IEnumerable<Card> deck = new Deck();
 			IEnumerable<Card> deckSuffled = deck.Shuffle();
 
-			Assert.AreNotEqual(deck, deckSuffled);
+			Assert.AreNotEqual(deck.ToList(), deckSuffled.ToList());
 			Assert.AreNotEqual(deck.First(), deckSuffled.First());
 			Assert.AreEqual(deck.Count(), deckSuffled.Count());
 		}

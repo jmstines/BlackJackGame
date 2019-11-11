@@ -26,5 +26,15 @@ namespace Entities
         {
             return HashCode.Combine(Suit, Rank);
         }
-    }
+
+		public static bool operator ==(BlackJackCard left, BlackJackCard right)
+		{
+			return left.Equals(right);
+		}
+
+		public static bool operator !=(BlackJackCard left, BlackJackCard right)
+		{
+			return !(left == right);
+		}
+	}
 }

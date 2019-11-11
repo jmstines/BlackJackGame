@@ -10,7 +10,6 @@ namespace Entities.Tests
 	{
 		private const string playerName = "Sam";
 		private const string playerName2 = "Tom";
-		private readonly IEnumerable<Card> deck = new CardDeckProviderMock().Deck;
 
 		[Test]
 		public void NewGame_NullPlayer_ArgumentNullException()
@@ -19,46 +18,49 @@ namespace Entities.Tests
 				playerName,
 				playerName2
 			};
-			Assert.Throws<ArgumentNullException>(() => new BlackJackGame().AddPlayer(null));
+			Assert.Throws<ArgumentNullException>(() => new BlackJackGame(4).AddPlayer(null));
 		}
 
+		[Test]
 		public void NewGame_NullDeck_PlayerArgumentNullException()
 		{
-			var game = new BlackJackGame();
+			var game = new BlackJackGame(4);
 			var player = new Player(playerName);
 			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player));
 			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e3", player));
+			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player));
+			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e3", player));
 
-			Assert.Throws<ArgumentOutOfRangeException>(() => game.AddPlayer(new BlackJackPlayer("8625cf04-b7e4", player)));
+			Assert.Throws<InvalidOperationException>(() => game.AddPlayer(new BlackJackPlayer("8625cf04-b7e4", player)));
 		}
 
-		// This test will be needed once I increase the player count.
-		//     [Test]
-		//     public void NewGame_SinglePlayer_PlayerCountOne()
-		//     {
-		//         var game = new BlackJackGame();
-		//var player = new Player(playerName);
-		//game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player));
-		//Assert.AreEqual(1, game.Players.Count());
-		//Assert.AreEqual(GameStatus.Waiting, game.Status);
-		//     }
+		[Test]
+		 public void NewGame_SinglePlayer_PlayerCountOne()
+		{
+			var game = new BlackJackGame(4);
+			var player = new Player(playerName);
+			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player));
+			Assert.AreEqual(1, game.Players.Count());
+			Assert.AreEqual(GameStatus.Waiting, game.Status);
+		}
 
+		[Test]
 		public void NewGame_FullGame_AutoStarts()
 		{
-			var game = new BlackJackGame();
+			var game = new BlackJackGame(4);
 			var player = new Player(playerName);
 			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player));
 			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e3", player));
 			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e4", player));
 			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e5", player));
-			Assert.AreEqual(5, game.Players.Count());
+			Assert.AreEqual(4, game.Players.Count());
 			Assert.AreEqual(GameStatus.InProgress, game.Status);
 		}
 
 		[Test]
 		public void NewGame_SinglePlayerAndDealer_CurrentPlayerIndexZero()
 		{
-			var game = new BlackJackGame();
+			var game = new BlackJackGame(4);
 			var player = new Player(playerName);
 			var player2 = new Player(playerName2);
 			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player));

@@ -12,19 +12,20 @@ namespace Entities
 		public BlackJackPlayer CurrentPlayer { get; private set; }
 		public BlackJackPlayer Dealer { get; private set; }
 		public GameStatus Status { get; set; } = GameStatus.Waiting;
+		public int MaxPlayerCount { get; private set; }
 
-		public BlackJackGame() { }
+		public BlackJackGame(int maxPlayers) => MaxPlayerCount = maxPlayers;
 
 		public void AddPlayer(BlackJackPlayer player)
 		{
 			_ = player ?? throw new ArgumentNullException(nameof(player));
-			if (players.Count >= BlackJackConstants.MaxPlayerCount)
+			if (players.Count >= MaxPlayerCount)
 			{
-				throw new InvalidOperationException($"{player.Name} can not join game, The game Status is {Status}.");
+				throw new InvalidOperationException($"{player.Name} can NOT join game, The game Status is {Status}.");
 			}
 			if (Dealer != null)
 			{
-				throw new InvalidOperationException($"{player.Name} can not join game, The Dealer Has Already Joined.");
+				throw new InvalidOperationException($"{player.Name} can NOT join game, The Dealer Has Already Joined.");
 			}
 
 			if (!Players.Any())
@@ -40,10 +41,20 @@ namespace Entities
 		{
 			Dealer = dealer ?? throw new ArgumentNullException(nameof(dealer));
 			players.Add(dealer);
+			Dealer.Status = PlayerStatusTypes.Ready;
+		}
+
+		public void SetPlayerStatusReady(string id)
+		{
+			players.Where(p => p.PlayerIdentifier.Equals(id)).Single().Status = PlayerStatusTypes.Ready;
+			if(players.All(p => p != Dealer && p.Status.Equals(PlayerStatusTypes.Ready)))
+			{
+				Status = GameStatus.InProgress;
+			}
 		}
 
 		private void SetInProgressOnMaxPlayers() =>
-			Status = players.Count >= BlackJackConstants.MaxPlayerCount ?
+			Status = players.Count >= MaxPlayerCount ?
 			GameStatus.InProgress :
 			GameStatus.Waiting;
 

@@ -21,11 +21,11 @@ namespace BlackJackConsoleApp
 			FillContainer();
 			Console.WriteLine("Welcome to Casino Black Jack 101!");
 			string gameIdentifier = string.Empty;
-			string playerIdentifier;
+			string playerIdentifier = string.Empty; ;
+			int maxPlayers = 1;
 			List<string> avitarIdentifiers = new List<string>();
-			// these loops are set up for one player 
-			// this will not nessasarly work for more than 4 players.
-			for (int i = 0; i < BlackJackConstants.MaxPlayerCount; i++)
+
+			for (int i = 0; i < maxPlayers; i++)
 			{
 				Console.WriteLine("Please enter your name.");
 				var playerName = Console.ReadLine();
@@ -36,26 +36,27 @@ namespace BlackJackConsoleApp
 				avitarIdentifiers.Add(creatAvitarResponse.Identifier);
 			}
 
-			foreach(string id in avitarIdentifiers) { 
+			foreach(string id in avitarIdentifiers) {
 				var joinGameResponse = GetResponse<JoinGameInteractor.RequestModel, JoinGameInteractor.ResponseModel>(new JoinGameInteractor.RequestModel()
 				{
-					PlayerId = id
+					PlayerId = id,
+					MaxPlayers = maxPlayers
 				});
 				gameIdentifier = joinGameResponse.GameIdentifier;
 				playerIdentifier = joinGameResponse.PlayerIdentifier;
 			}
-			// assumes that the gameId came back with good response and not multiple different id's
+
 			var beginGameResponse = GetResponse<BeginGameInteractor.RequestModel, BeginGameInteractor.ResponseModel>(new BeginGameInteractor.RequestModel()
 			{
 				GameIdentifier = gameIdentifier,
-				Dealer = new BlackJackPlayer("The_House_Always_Wins", new Player("Data"))
+				PlayerIdentifier = playerIdentifier
 			});
 
 			var gameStatus = beginGameResponse.Game.Status;
 			var game = beginGameResponse.Game;
 			var currentPlayer = game.CurrentPlayer;
 			var dealer = game.Dealer;
-			while(gameStatus != GameStatus.Complete)
+			while(gameStatus == GameStatus.InProgress)
 			{
 				ConsoleKey key;
 				var validKeys = ActionKeys(currentPlayer.Hand.Actions.ToList());
@@ -77,7 +78,8 @@ namespace BlackJackConsoleApp
 					case ConsoleKey.D:
 						var holdGameResponse = GetResponse<HoldGameInteractor.RequestModel, HoldGameInteractor.ResponseModel>(new HoldGameInteractor.RequestModel()
 						{
-							GameIdentifier = gameIdentifier
+							GameIdentifier = gameIdentifier,
+							PlayerIdentifier = playerIdentifier
 						});
 						game = holdGameResponse.Game;
 						currentPlayer = game.CurrentPlayer;
@@ -86,7 +88,8 @@ namespace BlackJackConsoleApp
 					case ConsoleKey.W:
 						var hitGameResponse = GetResponse<HitGameInteractor.RequestModel, HitGameInteractor.ResponseModel>(new HitGameInteractor.RequestModel()
 						{
-							GameIdentifier = gameIdentifier
+							GameIdentifier = gameIdentifier,
+							PlayerIdentifier = playerIdentifier
 						});
 						game = hitGameResponse.Game;
 						currentPlayer = game.CurrentPlayer;
@@ -101,7 +104,8 @@ namespace BlackJackConsoleApp
 						Console.ReadKey();
 						holdGameResponse = GetResponse<HoldGameInteractor.RequestModel, HoldGameInteractor.ResponseModel>(new HoldGameInteractor.RequestModel()
 						{
-							GameIdentifier = gameIdentifier
+							GameIdentifier = gameIdentifier,
+							PlayerIdentifier = playerIdentifier
 						});
 						game = holdGameResponse.Game;
 						currentPlayer = game.CurrentPlayer;
@@ -198,6 +202,7 @@ namespace BlackJackConsoleApp
 			container.RegisterSingleton<IPlayerRepository, InMemoryPlayerRepository>();
 			container.RegisterSingleton<IGameRepository, InMemoryGameRepository>();
 			container.RegisterSingleton<IGameIdentifierProvider, GuidBasedGameIdentifierProvider>();
+			container.RegisterSingleton<IDealerProvicer, DealerProvider>();
 			container.RegisterSingleton<ICardProviderRandom, CardProviderRandom>();
 			container.RegisterSingleton<Deck, Deck>();
 			container.RegisterSingleton<IPlayerIdentifierProvider, GuidBasedPlayerIdentifierProvider>();

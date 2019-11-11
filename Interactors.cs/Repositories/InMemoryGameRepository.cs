@@ -20,11 +20,11 @@ namespace Interactors.Repositories
 			Games.Add(identifier, game);
 		}
 
-		public KeyValuePair<string, BlackJackGame> FindByStatusFirstOrDefault(GameStatus status)
+		public KeyValuePair<string, BlackJackGame> FindByStatusFirstOrDefault(GameStatus status, int maxPlayers)
 		{
 			return Games.FirstOrDefault(g => 
-				g.Value.Status == status && 
-				g.Value.Players.Count() < BlackJackConstants.MaxPlayerCount);
+				g.Value.Status == status &&
+				g.Value.Players.Count() < maxPlayers);
 		}
 	}
 }

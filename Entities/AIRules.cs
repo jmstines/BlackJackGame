@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Entities
 {
-    public struct AIRules
+	public struct AIRules
     {
         public bool IsAI { get; private set; }
         public int HoldValue { get; private set; }
@@ -25,5 +22,15 @@ namespace Entities
         {
             return HashCode.Combine(IsAI, HoldValue);
         }
-    }
+
+		public static bool operator ==(AIRules left, AIRules right)
+		{
+			return left.Equals(right);
+		}
+
+		public static bool operator !=(AIRules left, AIRules right)
+		{
+			return !(left == right);
+		}
+	}
 }

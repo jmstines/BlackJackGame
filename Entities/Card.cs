@@ -1,8 +1,9 @@
 ﻿using System;
+using Entities.Interfaces;
 
 namespace Entities
 {
-    public struct Card
+    public struct Card : ICard
     {
 		public CardSuit Suit { get; private set; }
         public CardRank Rank { get; private set; }
@@ -18,5 +19,15 @@ namespace Entities
                    Rank == card.Rank;
 
         public override int GetHashCode() => HashCode.Combine(Suit, Rank);
-    }
+
+		public static bool operator ==(Card left, Card right)
+		{
+			return left.Equals(right);
+		}
+
+		public static bool operator !=(Card left, Card right)
+		{
+			return !(left == right);
+		}
+	}
 }

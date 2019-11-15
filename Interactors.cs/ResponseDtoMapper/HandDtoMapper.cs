@@ -28,7 +28,7 @@ namespace Interactors.ResponseDtoMapper
 			{
 				dto.Actions = Hand.Actions;
 				dto.Cards = Hand.Cards.Where(c => c.FaceDown.Equals(false));
-				dto.PointValue = new HandValue(dto.Cards).Value;
+				dto.PointValue = HandValue.GetValue(dto.Cards);
 				dto.Status = Hand.Status;
 			}
 			return dto;

@@ -1,46 +1,35 @@
-﻿using System;
+﻿using Entities.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Entities
 {
-	public class HandActions
+	public static class HandActions
 	{
-		private readonly List<BlackJackCard> Cards;
-		private readonly HandStatusTypes Status;
-		private List<HandActionTypes> actions;
-
-		public IEnumerable<HandActionTypes> Actions => actions;
-		public HandActions(HandStatusTypes status, IEnumerable<BlackJackCard> cards)
+		public static IEnumerable<HandActionTypes> GetActions(IEnumerable<ICard> cards)
 		{
-			Cards = cards?.ToList() ?? throw new ArgumentNullException(nameof(cards));
-			Status = status.Equals(0) ? throw new ArgumentOutOfRangeException(nameof(status)) : status;
-			GetActions();
-		}
-
-		private void GetActions()
-		{
-			actions = new List<HandActionTypes>();
-			if(Status.Equals(HandStatusTypes.Bust))
+			_ = cards?.ToList() ?? throw new ArgumentNullException(nameof(cards));
+			var actions = new List<HandActionTypes>();
+			if( HandValue.GetValue(cards) >= BlackJackConstants.BlackJack )
 			{
 				actions.Add(HandActionTypes.Pass);
 			}
-			else if(Cards.Count == 2 && AllowSplit())
+			else 
 			{
-				actions.Add(HandActionTypes.Draw);
-				actions.Add(HandActionTypes.Hold);
-				actions.Add(HandActionTypes.Split);
-			}
-			else
-			{
+				if (AllowSplit(cards))
+				{
+					actions.Add(HandActionTypes.Split);
+				}
 				actions.Add(HandActionTypes.Draw);
 				actions.Add(HandActionTypes.Hold);
 			}
+			return actions;
 		}
 
-		private bool AllowSplit()
+		private static bool AllowSplit(IEnumerable<ICard> cards)
 		{
-			return Cards.Count == 2 && Cards.All(c => new CardValue(c.Rank).Value == 10);
+			return cards.Count() == 2 && cards.All(c => BlackJackCardValue.GetValue(c.Rank) == 10);
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -62,7 +63,7 @@ namespace Entities
 			Players.First() :
 			Players.ElementAt(players.IndexOf(CurrentPlayer) + 1);
 
-		public void PlayerHits(Card card)
+		public void PlayerHits(ICard card)
 		{
 			if (card.Rank == 0 || card.Suit == 0) throw new ArgumentOutOfRangeException(nameof(card));
 			CurrentPlayer.Hand.AddCard(new BlackJackCard(card, IsCardFaceDown()));

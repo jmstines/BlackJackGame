@@ -1,14 +1,15 @@
 ﻿using System;
+using Entities.Interfaces;
 
 namespace Entities
 {
-	public struct BlackJackCard
+	public struct BlackJackCard : IBlackJackCard
 	{
 		public CardSuit Suit { get; private set; }
 		public CardRank Rank { get; private set; }
 		public bool FaceDown { get; private set; }
 
-		public BlackJackCard(Card card, bool faceDown)
+		public BlackJackCard(ICard card, bool faceDown)
         {
 			Suit = card.Suit != 0 ? card.Suit : throw new ArgumentOutOfRangeException(nameof(card.Suit));
             Rank = card.Rank != 0 ? card.Rank : throw new ArgumentOutOfRangeException(nameof(card.Rank));

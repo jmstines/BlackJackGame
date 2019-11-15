@@ -1,4 +1,4 @@
-﻿using Interactors.Providers;
+﻿using Entities.Interfaces;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +10,8 @@ namespace Entities.Tests
 		[Test]
 		public void CreateNewDeck_Suffle_CardsShuffled()
 		{
-			IEnumerable<Card> deck = new Deck();
-			IEnumerable<Card> deckSuffled = deck.Shuffle();
+			IEnumerable<ICard> deck = new Deck();
+			IEnumerable<ICard> deckSuffled = deck.Shuffle();
 
 			Assert.AreNotEqual(deck.ToList(), deckSuffled.ToList());
 			Assert.AreNotEqual(deck.First(), deckSuffled.First());

@@ -1,5 +1,4 @@
-﻿using Interactors.Providers;
-using System;
+﻿using System;
 using System.Linq;
 using SimpleInjector;
 using Interactors.Boundaries;
@@ -9,10 +8,11 @@ using System.Collections.Generic;
 using Entities;
 using Interactors;
 using Interactors.ResponceDtos;
+using Interactors.Providers;
 
 namespace BlackJackConsoleApp
 {
-	public class Program
+	static public class Program
 	{
 		private static readonly Container container = new Container();
 

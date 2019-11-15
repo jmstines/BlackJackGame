@@ -1,27 +1,23 @@
-﻿using System;
+﻿using Entities.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Entities
 {
-	public class HandValue
+	public static class HandValue
 	{
-		private readonly IEnumerable<BlackJackCard> Cards;
-		public int Value { get; private set; }
-		public HandValue(IEnumerable<BlackJackCard> cards)
+		public static int GetValue(IEnumerable<ICard> cards)
 		{
-			Cards = cards ?? throw new ArgumentNullException(nameof(cards));
-			GetValue();
-		}
+			_ = cards ?? throw new ArgumentNullException(nameof(cards));
 
-		public void GetValue()
-		{
-			Value = Cards.Sum(c => new CardValue(c.Rank).Value);
-			var aceCount = Cards.Count(c => c.Rank.Equals(CardRank.Ace));
+			int value = cards.Sum(c => BlackJackCardValue.GetValue(c.Rank));
+			var aceCount = cards.Count(c => c.Rank.Equals(CardRank.Ace));
 			for (int i = 0; i < aceCount; i++)
 			{
-				Value = Value > BlackJackConstants.BlackJack ? Value - 10 : Value;
+				value = value > BlackJackConstants.BlackJack ? value - 10 : value;
 			}
+			return value;
 		}
 	}
 }

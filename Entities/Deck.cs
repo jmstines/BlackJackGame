@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using Entities.Interfaces;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Entities
 {
-	public class Deck : IEnumerable<Card>
+	public class Deck : IEnumerable<ICard>
 	{
 		private readonly IEnumerable<CardSuit> Suits =
 			new List<CardSuit> { CardSuit.Clubs, CardSuit.Diamonds, CardSuit.Hearts, CardSuit.Spades };
@@ -13,16 +14,19 @@ namespace Entities
 			CardRank.Eight, CardRank.Nine, CardRank.Ten, CardRank.Jack, CardRank.Queen, CardRank.King,
 			CardRank.Ace };
 
-		private readonly IEnumerable<Card> Cards;
+		private readonly IEnumerable<ICard> Cards;
 
-		public Deck() => Cards = BuildDefualtDeck();
+		public Deck()
+		{
+			Cards = BuildDefualtDeck();
+		}
 
-		public IEnumerator<Card> GetEnumerator()
+		public IEnumerator<ICard> GetEnumerator()
 		{
 			return Cards.GetEnumerator();
 		}
-		private IEnumerable<Card> BuildDefualtDeck() =>
-			Suits.SelectMany(suit => CardRanks.Select(rank => new Card(suit, rank)));
+		private IEnumerable<ICard> BuildDefualtDeck() =>
+			Suits.SelectMany(suit => CardRanks.Select(rank => new Card(suit, rank) as ICard));
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{

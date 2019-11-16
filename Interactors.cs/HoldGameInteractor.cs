@@ -2,7 +2,6 @@
 using Interactors.Repositories;
 using System;
 using Interactors.Boundaries;
-using System.Linq;
 using Interactors.ResponceDtos;
 using Interactors.ResponseDtoMapper;
 

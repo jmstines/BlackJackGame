@@ -6,6 +6,7 @@ using Interactors.Boundaries;
 using System.Linq;
 using Interactors.ResponceDtos;
 using Interactors.ResponseDtoMapper;
+using Entities.Enums;
 
 namespace Interactors
 {

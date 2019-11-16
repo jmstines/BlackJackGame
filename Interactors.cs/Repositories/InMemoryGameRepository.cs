@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Linq;
 using Entities;
+using Entities.Enums;
 
 namespace Interactors.Repositories
 {

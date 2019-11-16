@@ -4,6 +4,7 @@ using Interactors.Repositories;
 using System;
 using System.Collections.Generic;
 using Interactors.Boundaries;
+using Entities.Enums;
 
 namespace Interactors
 {

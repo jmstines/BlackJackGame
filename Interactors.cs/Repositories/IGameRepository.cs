@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Entities;
+using Entities.Enums;
 
 namespace Interactors.Repositories
 {

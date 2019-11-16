@@ -1,8 +1,7 @@
-﻿using Entities.Interfaces;
-using Interactors.Providers;
+﻿using Entities.Enums;
+using Entities.Interfaces;
 using NUnit.Framework;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Entities.Tests
 {

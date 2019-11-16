@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Entities;
+﻿using Entities.Enums;
 
 namespace Interactors.ResponceDtos
 {

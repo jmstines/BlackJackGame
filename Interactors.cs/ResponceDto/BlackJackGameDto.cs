@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Entities;
+using Entities.Enums;
 
 namespace Interactors.ResponceDtos
 {

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Entities;
+using Entities.Enums;
 using Entities.Interfaces;
 
 namespace Interactors.Providers

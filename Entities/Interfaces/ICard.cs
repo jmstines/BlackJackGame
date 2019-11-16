@@ -1,4 +1,6 @@
-﻿namespace Entities.Interfaces
+﻿using Entities.Enums;
+
+namespace Entities.Interfaces
 {
 	public interface ICard
 	{

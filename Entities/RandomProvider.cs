@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Entities.Interfaces;
+using System;
 
-namespace Interactors.Providers
+namespace Entities
 {
 	public class RandomProvider : IRandomProvider
 	{

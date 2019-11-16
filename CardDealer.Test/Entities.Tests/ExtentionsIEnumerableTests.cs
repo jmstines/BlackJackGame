@@ -11,7 +11,7 @@ namespace Entities.Tests
 		public void CreateNewDeck_Suffle_CardsShuffled()
 		{
 			IEnumerable<ICard> deck = new Deck();
-			IEnumerable<ICard> deckSuffled = deck.Shuffle();
+			IEnumerable<ICard> deckSuffled = deck.Shuffle(new RandomProvider());
 
 			Assert.AreNotEqual(deck.ToList(), deckSuffled.ToList());
 			Assert.AreNotEqual(deck.First(), deckSuffled.First());

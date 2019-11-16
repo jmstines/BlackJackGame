@@ -16,7 +16,7 @@ namespace Interactors.Providers
 			CardRank.Ace };
 
 		public IEnumerable<ICard> Deck { get; private set; }
-		public IEnumerable<ICard> ShuffledDeck { get => Deck.Shuffle(); }
+		public IEnumerable<ICard> ShuffledDeck { get => Deck.Shuffle(new RandomProvider()); }
 
 		public CardDeckProvider() => Deck = BuildDefualtDeck();
 

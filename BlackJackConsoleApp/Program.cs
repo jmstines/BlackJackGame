@@ -3,12 +3,12 @@ using System.Linq;
 using SimpleInjector;
 using Interactors.Boundaries;
 using Interactors.Repositories;
-using System.Text;
 using System.Collections.Generic;
 using Entities;
 using Interactors;
 using Interactors.ResponceDtos;
 using Interactors.Providers;
+using Entities.Interfaces;
 
 namespace BlackJackConsoleApp
 {

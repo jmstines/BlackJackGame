@@ -22,7 +22,7 @@ namespace Entities
 
 		public void AddCard(ICard card)
 		{
-			cards.Add(new BlackJackCard(card, IsCardFaceDown()));
+			cards.Add(new BlackJackCard(card, !Cards.Any()));
 			PointValue = HandValue.GetValue(cards);
 			SetStatus(HandStatusTypes.InProgress);
 		}
@@ -31,7 +31,5 @@ namespace Entities
 		{
 			Status = PointValue > BlackJackConstants.BlackJack ? HandStatusTypes.Bust : status;
 		}
-
-		private bool IsCardFaceDown() => !Cards.Any();
 	}
 }

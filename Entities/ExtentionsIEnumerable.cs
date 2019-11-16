@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,14 +7,15 @@ namespace Entities
 {
 	public static class ExtentionsIEnumerable
 	{
-		public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> list)
+		public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> list, IRandomProvider randomProvider)
 		{
-			var source = new List<T>(list);
-			var Random = new Random((int)DateTime.UtcNow.Ticks);
+			var source = list?.ToList() ?? throw new ArgumentNullException(nameof(list));
+			_ = randomProvider ?? throw new ArgumentNullException(nameof(randomProvider));
+			
 			var shuffled = new List<T>();
 			while (source.Any())
 			{
-				var nextIndex = Random.Next(minValue: 0, maxValue: source.Count);
+				var nextIndex = randomProvider.GetRandom(min: 0, max: source.Count);
 				var currentItem = source.ElementAt(nextIndex);
 				source.Remove(currentItem);
 				shuffled.Add(currentItem);

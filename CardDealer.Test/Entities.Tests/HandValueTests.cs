@@ -11,10 +11,9 @@ namespace Entities.Tests
 		[Test]
 		public void AceAndTen_GetValue_ValueEqualsBlackJack()
 		{
-			var deck = new CardDeckProvider().Deck;
 			var cards = new List<IBlackJackCard>();
-			var aceSpades = deck.Where(c => c.Rank.Equals(CardRank.Ace) && c.Suit.Equals(CardSuit.Spades)).Single();
-			var tenSpades = deck.Where(c => c.Rank.Equals(CardRank.Ten) && c.Suit.Equals(CardSuit.Spades)).Single();
+			var aceSpades = new Card(CardSuit.Spades, CardRank.Ace);
+			var tenSpades = new Card(CardSuit.Spades, CardRank.Ten);
 			cards.Add(new BlackJackCard(aceSpades, false));
 			cards.Add(new BlackJackCard(tenSpades, false));
 
@@ -24,10 +23,9 @@ namespace Entities.Tests
 		[Test]
 		public void AceTenTen_GetValue_ValueEqualsBlackJack()
 		{
-			var deck = new CardDeckProvider().Deck;
 			var cards = new List<IBlackJackCard>();
-			var aceSpades = deck.Where(c => c.Rank.Equals(CardRank.Ace) && c.Suit.Equals(CardSuit.Spades)).Single();
-			var tenSpades = deck.Where(c => c.Rank.Equals(CardRank.Ten) && c.Suit.Equals(CardSuit.Spades)).Single();
+			var aceSpades = new Card(CardSuit.Spades, CardRank.Ace);
+			var tenSpades = new Card(CardSuit.Spades, CardRank.Ten);
 			cards.Add(new BlackJackCard(aceSpades, false));
 			cards.Add(new BlackJackCard(tenSpades, false));
 			cards.Add(new BlackJackCard(tenSpades, false));
@@ -38,10 +36,9 @@ namespace Entities.Tests
 		[Test]
 		public void AceAceTen_GetValue_ValueEqualsTwelve()
 		{
-			var deck = new CardDeckProvider().Deck;
 			var cards = new List<IBlackJackCard>();
-			var aceSpades = deck.Where(c => c.Rank.Equals(CardRank.Ace) && c.Suit.Equals(CardSuit.Spades)).Single();
-			var tenSpades = deck.Where(c => c.Rank.Equals(CardRank.Ten) && c.Suit.Equals(CardSuit.Spades)).Single();
+			var aceSpades = new Card(CardSuit.Spades, CardRank.Ace);
+			var tenSpades = new Card(CardSuit.Spades, CardRank.Ten);
 			cards.Add(new BlackJackCard(aceSpades, false));
 			cards.Add(new BlackJackCard(aceSpades, false));
 			cards.Add(new BlackJackCard(tenSpades, false));

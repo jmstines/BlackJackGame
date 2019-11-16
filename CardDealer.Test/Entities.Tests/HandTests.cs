@@ -1,11 +1,14 @@
-﻿using NUnit.Framework;
+﻿using Entities.Interfaces;
+using NUnit.Framework;
 using System.Linq;
 
 namespace Entities.Tests
 {
 	class HandTests
 	{
-		private BlackJackCard AceSpadesUp = new BlackJackCard(new Card(CardSuit.Spades, CardRank.Ace), true);
+		private readonly ICard AceSpadesUp = new Card(CardSuit.Spades, CardRank.Ace);
+		private readonly ICard TenSpadesDown = new Card(CardSuit.Spades, CardRank.Ten);
+		private readonly ICard TenSpadesUp = new Card(CardSuit.Spades, CardRank.Ten);
 
 		[Test]
 		public void NewHand_DefaultValues_CorrectValues()
@@ -14,6 +17,7 @@ namespace Entities.Tests
 			
 			Assert.AreEqual(0, hand.PointValue);
 			Assert.AreEqual(false, hand.Cards.Any());
+			Assert.AreEqual(HandStatusTypes.InProgress, hand.Status);
 		}
 
 		[Test]
@@ -24,6 +28,20 @@ namespace Entities.Tests
 
 			Assert.AreEqual(11, hand.PointValue);
 			Assert.AreEqual(true, hand.Cards.First().FaceDown);
+			Assert.AreEqual(HandStatusTypes.InProgress, hand.Status);
+		}
+
+		[Test]
+		public void AfterDeal_AddAceSpadesUp_CorrectValues()
+		{
+			var hand = new Hand();
+			hand.AddCard(TenSpadesDown);
+			hand.AddCard(TenSpadesUp);
+			hand.AddCard(AceSpadesUp);
+
+			Assert.AreEqual(21, hand.PointValue);
+			Assert.AreEqual(true, hand.Cards.First().FaceDown);
+			Assert.AreEqual(HandStatusTypes.InProgress, hand.Status);
 		}
 	}
 }

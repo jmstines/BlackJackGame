@@ -92,7 +92,7 @@ namespace Entities.Tests
 			playerOne.AddCardToHand(blkJkThreeClubs);
 			playerOne.AddCardToHand(blkJkJackClubs);
 
-			Assert.AreEqual(true, playerOne.Hand.Cards.ElementAt(2).FaceDown);
+			Assert.AreEqual(true, playerOne.Hand.Cards.ElementAt(0).FaceDown);
 		}
 	}
 }

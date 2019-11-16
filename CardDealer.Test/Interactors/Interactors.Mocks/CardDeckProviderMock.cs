@@ -2,16 +2,17 @@
 using System.Linq;
 using Interactors.Providers;
 using Entities;
+using Entities.Interfaces;
 
 namespace Interactors.Mocks
 {
     class CardDeckProviderMock : ICardDeckProvider
     {
-        public IEnumerable<Card> Deck => new CardDeckProvider().Deck;
+        public IEnumerable<ICard> Deck => new CardDeckProvider().Deck;
 
-        public List<Card> Deck_DealerWins()
+        public List<ICard> Deck_DealerWins()
         {
-            return new List<Card> {
+            return new List<ICard> {
                 Deck.First(c => c.Rank.Equals("10")),
                 Deck.First(c => c.Rank.Equals("10")),
                 Deck.First(c => c.Rank.Equals("10")),
@@ -21,9 +22,9 @@ namespace Interactors.Mocks
             };
         }
 
-        public List<Card> GetDeck_DealerAndPlayerOneBlackJack()
+        public List<ICard> GetDeck_DealerAndPlayerOneBlackJack()
         {
-            return new List<Card> {
+            return new List<ICard> {
                 Deck.First(c => c.Rank.Equals("10")),
                 Deck.First(c => c.Rank.Equals("10")),
                 Deck.First(c => c.Rank.Equals("10")),
@@ -33,9 +34,9 @@ namespace Interactors.Mocks
             };
         }
 
-        public List<Card> Deck_AllPlayersBlackJack()
+        public List<ICard> Deck_AllPlayersBlackJack()
         {
-            return new List<Card> {
+            return new List<ICard> {
                 Deck.First(c => c.Rank.Equals("10")),
                 Deck.First(c => c.Rank.Equals("10")),
                 Deck.First(c => c.Rank.Equals("10")),
@@ -45,9 +46,9 @@ namespace Interactors.Mocks
             };
         }
 
-        public IEnumerable<Card> Deck_GameOne()
+        public IEnumerable<ICard> Deck_GameOne()
         {
-            return new List<Card> {
+            return new List<ICard> {
                 Deck.First(c => c.Rank.Equals("2")),
                 Deck.First(c => c.Rank.Equals("2")),
                 Deck.First(c => c.Rank.Equals("2")),
@@ -60,9 +61,9 @@ namespace Interactors.Mocks
             };
         }
 
-        public List<Card> Deck_GameTwo()
+        public List<ICard> Deck_GameTwo()
         {
-            return new List<Card> {
+            return new List<ICard> {
                 Deck.First(c => c.Rank.Equals("2")),
                 Deck.First(c => c.Rank.Equals("2")),
                 Deck.First(c => c.Rank.Equals("10")),

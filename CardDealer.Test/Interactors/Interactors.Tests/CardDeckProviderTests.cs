@@ -3,6 +3,7 @@ using Entities;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using Entities.Interfaces;
 
 namespace Interactors.Tests
 {
@@ -17,14 +18,14 @@ namespace Interactors.Tests
         [Test]
         public void CreateNewDeck_CardCount_52()
         {
-            List<Card> deck = new CardDeckProvider().Deck.ToList();
+            List<ICard> deck = new CardDeckProvider().Deck.ToList();
             Assert.AreEqual(52, deck.Count);
         }
 
         [Test]
         public void CreateNewDeck_2ofClubs_FirstCard()
         {
-            IEnumerable<Card> deck = new CardDeckProvider().Deck;
+            IEnumerable<ICard> deck = new CardDeckProvider().Deck;
             var card = deck.Single(c => c.Rank.Equals(CardRank.Two) && c.Suit.Equals(CardSuit.Clubs));
 
             Assert.AreEqual(deck.First(), card);

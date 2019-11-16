@@ -1,5 +1,6 @@
 ﻿using Entities.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Entities
 {
@@ -19,9 +20,9 @@ namespace Entities
 			Status = HandStatusTypes.InProgress;
 		}
 
-		public void AddCard(IBlackJackCard card)
+		public void AddCard(ICard card)
 		{
-			cards.Add(card);
+			cards.Add(new BlackJackCard(card, IsCardFaceDown()));
 			PointValue = HandValue.GetValue(cards);
 			SetStatus(HandStatusTypes.InProgress);
 		}
@@ -30,5 +31,7 @@ namespace Entities
 		{
 			Status = PointValue > BlackJackConstants.BlackJack ? HandStatusTypes.Bust : status;
 		}
+
+		private bool IsCardFaceDown() => !Cards.Any();
 	}
 }

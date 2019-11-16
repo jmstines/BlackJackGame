@@ -66,9 +66,7 @@ namespace Entities
 		public void PlayerHits(ICard card)
 		{
 			if (card.Rank == 0 || card.Suit == 0) throw new ArgumentOutOfRangeException(nameof(card));
-			CurrentPlayer.Hand.AddCard(new BlackJackCard(card, IsCardFaceDown()));
+			CurrentPlayer.Hand.AddCard(card);
 		}
-
-		private bool IsCardFaceDown() => !CurrentPlayer.Hand.Cards.Any();
 	}
 }

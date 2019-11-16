@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Entities;
+using Entities.Interfaces;
 
 namespace Interactors.Providers
 {
@@ -14,8 +15,8 @@ namespace Interactors.Providers
 			CardRank.Eight, CardRank.Nine, CardRank.Ten, CardRank.Jack, CardRank.Queen, CardRank.King,
 			CardRank.Ace };
 
-		public IEnumerable<Card> Deck { get; private set; }
-		public IEnumerable<Card> ShuffledDeck { get => Deck.Shuffle(); }
+		public IEnumerable<ICard> Deck { get; private set; }
+		public IEnumerable<ICard> ShuffledDeck { get => Deck.Shuffle(); }
 
 		public CardDeckProvider() => Deck = BuildDefualtDeck();
 
@@ -28,7 +29,7 @@ namespace Interactors.Providers
 		//public CardDeckProvider(IEnumerable<Card> deck) =>
 		//	Deck = new List<Card>(deck) ?? throw new ArgumentNullException(nameof(deck));
 
-		private IEnumerable<Card> BuildDefualtDeck() =>
-			 Suits.SelectMany(suit => CardRanks.Select(rank => new Card(suit, rank)));
+		private IEnumerable<ICard> BuildDefualtDeck() =>
+			 Suits.SelectMany(suit => CardRanks.Select(rank => new Card(suit, rank) as ICard));
 	}
 }

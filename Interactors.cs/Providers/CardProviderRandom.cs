@@ -9,20 +9,23 @@ namespace Interactors.Providers
 	public class CardProviderRandom : ICardProviderRandom
 	{
 		private readonly IEnumerable<ICard> Deck;
+		private readonly IRandomProvider RandomProvider;
 
 		public IEnumerable<ICard> Cards(int count) => RandomCards(count);
 
-		public CardProviderRandom(Deck deck) =>
+		public CardProviderRandom(IRandomProvider randomProvider, Deck deck)
+		{
 			Deck = deck ?? throw new ArgumentNullException(nameof(deck));
+			RandomProvider = randomProvider ?? throw new ArgumentNullException(nameof(randomProvider));
+		}
 
 		private IEnumerable<ICard> RandomCards(int count)
 		{
 			var source = new List<ICard>(Deck);
-			var Random = new Random((int)DateTime.UtcNow.Ticks);
 			var shuffled = new List<ICard>();
 			for (int i = 0; i < count; i++)
 			{
-				var nextIndex = Random.Next(minValue: 0, maxValue: source.Count);
+				var nextIndex = RandomProvider.GetRandom(min: 0, max: source.Count);
 				var currentItem = source.ElementAt(nextIndex);
 				source.Remove(currentItem);
 				shuffled.Add(currentItem);

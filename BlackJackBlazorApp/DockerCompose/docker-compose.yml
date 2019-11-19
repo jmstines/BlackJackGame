@@ -1,0 +1,11 @@
+﻿version: "3.0"
+services:
+  db:
+    image: blackjack-db-local:0.1.0
+    build: ./linux-server
+    env_file:
+      - .env
+    ports:
+      - "1433:1433"
+    container_name: blackjack-db-local
+    tty: true

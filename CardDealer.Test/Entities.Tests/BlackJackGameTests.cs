@@ -1,5 +1,4 @@
 ﻿using Entities.Enums;
-using Interactors.Mocks;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -36,7 +35,7 @@ namespace Entities.Tests
 		}
 
 		[Test]
-		 public void NewGame_SinglePlayer_PlayerCountOne()
+		public void NewGame_SinglePlayer_PlayerCountOne()
 		{
 			var game = new BlackJackGame(4);
 			var player = new Player(playerName);

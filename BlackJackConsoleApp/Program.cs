@@ -1,15 +1,15 @@
-﻿using System;
-using System.Linq;
-using SimpleInjector;
-using Interactors.Boundaries;
-using Interactors.Repositories;
-using System.Collections.Generic;
-using Entities;
-using Interactors;
-using Interactors.ResponceDtos;
-using Interactors.Providers;
-using Entities.Interfaces;
+﻿using Entities;
 using Entities.Enums;
+using Entities.Interfaces;
+using Interactors;
+using Interactors.Boundaries;
+using Interactors.Providers;
+using Interactors.Repositories;
+using Interactors.ResponceDtos;
+using SimpleInjector;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BlackJackConsoleApp
 {
@@ -37,7 +37,8 @@ namespace BlackJackConsoleApp
 				avitarIdentifiers.Add(creatAvitarResponse.Identifier);
 			}
 
-			foreach(string id in avitarIdentifiers) {
+			foreach (string id in avitarIdentifiers)
+			{
 				var joinGameResponse = GetResponse<JoinGameInteractor.RequestModel, JoinGameInteractor.ResponseModel>(new JoinGameInteractor.RequestModel()
 				{
 					PlayerId = id,
@@ -57,12 +58,12 @@ namespace BlackJackConsoleApp
 			var game = beginGameResponse.Game;
 			var currentPlayer = game.CurrentPlayer;
 			var dealer = game.Dealer;
-			while(gameStatus == GameStatus.InProgress)
+			while (gameStatus == GameStatus.InProgress)
 			{
 				ConsoleKey key;
 				var validKeys = ActionKeys(currentPlayer.Hand.Actions.ToList());
 				do
-				{		
+				{
 					Console.Clear();
 					Console.WriteLine(" Dealer's Visible Cards.");
 					Console.Write($" \t{VisibleCards(dealer.Hand, false)}");
@@ -70,10 +71,10 @@ namespace BlackJackConsoleApp
 					Console.WriteLine($" Player: {currentPlayer.Name}");
 					Console.Write($" {currentPlayer.Hand.PointValue}\t{VisibleCards(currentPlayer.Hand, true)}");
 					Console.WriteLine(ActionMenuBuilder(currentPlayer.Hand.Actions.ToList()));
-					
+
 					key = Console.ReadKey(true).Key;
 				} while (InValidActionKey(validKeys, key));
-				
+
 				switch (key)
 				{
 					case ConsoleKey.D:
@@ -115,17 +116,17 @@ namespace BlackJackConsoleApp
 					default:
 						throw new NotSupportedException();
 				}
-			} 
+			}
 		}
 
 		private static string ActionMenuBuilder(List<HandActionTypes> actions)
 		{
 			string actionKeys = string.Empty;
-			for(int i = 0; i < actions.Count; i++)
+			for (int i = 0; i < actions.Count; i++)
 			{
 				var action = actions[i];
 				actionKeys += "\t";
-				switch(action)
+				switch (action)
 				{
 					case HandActionTypes.Hold:
 						actionKeys += "D = Hold";
@@ -142,7 +143,7 @@ namespace BlackJackConsoleApp
 					default:
 						throw new NotSupportedException();
 				}
-				if(i < actions.Count() - 1)
+				if (i < actions.Count() - 1)
 				{
 					actionKeys += "\t";
 				}
@@ -153,7 +154,7 @@ namespace BlackJackConsoleApp
 		private static string VisibleCards(HandDto hand, bool showAll)
 		{
 			string output = string.Empty;
-			foreach(var card in hand.Cards)
+			foreach (var card in hand.Cards)
 			{
 				if (showAll || !card.FaceDown)
 				{

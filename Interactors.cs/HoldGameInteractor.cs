@@ -1,9 +1,9 @@
 ﻿using Entities;
-using Interactors.Repositories;
-using System;
 using Interactors.Boundaries;
+using Interactors.Repositories;
 using Interactors.ResponceDtos;
 using Interactors.ResponseDtoMapper;
+using System;
 
 namespace Interactors
 {
@@ -42,7 +42,7 @@ namespace Interactors
 			}
 			var gameDto = new BlackJackGameDtoMapper(game);
 			bool showAll = false;
-			if(game.CurrentPlayer.Equals(game.Dealer))
+			if (game.CurrentPlayer.Equals(game.Dealer))
 			{
 				showAll = true;
 			}

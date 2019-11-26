@@ -1,5 +1,4 @@
-﻿using System;
-using Interactors.Boundaries;
+﻿using Interactors.Boundaries;
 
 namespace BlackJackConsoleApp
 {

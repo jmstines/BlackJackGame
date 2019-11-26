@@ -1,7 +1,7 @@
 ﻿namespace Interactors.Providers
 {
-    public interface IGameIdentifierProvider
-    {
-        string Generate();
-    }
+	public interface IGameIdentifierProvider
+	{
+		string Generate();
+	}
 }

@@ -1,11 +1,11 @@
 ﻿using Entities;
-using Interactors.Repositories;
-using System;
 using Interactors.Boundaries;
-using System.Linq;
 using Interactors.Providers;
+using Interactors.Repositories;
 using Interactors.ResponceDtos;
 using Interactors.ResponseDtoMapper;
+using System;
+using System.Linq;
 
 namespace Interactors
 {
@@ -33,7 +33,7 @@ namespace Interactors
 
 		public void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
 		{
-			var game = GameRepository.ReadAsync(requestModel.GameIdentifier);		
+			var game = GameRepository.ReadAsync(requestModel.GameIdentifier);
 			if (game.CurrentPlayer.PlayerIdentifier.Equals(requestModel.PlayerIdentifier))
 			{
 				var card = CardProvider.Cards(1).First();

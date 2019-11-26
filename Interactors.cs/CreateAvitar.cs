@@ -34,7 +34,7 @@ namespace Interactors
 
 			outputBoundary.HandleResponse(new ResponseModel()
 			{
-				 Identifier = identifier
+				Identifier = identifier
 			});
 		}
 	}

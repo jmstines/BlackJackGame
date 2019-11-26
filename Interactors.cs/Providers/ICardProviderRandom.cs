@@ -1,5 +1,4 @@
-﻿using Entities;
-using Entities.Interfaces;
+﻿using Entities.Interfaces;
 using System.Collections.Generic;
 
 namespace Interactors.Providers

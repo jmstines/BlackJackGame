@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Interactors.Boundaries
+﻿namespace Interactors.Boundaries
 {
 	public interface IOutputBoundary<TResponseModel>
 	{

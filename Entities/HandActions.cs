@@ -12,11 +12,11 @@ namespace Entities
 		{
 			_ = cards?.ToList() ?? throw new ArgumentNullException(nameof(cards));
 			var actions = new List<HandActionTypes>();
-			if( HandValue.GetValue(cards) >= BlackJackConstants.BlackJack )
+			if (HandValue.GetValue(cards) >= BlackJackConstants.BlackJack)
 			{
 				actions.Add(HandActionTypes.Pass);
 			}
-			else 
+			else
 			{
 				if (AllowSplit(cards))
 				{

@@ -11,7 +11,7 @@ namespace Entities
 		{
 			var source = list?.ToList() ?? throw new ArgumentNullException(nameof(list));
 			_ = randomProvider ?? throw new ArgumentNullException(nameof(randomProvider));
-			
+
 			var shuffled = new List<T>();
 			while (source.Any())
 			{

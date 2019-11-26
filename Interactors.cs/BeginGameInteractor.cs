@@ -1,12 +1,12 @@
 ﻿using Entities;
+using Entities.Enums;
+using Interactors.Boundaries;
 using Interactors.Providers;
 using Interactors.Repositories;
-using System;
-using Interactors.Boundaries;
-using System.Linq;
 using Interactors.ResponceDtos;
 using Interactors.ResponseDtoMapper;
-using Entities.Enums;
+using System;
+using System.Linq;
 
 namespace Interactors
 {
@@ -27,14 +27,14 @@ namespace Interactors
 		private readonly ICardProviderRandom CardProvider;
 		private readonly IDealerProvicer DealerProvider;
 
-        public BeginGameInteractor(IGameRepository gameRepository, IDealerProvicer dealerProvider, ICardProviderRandom cardProvider)
-        {
-            GameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
+		public BeginGameInteractor(IGameRepository gameRepository, IDealerProvicer dealerProvider, ICardProviderRandom cardProvider)
+		{
+			GameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
 			DealerProvider = dealerProvider ?? throw new ArgumentNullException(nameof(dealerProvider));
 			CardProvider = cardProvider ?? throw new ArgumentNullException(nameof(cardProvider));
-        }
+		}
 
-        public void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
+		public void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
 		{
 			var game = GameRepository.ReadAsync(requestModel.GameIdentifier);
 			game.SetPlayerStatusReady(requestModel.PlayerIdentifier);
@@ -62,5 +62,5 @@ namespace Interactors
 
 			outputBoundary.HandleResponse(new ResponseModel() { Game = gameDto.Map(showAll) });
 		}
-    }
+	}
 }

@@ -1,6 +1,6 @@
-﻿using System;
-using Entities.Enums;
+﻿using Entities.Enums;
 using Entities.Interfaces;
+using System;
 
 namespace Entities
 {
@@ -11,23 +11,23 @@ namespace Entities
 		public bool FaceDown { get; private set; }
 
 		public BlackJackCard(ICard card, bool faceDown)
-        {
+		{
 			Suit = card.Suit != 0 ? card.Suit : throw new ArgumentOutOfRangeException(nameof(card.Suit));
-            Rank = card.Rank != 0 ? card.Rank : throw new ArgumentOutOfRangeException(nameof(card.Rank));
-            FaceDown = faceDown;
-        }
+			Rank = card.Rank != 0 ? card.Rank : throw new ArgumentOutOfRangeException(nameof(card.Rank));
+			FaceDown = faceDown;
+		}
 
 		public override bool Equals(object obj)
-        {
-            return obj is BlackJackCard card &&
-                   Suit == card.Suit &&
-                   Rank == card.Rank;
-        }
+		{
+			return obj is BlackJackCard card &&
+				   Suit == card.Suit &&
+				   Rank == card.Rank;
+		}
 
 		public override int GetHashCode()
-        {
-            return HashCode.Combine(Suit, Rank);
-        }
+		{
+			return HashCode.Combine(Suit, Rank);
+		}
 
 		public static bool operator ==(BlackJackCard left, BlackJackCard right)
 		{

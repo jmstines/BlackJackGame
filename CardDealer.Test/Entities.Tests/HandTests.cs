@@ -15,7 +15,7 @@ namespace Entities.Tests
 		public void NewHand_DefaultValues_CorrectValues()
 		{
 			var hand = new Hand();
-			
+
 			Assert.AreEqual(0, hand.PointValue);
 			Assert.AreEqual(false, hand.Cards.Any());
 			Assert.AreEqual(HandStatusTypes.InProgress, hand.Status);

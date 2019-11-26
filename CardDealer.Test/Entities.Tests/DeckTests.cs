@@ -1,6 +1,5 @@
 ﻿using Entities.Enums;
 using Entities.Interfaces;
-using Interactors.Providers;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +9,7 @@ namespace Entities.Tests
 	class DeckTests
 	{
 		[Test]
-		public void	CreateNewDeck_()
+		public void CreateNewDeck_()
 		{
 			IEnumerable<ICard> deck = new Deck();
 			Card TwoClubs = new Card(CardSuit.Clubs, CardRank.Two);

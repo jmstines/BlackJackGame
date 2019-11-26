@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using Entities;
-using Entities.Enums;
+﻿using Entities.Enums;
+using System.Collections.Generic;
 
 namespace Interactors.ResponceDtos
 {

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Entities;
+using System;
 using System.Collections.Generic;
-using Entities;
 using System.Linq;
 
 namespace Interactors.Providers

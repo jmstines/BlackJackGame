@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Linq;
-using Entities;
+﻿using Entities;
 using Entities.Enums;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Interactors.Repositories
 {
@@ -16,14 +15,15 @@ namespace Interactors.Repositories
 
 		public BlackJackGame ReadAsync(string identifier) => Games.Single(g => g.Key.Equals(identifier)).Value;
 
-		public void UpdateAsync(string identifier, BlackJackGame game) {
+		public void UpdateAsync(string identifier, BlackJackGame game)
+		{
 			Games.Remove(identifier);
 			Games.Add(identifier, game);
 		}
 
 		public KeyValuePair<string, BlackJackGame> FindByStatusFirstOrDefault(GameStatus status, int maxPlayers)
 		{
-			return Games.FirstOrDefault(g => 
+			return Games.FirstOrDefault(g =>
 				g.Value.Status == status &&
 				g.Value.Players.Count() < maxPlayers);
 		}

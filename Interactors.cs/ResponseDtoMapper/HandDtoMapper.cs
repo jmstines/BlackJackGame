@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
-using Entities;
+﻿using Entities;
 using Interactors.ResponceDtos;
+using System;
+using System.Linq;
 
 
 namespace Interactors.ResponseDtoMapper

@@ -1,6 +1,6 @@
-﻿using System;
-using Entities;
+﻿using Entities;
 using Interactors.ResponceDtos;
+using System;
 
 namespace Interactors.ResponseDtoMapper
 {

@@ -5,21 +5,21 @@ using System;
 namespace Entities.Tests
 {
 	public class BlackJackCardTests
-    {
-        private readonly bool FaceDown = false;
-        private readonly Card AceOfSpades = new Card(CardSuit.Spades, CardRank.Ace);
+	{
+		private readonly bool FaceDown = false;
+		private readonly Card AceOfSpades = new Card(CardSuit.Spades, CardRank.Ace);
 		private readonly Card AceOfClubs = new Card(CardSuit.Clubs, CardRank.Ace);
 		private readonly Card TenOfSpades = new Card(CardSuit.Spades, CardRank.Ten);
 
 		[Test]
-        public void NewCard_CardNull_ArgumentNullException()
-        {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new BlackJackCard(new Card(), FaceDown));
-        }
-        
-        [Test]
-        public void NewCard_AceOfSpades_CorrectValues()
-        {
+		public void NewCard_CardNull_ArgumentNullException()
+		{
+			Assert.Throws<ArgumentOutOfRangeException>(() => new BlackJackCard(new Card(), FaceDown));
+		}
+
+		[Test]
+		public void NewCard_AceOfSpades_CorrectValues()
+		{
 			var blackJackCard = new BlackJackCard(AceOfSpades, FaceDown);
 			Assert.AreEqual(CardRank.Ace, blackJackCard.Rank);
 			Assert.AreEqual(CardSuit.Spades, blackJackCard.Suit);

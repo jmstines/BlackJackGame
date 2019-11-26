@@ -1,11 +1,11 @@
 ﻿namespace Entities.Enums
 {
-    public enum PlayerStatusTypes
-    {
-        Ready = 1,
+	public enum PlayerStatusTypes
+	{
+		Ready = 1,
 		InProgress,
-        Push,
-        PlayerWins,
-        PlayerLoses
-    }
+		Push,
+		PlayerWins,
+		PlayerLoses
+	}
 }

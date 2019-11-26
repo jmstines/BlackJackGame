@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using Entities;
-using Entities.Interfaces;
+﻿using Entities.Interfaces;
+using System.Collections.Generic;
 
 namespace Interactors.Providers
 {
-    public interface ICardDeckProvider
-    {
-        IEnumerable<ICard> Deck { get; }
-    }
+	public interface ICardDeckProvider
+	{
+		IEnumerable<ICard> Deck { get; }
+	}
 }

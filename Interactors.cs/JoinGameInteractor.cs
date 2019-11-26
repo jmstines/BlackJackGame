@@ -1,26 +1,26 @@
 ﻿using Entities;
+using Entities.Enums;
+using Interactors.Boundaries;
 using Interactors.Providers;
 using Interactors.Repositories;
 using System;
 using System.Collections.Generic;
-using Interactors.Boundaries;
-using Entities.Enums;
 
 namespace Interactors
 {
-    public class JoinGameInteractor: IInputBoundary<JoinGameInteractor.RequestModel, JoinGameInteractor.ResponseModel>
-    {
+	public class JoinGameInteractor : IInputBoundary<JoinGameInteractor.RequestModel, JoinGameInteractor.ResponseModel>
+	{
 		public class RequestModel
 		{
 			public string PlayerId { get; set; }
 			public int MaxPlayers { get; set; }
 		}
-		
+
 		public class ResponseModel
-        {
+		{
 			public string GameIdentifier { get; set; }
 			public string PlayerIdentifier { get; set; }
-        }
+		}
 
 		private readonly IGameRepository GameRepository;
 		private readonly IGameIdentifierProvider GameIdentifierProvider;
@@ -28,7 +28,7 @@ namespace Interactors
 		private readonly IPlayerRepository PlayerRepository;
 
 		public JoinGameInteractor(IGameRepository gameRepository, IPlayerRepository playerRepository, IGameIdentifierProvider gameIdentifierProvider, IPlayerIdentifierProvider playerIdentifierProvider)
-        {
+		{
 			GameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
 			GameIdentifierProvider = gameIdentifierProvider ?? throw new ArgumentNullException(nameof(gameIdentifierProvider));
 			PlayerRepository = playerRepository ?? throw new ArgumentNullException(nameof(playerRepository));
@@ -56,7 +56,7 @@ namespace Interactors
 				GameRepository.UpdateAsync(gameIdentifier, game);
 			}
 
-            outputBoundary.HandleResponse(new ResponseModel() { GameIdentifier = gameIdentifier, PlayerIdentifier = playerIdentifier });
-        }
-    }
+			outputBoundary.HandleResponse(new ResponseModel() { GameIdentifier = gameIdentifier, PlayerIdentifier = playerIdentifier });
+		}
+	}
 }

@@ -49,7 +49,7 @@ namespace Entities
 		public void SetPlayerStatusReady(string id)
 		{
 			players.Where(p => p.PlayerIdentifier.Equals(id)).Single().Status = PlayerStatusTypes.Ready;
-			if(players.All(p => p != Dealer && p.Status.Equals(PlayerStatusTypes.Ready)))
+			if (players.All(p => p != Dealer && p.Status.Equals(PlayerStatusTypes.Ready)))
 			{
 				Status = GameStatus.InProgress;
 			}

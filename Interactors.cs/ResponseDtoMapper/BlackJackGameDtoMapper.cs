@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Entities;
+﻿using Entities;
 using Interactors.ResponceDtos;
+using System;
+using System.Collections.Generic;
 
 namespace Interactors.ResponseDtoMapper
 {
@@ -18,7 +18,7 @@ namespace Interactors.ResponseDtoMapper
 			var dto = new BlackJackGameDto();
 			dto.Status = Game.Status;
 			var players = new List<BlackJackPlayerDto>();
-			foreach(var player in Game.Players)
+			foreach (var player in Game.Players)
 			{
 				if (player.Equals(Game.CurrentPlayer))
 				{
@@ -32,7 +32,7 @@ namespace Interactors.ResponseDtoMapper
 					players.Add(dealer);
 					dto.Dealer = dealer;
 				}
-				else 
+				else
 				{
 					players.Add(new BlackJackPlayerMapper(player).Map(showAll));
 				}

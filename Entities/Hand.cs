@@ -7,30 +7,58 @@ namespace Entities
 {
 	public class Hand
 	{
-		private readonly List<IBlackJackCard> cards;
+		private readonly List<IBlackJackCard> cards = new List<IBlackJackCard>();
+		private List<HandActionTypes> actions;
 
-		public IEnumerable<HandActionTypes> Actions => HandActions.GetActions(cards);
+		public IEnumerable<HandActionTypes> Actions => actions;
 		public IEnumerable<IBlackJackCard> Cards => cards;
-		public int PointValue { get; private set; }
-		public HandStatusTypes Status { get; private set; }
+		public int PointValue { get; private set; } = 0;
+		public HandStatusTypes Status { get; private set; } = HandStatusTypes.InProgress;
 
-		public Hand()
-		{
-			cards = new List<IBlackJackCard>();
-			PointValue = 0;
-			Status = HandStatusTypes.InProgress;
-		}
+		public Hand() => SetHandActions();
 
 		public void AddCard(ICard card)
 		{
 			cards.Add(new BlackJackCard(card, !Cards.Any()));
-			PointValue = HandValue.GetValue(cards);
+			SetPointValue();
 			SetStatus(HandStatusTypes.InProgress);
+			SetHandActions();
 		}
 
-		public void SetStatus(HandStatusTypes status)
+		public void SetStatus(HandStatusTypes status) => Status = BustHand() ? 
+			HandStatusTypes.Bust : status;
+
+		private void SetHandActions()
 		{
-			Status = PointValue > BlackJackConstants.BlackJack ? HandStatusTypes.Bust : status;
+			actions = new List<HandActionTypes>();
+			if (PointValue >= BlackJackConstants.BlackJack)
+			{
+				actions.Add(HandActionTypes.Pass);
+			}
+			else
+			{
+				if (AllowSplit())
+				{
+					actions.Add(HandActionTypes.Split);
+				}
+				actions.Add(HandActionTypes.Draw);
+				actions.Add(HandActionTypes.Hold);
+			}
 		}
+
+		private bool AllowSplit() => cards.Count == 2 && 
+			cards.All(c => BlackJackCardValue.GetValue(c.Rank) == BlackJackConstants.DefaultCardValue);
+
+		private void SetPointValue()
+		{
+			PointValue = cards.Sum(c => BlackJackCardValue.GetValue(c.Rank));
+			var aceCount = cards.Count(c => c.Rank.Equals(CardRank.Ace));
+			for (int i = 0; i < aceCount; i++)
+			{
+				PointValue = BustHand() ? PointValue - BlackJackConstants.DefaultCardValue : PointValue;
+			}
+		}
+
+		private bool BustHand() => PointValue > BlackJackConstants.BlackJack;
 	}
 }

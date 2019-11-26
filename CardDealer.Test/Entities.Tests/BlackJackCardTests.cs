@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Entities.Enums;
+using NUnit.Framework;
 using System;
 
 namespace Entities.Tests

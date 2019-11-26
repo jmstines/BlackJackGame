@@ -1,4 +1,5 @@
-﻿using Interactors.Mocks;
+﻿using Entities.Enums;
+using Interactors.Mocks;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

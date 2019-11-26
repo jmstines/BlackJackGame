@@ -9,6 +9,7 @@ using Interactors;
 using Interactors.ResponceDtos;
 using Interactors.Providers;
 using Entities.Interfaces;
+using Entities.Enums;
 
 namespace BlackJackConsoleApp
 {

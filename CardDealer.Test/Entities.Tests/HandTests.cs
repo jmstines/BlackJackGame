@@ -1,4 +1,5 @@
-﻿using Entities.Interfaces;
+﻿using Entities.Enums;
+using Entities.Interfaces;
 using NUnit.Framework;
 using System.Linq;
 

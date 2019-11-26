@@ -1,4 +1,5 @@
-﻿using Interactors.Providers;
+﻿using Entities.Enums;
+using Interactors.Providers;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;

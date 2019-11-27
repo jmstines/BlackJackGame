@@ -19,6 +19,17 @@ namespace Entities.Tests
 		}
 
 		[Test]
+		public void EqualsFunctionAndDoubleEquals_AllAreEquivilant()
+		{
+			var blackJackCard = new BlackJackCard(AceOfSpades, FaceDown);
+
+			Assert.IsFalse(AceOfSpades.Equals(BlackJackAceOfSpades));
+
+			Assert.IsTrue(blackJackCard.Equals(BlackJackAceOfSpades));
+			Assert.IsTrue(blackJackCard == BlackJackAceOfSpades);
+		}
+
+		[Test]
 		public void NewCard_AceOfSpades_CorrectValues()
 		{
 			var blackJackCard = new BlackJackCard(AceOfSpades, FaceDown);
@@ -32,6 +43,7 @@ namespace Entities.Tests
 		{
 			var aceOfSpades2 = new BlackJackCard(AceOfSpades, false);
 			Assert.IsTrue(BlackJackAceOfSpades.Equals(aceOfSpades2));
+			Assert.IsTrue(BlackJackAceOfSpades == aceOfSpades2);
 		}
 
 		[Test]

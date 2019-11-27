@@ -8,7 +8,7 @@ namespace Entities
 {
 	public static class HandActions
 	{
-		public static IEnumerable<HandActionTypes> GetActions(IEnumerable<ICard> cards)
+		public static IEnumerable<HandActionTypes> GetActions(IEnumerable<IBlackJackCard> cards)
 		{
 			_ = cards?.ToList() ?? throw new ArgumentNullException(nameof(cards));
 			var actions = new List<HandActionTypes>();
@@ -28,9 +28,9 @@ namespace Entities
 			return actions;
 		}
 
-		private static bool AllowSplit(IEnumerable<ICard> cards)
+		private static bool AllowSplit(IEnumerable<IBlackJackCard> cards)
 		{
-			return cards.Count() == 2 && cards.All(c => BlackJackCardValue.GetValue(c.Rank) == 10);
+			return cards.Count() == 2 && cards.All(c => c.Value == 10);
 		}
 	}
 }

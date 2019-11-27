@@ -8,11 +8,11 @@ namespace Entities
 {
 	public static class HandValue
 	{
-		public static int GetValue(IEnumerable<ICard> cards)
+		public static int GetValue(IEnumerable<IBlackJackCard> cards)
 		{
 			_ = cards ?? throw new ArgumentNullException(nameof(cards));
 
-			int value = cards.Sum(c => BlackJackCardValue.GetValue(c.Rank));
+			int value = cards.Sum(c => c.Value);
 			var aceCount = cards.Count(c => c.Rank.Equals(CardRank.Ace));
 			for (int i = 0; i < aceCount; i++)
 			{

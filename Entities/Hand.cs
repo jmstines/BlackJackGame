@@ -47,11 +47,11 @@ namespace Entities
 		}
 
 		private bool AllowSplit() => cards.Count == 2 && 
-			cards.All(c => BlackJackCardValue.GetValue(c.Rank) == BlackJackConstants.DefaultCardValue);
+			cards.All(c => c.Value == cards.First().Value);
 
 		private void SetPointValue()
 		{
-			PointValue = cards.Sum(c => BlackJackCardValue.GetValue(c.Rank));
+			PointValue = cards.Sum(c => c.Value);
 			var aceCount = cards.Count(c => c.Rank.Equals(CardRank.Ace));
 			for (int i = 0; i < aceCount; i++)
 			{

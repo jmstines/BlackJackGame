@@ -35,7 +35,7 @@ namespace Interactors
 				game.PlayerHolds();
 				if (game.CurrentPlayer.Equals(game.Dealer))
 				{
-					new BlackJackOutcomes(game).UpdateStatus();
+					//new BlackJackOutcomes(game).UpdateStatus();
 				}
 
 				GameRepository.UpdateAsync(requestModel.GameIdentifier, game);

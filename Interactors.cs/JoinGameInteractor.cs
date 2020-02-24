@@ -14,6 +14,7 @@ namespace Interactors
 		{
 			public string PlayerId { get; set; }
 			public int MaxPlayers { get; set; }
+			public int HandCount { get; set; }
 		}
 
 		public class ResponseModel
@@ -23,16 +24,14 @@ namespace Interactors
 		}
 
 		private readonly IGameRepository GameRepository;
-		private readonly IGameIdentifierProvider GameIdentifierProvider;
-		private readonly IPlayerIdentifierProvider PlayerIdentifierProvider;
+		private readonly IGuidBasedIdentifierProviders IdentifierProviders;
 		private readonly IPlayerRepository PlayerRepository;
 
-		public JoinGameInteractor(IGameRepository gameRepository, IPlayerRepository playerRepository, IGameIdentifierProvider gameIdentifierProvider, IPlayerIdentifierProvider playerIdentifierProvider)
+		public JoinGameInteractor(IGameRepository gameRepository, IPlayerRepository playerRepository, IGuidBasedIdentifierProviders identifierProviders)
 		{
 			GameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
-			GameIdentifierProvider = gameIdentifierProvider ?? throw new ArgumentNullException(nameof(gameIdentifierProvider));
+			IdentifierProviders = identifierProviders ?? throw new ArgumentNullException(nameof(identifierProviders));
 			PlayerRepository = playerRepository ?? throw new ArgumentNullException(nameof(playerRepository));
-			PlayerIdentifierProvider = playerIdentifierProvider ?? throw new ArgumentNullException(nameof(playerIdentifierProvider));
 		}
 
 		public void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
@@ -40,11 +39,12 @@ namespace Interactors
 			_ = requestModel?.PlayerId ?? throw new ArgumentNullException(nameof(requestModel.PlayerId));
 
 			var player = PlayerRepository.ReadAsync(requestModel.PlayerId);
-			var playerIdentifier = PlayerIdentifierProvider.Generate();
-			var currentPlayer = new BlackJackPlayer(playerIdentifier, player);
+			var playerIdentifier = IdentifierProviders.GeneratePlayerId();
+			var handIds = IdentifierProviders.GenerateHandIds(requestModel.HandCount);
+			var currentPlayer = new BlackJackPlayer(playerIdentifier, player, handIds);
 
 			KeyValuePair<string, BlackJackGame> valuePair = GameRepository.FindByStatusFirstOrDefault(GameStatus.Waiting, requestModel.MaxPlayers);
-			var gameIdentifier = valuePair.Key ?? GameIdentifierProvider.Generate();
+			var gameIdentifier = valuePair.Key ?? IdentifierProviders.GenerateGameId();
 			var game = valuePair.Value ?? new BlackJackGame(requestModel.MaxPlayers);
 			game.AddPlayer(currentPlayer);
 			if (valuePair.Key == null)

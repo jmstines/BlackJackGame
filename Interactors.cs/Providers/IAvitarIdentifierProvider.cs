@@ -2,6 +2,6 @@
 {
 	public interface IAvitarIdentifierProvider
 	{
-		string Generate();
+		string GenerateAvitar();
 	}
 }

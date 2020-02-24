@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Interactors.Providers
 {
-	public interface ICardProviderRandom
+	public interface ICardProvider
 	{
 		IEnumerable<ICard> Cards(int count);
 	}

@@ -2,6 +2,6 @@
 {
 	public interface IPlayerIdentifierProvider
 	{
-		string Generate();
+		string GeneratePlayerId();
 	}
 }

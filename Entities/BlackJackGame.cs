@@ -64,10 +64,15 @@ namespace Entities
 			Players.First() :
 			Players.ElementAt(players.IndexOf(CurrentPlayer) + 1);
 
-		public void PlayerHits(ICard card)
+		public void PlayerHits(string handId, ICard card)
 		{
 			if (card.Rank == 0 || card.Suit == 0) throw new ArgumentOutOfRangeException(nameof(card));
-			CurrentPlayer.Hand.AddCard(card);
+			_ = handId ?? throw new ArgumentNullException(nameof(handId));
+			if(CurrentPlayer.Hands.TryGetValue(handId, out Hand hand))
+			{
+				throw new ArgumentException(nameof(handId));
+			}
+			hand.AddCard(card);
 		}
 	}
 }

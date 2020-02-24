@@ -15,6 +15,7 @@ namespace Interactors
 		{
 			public string GameIdentifier { get; set; }
 			public string PlayerIdentifier { get; set; }
+			public string HandIdentifier { get; set; }
 		}
 
 		public class ResponseModel
@@ -23,9 +24,9 @@ namespace Interactors
 		}
 
 		private readonly IGameRepository GameRepository;
-		private readonly ICardProviderRandom CardProvider;
+		private readonly ICardProvider CardProvider;
 
-		public HitGameInteractor(IGameRepository gameRepository, ICardProviderRandom cardProvider)
+		public HitGameInteractor(IGameRepository gameRepository, ICardProvider cardProvider)
 		{
 			GameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
 			CardProvider = cardProvider ?? throw new ArgumentNullException(nameof(cardProvider));
@@ -37,11 +38,11 @@ namespace Interactors
 			if (game.CurrentPlayer.PlayerIdentifier.Equals(requestModel.PlayerIdentifier))
 			{
 				var card = CardProvider.Cards(1).First();
-				game.PlayerHits(card);
+				game.PlayerHits(requestModel.HandIdentifier, card);
 
 				if (game.CurrentPlayer.Equals(game.Dealer))
 				{
-					new BlackJackOutcomes(game).UpdateStatus();
+					//new BlackJackOutcomes(game).UpdateStatus();
 				}
 				GameRepository.UpdateAsync(requestModel.GameIdentifier, game);
 			}

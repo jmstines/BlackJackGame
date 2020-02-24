@@ -2,11 +2,8 @@
 
 namespace Interactors.Providers
 {
-	public class GuidBasedGameIdentifierProvider : IGameIdentifierProvider
+	public class GuidBasedGameIdentifierProvider : GuidBasedIdentiferProviderBase, IGameIdentifierProvider
 	{
-		private const int identifierLength = 8;
-
-		public string Generate() =>
-			Guid.NewGuid().ToString("N").Substring(0, identifierLength).ToUpper();
+		public string GenerateGameId() => Generate(gameIdentifierLength);
 	}
 }

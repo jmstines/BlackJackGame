@@ -1,6 +1,7 @@
 ﻿using Entities.Enums;
 using Entities.Interfaces;
 using System.Collections.Generic;
+using System;
 using System.Linq;
 
 namespace Entities
@@ -23,6 +24,12 @@ namespace Entities
 			SetPointValue();
 			SetStatus(HandStatusTypes.InProgress);
 			SetHandActions();
+		}
+
+		public void AddCardRange(IEnumerable<ICard> cards)
+		{
+			_ = cards ?? throw new ArgumentNullException(nameof(cards));
+			cards.ToList().ForEach(c => AddCard(c));
 		}
 
 		public void SetStatus(HandStatusTypes status) => Status = BustHand() ? 

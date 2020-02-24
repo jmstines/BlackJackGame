@@ -2,6 +2,6 @@
 {
 	public interface IGameIdentifierProvider
 	{
-		string Generate();
+		string GenerateGameId();
 	}
 }

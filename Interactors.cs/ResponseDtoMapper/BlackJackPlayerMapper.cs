@@ -18,7 +18,7 @@ namespace Interactors.ResponseDtoMapper
 			{
 				Name = Player.Name,
 				PlayerIdentifier = Player.PlayerIdentifier,
-				Hand = new HandDtoMapper(Player.Hand).Map(showAll),
+				Hands = new HandDtoMapper(Player.Hands).Map(showAll),
 				Status = Player.Status
 			};
 		}

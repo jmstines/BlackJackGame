@@ -1,5 +1,4 @@
-﻿using Entities;
-using Entities.Enums;
+﻿using Entities.Enums;
 using Interactors.Boundaries;
 using Interactors.Providers;
 using Interactors.Repositories;
@@ -24,10 +23,10 @@ namespace Interactors
 		}
 
 		private readonly IGameRepository GameRepository;
-		private readonly ICardProviderRandom CardProvider;
+		private readonly ICardProvider CardProvider;
 		private readonly IDealerProvicer DealerProvider;
 
-		public BeginGameInteractor(IGameRepository gameRepository, IDealerProvicer dealerProvider, ICardProviderRandom cardProvider)
+		public BeginGameInteractor(IGameRepository gameRepository, IDealerProvicer dealerProvider, ICardProvider cardProvider)
 		{
 			GameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
 			DealerProvider = dealerProvider ?? throw new ArgumentNullException(nameof(dealerProvider));
@@ -38,20 +37,20 @@ namespace Interactors
 		{
 			var game = GameRepository.ReadAsync(requestModel.GameIdentifier);
 			game.SetPlayerStatusReady(requestModel.PlayerIdentifier);
-			if (game.Status.Equals(GameStatus.InProgress))
+
+			if (game.Players.All(p => p.Status == PlayerStatusTypes.Ready))
 			{
 				game.AddDealer(DealerProvider.Dealer);
-
 				game.Status = GameStatus.InProgress;
-				int twoCardsPerPlayer = game.Players.Count() * 2;
-				var cards = CardProvider.Cards(twoCardsPerPlayer);
-				foreach (var card in cards)
-				{
-					game.PlayerHits(card);
-					game.PlayerHolds();
-				}
-				new BlackJackOutcomes(game).UpdateStatus();
+
+				var cardCount = game.Players.Sum(p => p.Hands.Count());
+				var cards = CardProvider.Cards(cardCount);
+
+
+				game.Players.ToList().ForEach(p => p.Hands.ToList().ForEach(h => h.Value.AddCardRange(cards.Take(2))));
 			}
+			//new BlackJackOutcomes(game).UpdateStatus();
+
 			GameRepository.UpdateAsync(requestModel.GameIdentifier, game);
 			var gameDto = new BlackJackGameDtoMapper(game);
 			bool showAll = false;

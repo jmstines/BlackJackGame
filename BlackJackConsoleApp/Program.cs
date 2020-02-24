@@ -61,16 +61,16 @@ namespace BlackJackConsoleApp
 			while (gameStatus == GameStatus.InProgress)
 			{
 				ConsoleKey key;
-				var validKeys = ActionKeys(currentPlayer.Hand.Actions.ToList());
+				var validKeys = ActionKeys(currentPlayer.Hands.First().Value.Actions.ToList());
 				do
 				{
 					Console.Clear();
 					Console.WriteLine(" Dealer's Visible Cards.");
-					Console.Write($" \t{VisibleCards(dealer.Hand, false)}");
+					Console.Write($" \t{VisibleCards(dealer.Hands.First().Value, false)}");
 					Console.WriteLine("---------------------------------------------");
 					Console.WriteLine($" Player: {currentPlayer.Name}");
-					Console.Write($" {currentPlayer.Hand.PointValue}\t{VisibleCards(currentPlayer.Hand, true)}");
-					Console.WriteLine(ActionMenuBuilder(currentPlayer.Hand.Actions.ToList()));
+					Console.Write($" {currentPlayer.Hands.First().Value.PointValue}\t{VisibleCards(currentPlayer.Hands.First().Value, true)}");
+					Console.WriteLine(ActionMenuBuilder(currentPlayer.Hands.First().Value.Actions.ToList()));
 
 					key = Console.ReadKey(true).Key;
 				} while (InValidActionKey(validKeys, key));
@@ -206,7 +206,7 @@ namespace BlackJackConsoleApp
 			container.RegisterSingleton<IGameIdentifierProvider, GuidBasedGameIdentifierProvider>();
 			container.RegisterSingleton<IDealerProvicer, DealerProvider>();
 			container.RegisterSingleton<IRandomProvider, RandomProvider>();
-			container.RegisterSingleton<ICardProviderRandom, CardProviderRandom>();
+			container.RegisterSingleton<ICardProvider, CardProvider>();
 			container.RegisterSingleton<Deck, Deck>();
 			container.RegisterSingleton<IPlayerIdentifierProvider, GuidBasedPlayerIdentifierProvider>();
 			container.RegisterSingleton<IAvitarIdentifierProvider, GuidBasedAvitarIdentifierProvider>();

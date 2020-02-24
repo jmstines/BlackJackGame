@@ -29,7 +29,7 @@ namespace Interactors
 		{
 			_ = requestModel.PlayerName ?? throw new ArgumentNullException(nameof(requestModel.PlayerName));
 			var player = new Player(requestModel.PlayerName);
-			var identifier = IdentifierProvider.Generate();
+			var identifier = IdentifierProvider.GenerateAvitar();
 			PlayerRepository.CreatePlayerAsync(identifier, player);
 
 			outputBoundary.HandleResponse(new ResponseModel()

@@ -26,12 +26,13 @@ namespace Entities.Tests
 		{
 			var game = new BlackJackGame(4);
 			var player = new Player(playerName);
-			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player));
-			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e3", player));
-			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player));
-			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e3", player));
+			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player, new List<string>() { "8625cf04-b7e2" }));
+			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player, new List<string>() { "8625cf04-b7e2" }));
+			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player, new List<string>() { "8625cf04-b7e2" }));
+			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player, new List<string>() { "8625cf04-b7e2" }));
 
-			Assert.Throws<InvalidOperationException>(() => game.AddPlayer(new BlackJackPlayer("8625cf04-b7e4", player)));
+			Assert.Throws<InvalidOperationException>(() => game.AddPlayer(
+				new BlackJackPlayer("8625cf04-b7e2", player, new List<string>() { "8625cf04-b7e2" })));
 		}
 
 		[Test]
@@ -39,7 +40,7 @@ namespace Entities.Tests
 		{
 			var game = new BlackJackGame(4);
 			var player = new Player(playerName);
-			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player));
+			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player, new List<string>() { "8625cf04-b7e2" }));
 			Assert.AreEqual(1, game.Players.Count());
 			Assert.AreEqual(GameStatus.Waiting, game.Status);
 		}
@@ -49,10 +50,10 @@ namespace Entities.Tests
 		{
 			var game = new BlackJackGame(4);
 			var player = new Player(playerName);
-			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player));
-			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e3", player));
-			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e4", player));
-			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e5", player));
+			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player, new List<string>() { "8625cf04-b7e2" }));
+			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player, new List<string>() { "8625cf04-b7e2" }));
+			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player, new List<string>() { "8625cf04-b7e2" }));
+			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player, new List<string>() { "8625cf04-b7e2" }));
 			Assert.AreEqual(4, game.Players.Count());
 			Assert.AreEqual(GameStatus.InProgress, game.Status);
 		}
@@ -63,8 +64,9 @@ namespace Entities.Tests
 			var game = new BlackJackGame(4);
 			var player = new Player(playerName);
 			var player2 = new Player(playerName2);
-			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player));
-			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player2));
+
+			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player, new List<string>() { "8625cf04-b7e2" }));
+			game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player2, new List<string>() { "8625cf04-b7e2" }));
 			Assert.AreEqual(playerName, game.CurrentPlayer.Name);
 		}
 

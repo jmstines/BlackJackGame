@@ -29,10 +29,10 @@ namespace Interactors.Providers
 		{
 			var dealers = new List<BlackJackPlayer>
 			{
-				new BlackJackPlayer(PlayerIdentifierProvider.Generate(), new Player("Data")),
-				new BlackJackPlayer(PlayerIdentifierProvider.Generate(), new Player("Jerry Maguire")),
-				new BlackJackPlayer(PlayerIdentifierProvider.Generate(), new Player("James Bond")),
-				new BlackJackPlayer(PlayerIdentifierProvider.Generate(), new Player("Rain Man"))
+				new BlackJackPlayer(PlayerIdentifierProvider.GeneratePlayerId(), new Player("Data"), new List<string>() { "QWRW-1245" }),
+				new BlackJackPlayer(PlayerIdentifierProvider.GeneratePlayerId(), new Player("Jerry Maguire"), new List<string>() { "QWRW-1245" }),
+				new BlackJackPlayer(PlayerIdentifierProvider.GeneratePlayerId(), new Player("James Bond"), new List<string>() { "QWRW-1245" }),
+				new BlackJackPlayer(PlayerIdentifierProvider.GeneratePlayerId(), new Player("Rain Man"), new List<string>() { "QWRW-1245" })
 			};
 			return dealers;
 		}

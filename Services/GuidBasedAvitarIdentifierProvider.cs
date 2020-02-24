@@ -2,11 +2,8 @@
 
 namespace Interactors.Providers
 {
-	public class GuidBasedAvitarIdentifierProvider : IAvitarIdentifierProvider
+	public class GuidBasedAvitarIdentifierProvider : GuidBasedIdentiferProviderBase, IAvitarIdentifierProvider
 	{
-		private const int identifierLength = 14;
-
-		public string Generate() =>
-			Guid.NewGuid().ToString("N").Substring(0, identifierLength).ToUpper();
+		public string GenerateAvitar() => Generate(avitarIdentifierLength);
 	}
 }

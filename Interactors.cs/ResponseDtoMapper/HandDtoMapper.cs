@@ -1,6 +1,7 @@
 ﻿using Entities;
 using Interactors.ResponceDtos;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 
@@ -8,30 +9,33 @@ namespace Interactors.ResponseDtoMapper
 {
 	public class HandDtoMapper
 	{
-		private readonly Hand Hand;
-		public HandDtoMapper(Hand hand)
-		{
-			Hand = hand ?? throw new ArgumentNullException(nameof(hand));
-		}
+		private readonly IDictionary<string, Hand> Hands;
+		public HandDtoMapper(IDictionary<string, Hand> hands) => 
+			Hands = hands ?? throw new ArgumentNullException(nameof(hands));
 
-		public HandDto Map(bool showAll)
+		public IDictionary<string, HandDto> Map(bool showAll)
 		{
-			var dto = new HandDto();
-			if (showAll)
-			{
-				dto.Actions = Hand.Actions;
-				dto.Cards = Hand.Cards;
-				dto.PointValue = Hand.PointValue;
-				dto.Status = Hand.Status;
+			IDictionary<string, HandDto> handDtos = new Dictionary<string, HandDto>();
+			foreach (var hand in Hands) {
+				var dto = new HandDto();
+				var handValues = hand.Value;
+				if (showAll)
+				{
+					dto.Actions = handValues.Actions;
+					dto.Cards = handValues.Cards;
+					dto.PointValue = handValues.PointValue;
+					dto.Status = handValues.Status;
+				}
+				else
+				{
+					dto.Actions = handValues.Actions;
+					dto.Cards = handValues.Cards.Where(c => c.FaceDown.Equals(false));
+					dto.PointValue = handValues.PointValue;
+					dto.Status = handValues.Status;
+				}
+				handDtos.Add(hand.Key, dto);
 			}
-			else
-			{
-				dto.Actions = Hand.Actions;
-				dto.Cards = Hand.Cards.Where(c => c.FaceDown.Equals(false));
-				dto.PointValue = Hand.PointValue;
-				dto.Status = Hand.Status;
-			}
-			return dto;
+			return handDtos;
 		}
 	}
 }

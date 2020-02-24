@@ -19,15 +19,13 @@ namespace Entities
 
 		public Deck()
 		{
-			Cards = BuildDefualtDeck();
+			Cards = Suits.SelectMany(suit => CardRanks.Select(rank => new Card(suit, rank) as ICard));
 		}
 
 		public IEnumerator<ICard> GetEnumerator()
 		{
 			return Cards.GetEnumerator();
-		}
-		private IEnumerable<ICard> BuildDefualtDeck() =>
-			Suits.SelectMany(suit => CardRanks.Select(rank => new Card(suit, rank) as ICard));
+		}		
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{

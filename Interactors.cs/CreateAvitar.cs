@@ -14,7 +14,7 @@ namespace Interactors
 		}
 		public class ResponseModel
 		{
-			public string Identifier { get; set; }
+			public string AvitarIdentifier { get; set; }
 		}
 
 		private readonly IPlayerRepository PlayerRepository;
@@ -34,7 +34,7 @@ namespace Interactors
 
 			outputBoundary.HandleResponse(new ResponseModel()
 			{
-				Identifier = identifier
+				AvitarIdentifier = identifier
 			});
 		}
 	}

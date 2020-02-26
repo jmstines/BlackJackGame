@@ -34,7 +34,7 @@ namespace BlackJackConsoleApp
 				{
 					PlayerName = playerName
 				});
-				avitarIdentifiers.Add(creatAvitarResponse.Identifier);
+				avitarIdentifiers.Add(creatAvitarResponse.AvitarIdentifier);
 			}
 
 			foreach (string id in avitarIdentifiers)

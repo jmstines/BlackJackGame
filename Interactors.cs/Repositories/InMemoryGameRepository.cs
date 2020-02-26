@@ -18,14 +18,21 @@ namespace Interactors.Repositories
 		public void UpdateAsync(string identifier, BlackJackGame game)
 		{
 			Games.Remove(identifier);
-			Games.Add(identifier, game);
+			CreateAsync(identifier, game);
 		}
 
 		public KeyValuePair<string, BlackJackGame> FindByStatusFirstOrDefault(GameStatus status, int maxPlayers)
 		{
-			return Games.FirstOrDefault(g =>
+			var game = Games.FirstOrDefault(g =>
 				g.Value.Status == status &&
 				g.Value.Players.Count() < maxPlayers);
+
+			if (game.Key == null)
+			{
+				game = new KeyValuePair<string, BlackJackGame>(string.Empty, new BlackJackGame(maxPlayers));
+			}
+
+			return game;
 		}
 	}
 }

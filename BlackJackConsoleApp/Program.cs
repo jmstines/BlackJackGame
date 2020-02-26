@@ -45,7 +45,6 @@ namespace BlackJackConsoleApp
 					MaxPlayers = maxPlayers
 				});
 				gameIdentifier = joinGameResponse.GameIdentifier;
-				playerIdentifier = joinGameResponse.PlayerIdentifier;
 			}
 
 			var beginGameResponse = GetResponse<BeginGameInteractor.RequestModel, BeginGameInteractor.ResponseModel>(new BeginGameInteractor.RequestModel()

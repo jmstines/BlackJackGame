@@ -20,7 +20,6 @@ namespace Interactors
 		public class ResponseModel
 		{
 			public string GameIdentifier { get; set; }
-			public string PlayerIdentifier { get; set; }
 		}
 
 		private readonly IGameRepository GameRepository;
@@ -39,24 +38,28 @@ namespace Interactors
 			_ = requestModel?.PlayerId ?? throw new ArgumentNullException(nameof(requestModel.PlayerId));
 
 			var player = PlayerRepository.ReadAsync(requestModel.PlayerId);
-			var playerIdentifier = IdentifierProviders.GeneratePlayerId();
 			var handIds = IdentifierProviders.GenerateHandIds(requestModel.HandCount);
 			var currentPlayer = new BlackJackPlayer(player, handIds);
+			var keyAndGame = GameRepository.FindByStatusFirstOrDefault(GameStatus.Waiting, requestModel.MaxPlayers);
 
-			KeyValuePair<string, BlackJackGame> valuePair = GameRepository.FindByStatusFirstOrDefault(GameStatus.Waiting, requestModel.MaxPlayers);
-			var gameIdentifier = valuePair.Key ?? IdentifierProviders.GenerateGameId();
-			var game = valuePair.Value ?? new BlackJackGame(requestModel.MaxPlayers);
-			game.AddPlayer(currentPlayer);
-			if (valuePair.Key == null)
+			string gameIdentifier;
+			BlackJackGame game;
+			if (keyAndGame.Key == string.Empty)
 			{
-				GameRepository.CreateAsync(gameIdentifier, game);
+				gameIdentifier = IdentifierProviders.GenerateGameId();
+				game = new BlackJackGame(requestModel.MaxPlayers);
 			}
 			else
 			{
-				GameRepository.UpdateAsync(gameIdentifier, game);
+				gameIdentifier = keyAndGame.Key;
+				game = keyAndGame.Value;
 			}
+			
+			game.AddPlayer(currentPlayer);
 
-			outputBoundary.HandleResponse(new ResponseModel() { GameIdentifier = gameIdentifier, PlayerIdentifier = playerIdentifier });
+			GameRepository.UpdateAsync(gameIdentifier, game);
+
+			outputBoundary.HandleResponse(new ResponseModel() { GameIdentifier = gameIdentifier });
 		}
 	}
 }

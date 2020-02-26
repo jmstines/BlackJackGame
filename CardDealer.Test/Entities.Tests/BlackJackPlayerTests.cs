@@ -17,13 +17,13 @@ namespace Entities.Tests
 		[Test]
 		public void NewBlackJackPlayer_NullName_ArgumentNullException()
 		{
-			Assert.Throws<ArgumentNullException>(() => new BlackJackPlayer("8625cf04-b7e2", null, new List<string>() { "QWRW-1245" }));
+			Assert.Throws<NullReferenceException>(() => new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", null), new List<string>() { "QWRW-1245" }));
 		}
 
 		[Test]
 		public void NewPlayer_NoCards_HandEmpty()
 		{
-			var sam = new BlackJackPlayer("8625cf04-b7e2", player1, new List<string>() { "QWRW-1245" });
+			var sam = new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player1), new List<string>() { "QWRW-1245" });
 			Assert.AreEqual(false, sam.Hands.First().Value.Cards.Any());
 			Assert.AreEqual(playerName, sam.Name);
 			Assert.AreEqual(PlayerStatusTypes.InProgress, sam.Status);
@@ -32,14 +32,14 @@ namespace Entities.Tests
 		[Test]
 		public void NewPlayer_NoCards_StatusInProgress()
 		{
-			var sam = new BlackJackPlayer("8625cf04-b7e2", player1, new List<string>() { "QWRW-1245" });
+			var sam = new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player1), new List<string>() { "QWRW-1245" });
 			Assert.AreEqual(PlayerStatusTypes.InProgress, sam.Status);
 		}
 
 		[Test]
 		public void NewPlayer_CalculateTotal_TotalFive()
 		{
-			var sam = new BlackJackPlayer("8625cf04-b7e2", player1, new List<string>() { "QWRW-1245" });
+			var sam = new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player1), new List<string>() { "QWRW-1245" });
 			var blkJkTwoClubs = new BlackJackCard(twoClubs, true);
 			var blkJkThreeClubs = new BlackJackCard(threeClubs, true);
 			sam.Hands.First().Value.AddCard(blkJkTwoClubs);
@@ -50,7 +50,7 @@ namespace Entities.Tests
 		[Test]
 		public void Player_DrawCard_TotalFifteen()
 		{
-			var playerOne = new BlackJackPlayer("8625cf04-b7e2", player1, new List<string>() { "QWRW-1245" });
+			var playerOne = new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player1), new List<string>() { "QWRW-1245" });
 			var blkJkTwoClubs = new BlackJackCard(twoClubs, true);
 			var blkJkThreeClubs = new BlackJackCard(threeClubs, true);
 			var blkJkJackClubs = new BlackJackCard(jackClubs, true);
@@ -64,7 +64,7 @@ namespace Entities.Tests
 		[Test]
 		public void Player_DrawCard_FirstCardFaceDown()
 		{
-			var playerOne = new BlackJackPlayer("8625cf04-b7e2", player1, new List<string>() { "QWRW-1245" });
+			var playerOne = new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player1), new List<string>() { "QWRW-1245" });
 			var blkJkTwoClubs = new BlackJackCard(twoClubs, true);
 			playerOne.Hands.First().Value.AddCard(blkJkTwoClubs);
 
@@ -74,7 +74,7 @@ namespace Entities.Tests
 		[Test]
 		public void Player_DrawCard_SecondCardFaceUp()
 		{
-			var playerOne = new BlackJackPlayer("8625cf04-b7e2", player1, new List<string>() { "QWRW-1245" });
+			var playerOne = new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player1), new List<string>() { "QWRW-1245" });
 			var blkJkTwoClubs = new BlackJackCard(twoClubs, true);
 			var blkJkThreeClubs = new BlackJackCard(threeClubs, false);
 			playerOne.Hands.First().Value.AddCard(blkJkTwoClubs);
@@ -86,7 +86,7 @@ namespace Entities.Tests
 		[Test]
 		public void Player_DrawCard_ThirdCardFaceUp()
 		{
-			var playerOne = new BlackJackPlayer("8625cf04-b7e2", player1, new List<string>() { "QWRW-1245" });
+			var playerOne = new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player1), new List<string>() { "QWRW-1245" });
 			var blkJkTwoClubs = new BlackJackCard(twoClubs, true);
 			var blkJkThreeClubs = new BlackJackCard(threeClubs, false);
 			var blkJkJackClubs = new BlackJackCard(jackClubs, true);

@@ -7,14 +7,14 @@ namespace Interactors.Providers
 {
 	public class DealerProvider : IDealerProvicer
 	{
-		private readonly IPlayerIdentifierProvider PlayerIdentifierProvider;
+		private readonly IAvitarIdentifierProvider AvitarIdentifierProvider;
 		private readonly IEnumerable<BlackJackPlayer> Dealers;
 
 		public BlackJackPlayer Dealer => RandomDealer();
 
-		public DealerProvider(IPlayerIdentifierProvider playerIdentifier)
+		public DealerProvider(IAvitarIdentifierProvider avitarIdentifier)
 		{
-			PlayerIdentifierProvider = playerIdentifier ?? throw new ArgumentNullException(nameof(playerIdentifier));
+			AvitarIdentifierProvider = avitarIdentifier ?? throw new ArgumentNullException(nameof(avitarIdentifier));
 			Dealers = DealersList();
 		}
 
@@ -29,10 +29,14 @@ namespace Interactors.Providers
 		{
 			var dealers = new List<BlackJackPlayer>
 			{
-				new BlackJackPlayer(PlayerIdentifierProvider.GeneratePlayerId(), new Player("Data"), new List<string>() { "QWRW-1245" }),
-				new BlackJackPlayer(PlayerIdentifierProvider.GeneratePlayerId(), new Player("Jerry Maguire"), new List<string>() { "QWRW-1245" }),
-				new BlackJackPlayer(PlayerIdentifierProvider.GeneratePlayerId(), new Player("James Bond"), new List<string>() { "QWRW-1245" }),
-				new BlackJackPlayer(PlayerIdentifierProvider.GeneratePlayerId(), new Player("Rain Man"), new List<string>() { "QWRW-1245" })
+				new BlackJackPlayer(new KeyValuePair<string, Player> (
+					AvitarIdentifierProvider.GenerateAvitar(), new Player("Data")), new List<string>() { "QWRW-1245" }),
+				new BlackJackPlayer(new KeyValuePair<string, Player> (
+					AvitarIdentifierProvider.GenerateAvitar(), new Player("Jerry Maguire")), new List<string>() { "QWRW-1245" }),
+				new BlackJackPlayer(new KeyValuePair<string, Player> (
+					AvitarIdentifierProvider.GenerateAvitar(), new Player("James Bond")), new List<string>() { "QWRW-1245" }),
+				new BlackJackPlayer(new KeyValuePair<string, Player> (
+					AvitarIdentifierProvider.GenerateAvitar(), new Player("Rain Man")), new List<string>() { "QWRW-1245" })
 			};
 			return dealers;
 		}

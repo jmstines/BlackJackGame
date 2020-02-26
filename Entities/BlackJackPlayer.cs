@@ -12,41 +12,19 @@ namespace Entities
 		public IDictionary<string, Hand> Hands => hands;
 		public PlayerStatusTypes Status { get; set; }
 
-		private readonly List<string> handIds;
+		private readonly List<string> HandIds;
 		private readonly Dictionary<string, Hand> hands = new Dictionary<string, Hand>();
 
-		public BlackJackPlayer(string id, Player player, IEnumerable<string> ids)
+		public BlackJackPlayer(KeyValuePair<string, Player> player, IEnumerable<string> handIds)
 		{
-			Name = player?.Name ?? throw new ArgumentNullException(nameof(player.Name));
-			PlayerIdentifier = id ?? throw new ArgumentNullException(nameof(id));
-			handIds = ids?.ToList() ?? throw new ArgumentNullException(nameof(ids));
+			Name = player.Value.Name;
+			PlayerIdentifier = player.Key;
+			HandIds = handIds?.ToList() ?? throw new ArgumentNullException(nameof(handIds));
 
 			AddHands();
 			Status = PlayerStatusTypes.InProgress;
 		}
 
-		public void AddHands() => handIds.ForEach(id => hands.Add(id, new Hand()));
-
-		public override bool Equals(object obj)
-		{
-			return obj is BlackJackPlayer player &&
-				   Name == player.Name &&
-				   PlayerIdentifier == player.PlayerIdentifier;
-		}
-
-		public override int GetHashCode()
-		{
-			return HashCode.Combine(Name, PlayerIdentifier);
-		}
-
-		public static bool operator ==(BlackJackPlayer left, BlackJackPlayer right)
-		{
-			return EqualityComparer<BlackJackPlayer>.Default.Equals(left, right);
-		}
-
-		public static bool operator !=(BlackJackPlayer left, BlackJackPlayer right)
-		{
-			return !(left == right);
-		}
+		public void AddHands() => HandIds.ForEach(id => hands.Add(id, new Hand()));
 	}
 }

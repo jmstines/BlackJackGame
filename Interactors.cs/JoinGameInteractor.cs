@@ -41,7 +41,7 @@ namespace Interactors
 			var player = PlayerRepository.ReadAsync(requestModel.PlayerId);
 			var playerIdentifier = IdentifierProviders.GeneratePlayerId();
 			var handIds = IdentifierProviders.GenerateHandIds(requestModel.HandCount);
-			var currentPlayer = new BlackJackPlayer(playerIdentifier, player, handIds);
+			var currentPlayer = new BlackJackPlayer(player, handIds);
 
 			KeyValuePair<string, BlackJackGame> valuePair = GameRepository.FindByStatusFirstOrDefault(GameStatus.Waiting, requestModel.MaxPlayers);
 			var gameIdentifier = valuePair.Key ?? IdentifierProviders.GenerateGameId();

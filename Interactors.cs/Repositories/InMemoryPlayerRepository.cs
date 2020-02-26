@@ -12,7 +12,7 @@ namespace Interactors.Repositories
 
 		public void CreatePlayerAsync(string identifier, Player player) => Players.Add(identifier, player);
 
-		public Player ReadAsync(string identifier) => Players.Single(g => g.Key.Equals(identifier)).Value;
+		public KeyValuePair<string, Player> ReadAsync(string identifier) => Players.Single(g => g.Key.Equals(identifier));
 
 		public void UpdatePlayer(string identifier, Player player)
 		{

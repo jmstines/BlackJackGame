@@ -203,7 +203,7 @@ namespace BlackJackConsoleApp
 			container.RegisterSingleton<IPlayerRepository, InMemoryPlayerRepository>();
 			container.RegisterSingleton<IGameRepository, InMemoryGameRepository>();
 			container.RegisterSingleton<IGameIdentifierProvider, GuidBasedGameIdentifierProvider>();
-			container.RegisterSingleton<IDealerProvicer, DealerProvider>();
+			container.RegisterSingleton<IDealerProvider, DealerProvider>();
 			container.RegisterSingleton<IRandomProvider, RandomProvider>();
 			container.RegisterSingleton<ICardProvider, CardProvider>();
 			container.RegisterSingleton<Deck, Deck>();

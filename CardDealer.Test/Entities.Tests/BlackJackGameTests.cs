@@ -1,4 +1,5 @@
 ﻿using Entities.Enums;
+using Interactors.Providers;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ namespace Entities.Tests
 	{
 		private const string playerName = "Sam";
 		private const string playerName2 = "Tom";
+		private readonly BlackJackPlayer DealerNamedData = new BlackJackPlayer(new KeyValuePair<string, Player>(
+					"1234ck64-f9d8", new Player("Data")), new List<string>() { "QWRW-1245" });
 
 		[Test]
 		public void NewGame_NullPlayer_ArgumentNullException()
@@ -18,13 +21,13 @@ namespace Entities.Tests
 				playerName,
 				playerName2
 			};
-			Assert.Throws<ArgumentNullException>(() => new BlackJackGame(4).AddPlayer(null));
+			Assert.Throws<ArgumentNullException>(() => new BlackJackGame(DealerNamedData, 4).AddPlayer(null));
 		}
 
 		[Test]
 		public void NewGame_NullDeck_PlayerArgumentNullException()
 		{
-			var game = new BlackJackGame(4);
+			var game = new BlackJackGame(DealerNamedData ,4);
 			var player = new Player(playerName);
 			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), new List<string>() { "8625cf04-b7e2" }));
 			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), new List<string>() { "8625cf04-b7e2" }));
@@ -38,7 +41,7 @@ namespace Entities.Tests
 		[Test]
 		public void NewGame_SinglePlayer_PlayerCountOne()
 		{
-			var game = new BlackJackGame(4);
+			var game = new BlackJackGame(DealerNamedData, 4);
 			var player = new Player(playerName);
 			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), new List<string>() { "8625cf04-b7e2" }));
 			Assert.AreEqual(1, game.Players.Count());
@@ -46,22 +49,22 @@ namespace Entities.Tests
 		}
 
 		[Test]
-		public void NewGame_FullGame_AutoStarts()
+		public void NewGame_FullGame_AutoSetToReady()
 		{
-			var game = new BlackJackGame(4);
+			var game = new BlackJackGame(DealerNamedData, 4);
 			var player = new Player(playerName);
 			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), new List<string>() { "8625cf04-b7e2" }));
 			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), new List<string>() { "8625cf04-b7e2" }));
 			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), new List<string>() { "8625cf04-b7e2" }));
 			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), new List<string>() { "8625cf04-b7e2" }));
-			Assert.AreEqual(4, game.Players.Count());
-			Assert.AreEqual(GameStatus.InProgress, game.Status);
+			Assert.AreEqual(5, game.Players.Count());
+			Assert.AreEqual(GameStatus.Ready, game.Status);
 		}
 
 		[Test]
 		public void NewGame_SinglePlayerAndDealer_CurrentPlayerIndexZero()
 		{
-			var game = new BlackJackGame(4);
+			var game = new BlackJackGame(DealerNamedData, 4);
 			var player = new Player(playerName);
 			var player2 = new Player(playerName2);
 

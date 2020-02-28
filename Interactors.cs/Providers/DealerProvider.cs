@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Interactors.Providers
 {
-	public class DealerProvider : IDealerProvicer
+	public class DealerProvider : IDealerProvider
 	{
 		private readonly IAvitarIdentifierProvider AvitarIdentifierProvider;
 		private readonly IEnumerable<BlackJackPlayer> Dealers;

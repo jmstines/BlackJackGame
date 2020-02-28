@@ -2,7 +2,7 @@
 
 namespace Interactors.Providers
 {
-	public interface IDealerProvicer
+	public interface IDealerProvider
 	{
 		BlackJackPlayer Dealer { get; }
 	}

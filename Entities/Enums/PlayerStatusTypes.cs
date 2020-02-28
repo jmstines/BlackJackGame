@@ -2,7 +2,8 @@
 {
 	public enum PlayerStatusTypes
 	{
-		Ready = 1,
+		Waiting = 1,
+		Ready,
 		InProgress,
 		Push,
 		PlayerWins,

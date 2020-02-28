@@ -27,12 +27,7 @@ namespace Interactors.Repositories
 				g.Value.Status == status &&
 				g.Value.Players.Count() < maxPlayers);
 
-			if (game.Key == null)
-			{
-				game = new KeyValuePair<string, BlackJackGame>(string.Empty, new BlackJackGame(maxPlayers));
-			}
-
-			return game;
+			return game.Key == null ? new KeyValuePair<string, BlackJackGame>(string.Empty, null) : game;
 		}
 	}
 }

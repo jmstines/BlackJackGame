@@ -25,12 +25,19 @@ namespace Interactors
 		private readonly IGameRepository GameRepository;
 		private readonly IGuidBasedIdentifierProviders IdentifierProviders;
 		private readonly IPlayerRepository PlayerRepository;
+		private readonly IDealerProvider DealerProvider;
 
-		public JoinGameInteractor(IGameRepository gameRepository, IPlayerRepository playerRepository, IGuidBasedIdentifierProviders identifierProviders)
+		public JoinGameInteractor(
+			IGameRepository gameRepository, 
+			IPlayerRepository playerRepository, 
+			IDealerProvider dealerProvider, 
+			IGuidBasedIdentifierProviders identifierProviders
+			)
 		{
 			GameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
 			IdentifierProviders = identifierProviders ?? throw new ArgumentNullException(nameof(identifierProviders));
 			PlayerRepository = playerRepository ?? throw new ArgumentNullException(nameof(playerRepository));
+			DealerProvider = dealerProvider ?? throw new ArgumentNullException(nameof(dealerProvider));
 		}
 
 		public void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
@@ -44,10 +51,10 @@ namespace Interactors
 
 			string gameIdentifier;
 			BlackJackGame game;
-			if (keyAndGame.Key == string.Empty)
+			if (string.IsNullOrEmpty(keyAndGame.Key))
 			{
 				gameIdentifier = IdentifierProviders.GenerateGameId();
-				game = new BlackJackGame(requestModel.MaxPlayers);
+				game = new BlackJackGame(DealerProvider.Dealer, requestModel.MaxPlayers);
 			}
 			else
 			{

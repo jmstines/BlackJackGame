@@ -26,14 +26,14 @@ namespace Entities.Tests
 			var sam = new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player1), new List<string>() { "QWRW-1245" });
 			Assert.AreEqual(false, sam.Hands.First().Value.Cards.Any());
 			Assert.AreEqual(playerName, sam.Name);
-			Assert.AreEqual(PlayerStatusTypes.InProgress, sam.Status);
+			Assert.AreEqual(PlayerStatusTypes.Waiting, sam.Status);
 		}
 
 		[Test]
 		public void NewPlayer_NoCards_StatusInProgress()
 		{
 			var sam = new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player1), new List<string>() { "QWRW-1245" });
-			Assert.AreEqual(PlayerStatusTypes.InProgress, sam.Status);
+			Assert.AreEqual(PlayerStatusTypes.Waiting, sam.Status);
 		}
 
 		[Test]

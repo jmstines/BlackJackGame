@@ -24,12 +24,10 @@ namespace Interactors
 
 		private readonly IGameRepository GameRepository;
 		private readonly ICardProvider CardProvider;
-		private readonly IDealerProvicer DealerProvider;
 
-		public BeginGameInteractor(IGameRepository gameRepository, IDealerProvicer dealerProvider, ICardProvider cardProvider)
+		public BeginGameInteractor(IGameRepository gameRepository, ICardProvider cardProvider)
 		{
 			GameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
-			DealerProvider = dealerProvider ?? throw new ArgumentNullException(nameof(dealerProvider));
 			CardProvider = cardProvider ?? throw new ArgumentNullException(nameof(cardProvider));
 		}
 
@@ -38,15 +36,12 @@ namespace Interactors
 			var game = GameRepository.ReadAsync(requestModel.GameIdentifier);
 			game.SetPlayerStatusReady(requestModel.PlayerIdentifier);
 
-			if (game.Players.All(p => p.Status == PlayerStatusTypes.Ready))
+			if (game.Status == GameStatus.InProgress)
 			{
-				game.AddDealer(DealerProvider.Dealer);
-				game.Status = GameStatus.InProgress;
-
+				// TODO: Move this logic out if Possible
 				var cardCount = game.Players.Sum(p => p.Hands.Count());
 				var cards = CardProvider.Cards(cardCount);
-
-
+				
 				game.Players.ToList().ForEach(p => p.Hands.ToList().ForEach(h => h.Value.AddCardRange(cards.Take(2))));
 			}
 			//new BlackJackOutcomes(game).UpdateStatus();

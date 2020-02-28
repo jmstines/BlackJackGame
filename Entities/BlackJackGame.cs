@@ -16,7 +16,13 @@ namespace Entities
 		public GameStatus Status { get; set; } = GameStatus.Waiting;
 		public int MaxPlayerCount { get; private set; }
 
-		public BlackJackGame(int maxPlayers) => MaxPlayerCount = maxPlayers;
+		public BlackJackGame() { }
+
+		public BlackJackGame(BlackJackPlayer dealer, int maxPlayers)
+		{
+			Dealer = dealer ?? throw new ArgumentNullException(nameof(dealer));
+			MaxPlayerCount = maxPlayers;
+		}
 
 		public void AddPlayer(BlackJackPlayer player)
 		{
@@ -25,44 +31,51 @@ namespace Entities
 			{
 				throw new InvalidOperationException($"{player.Name} can NOT join game, The game Status is {Status}.");
 			}
-			if (Dealer != null)
-			{
-				throw new InvalidOperationException($"{player.Name} can NOT join game, The Dealer Has Already Joined.");
-			}
-
-			if (!Players.Any())
-			{
-				CurrentPlayer = player;
-			}
-
+			
+			SetCurrentPlayerOnFirstPlayerAdd(player);
 			players.Add(player);
-			SetInProgressOnMaxPlayers();
-		}
 
-		public void AddDealer(BlackJackPlayer dealer)
-		{
-			Dealer = dealer ?? throw new ArgumentNullException(nameof(dealer));
-			players.Add(dealer);
-			Dealer.Status = PlayerStatusTypes.Ready;
+			AddDealerToListAfterFinalPlayer();
+			SetReadyOnMaxPlayers();
 		}
 
 		public void SetPlayerStatusReady(string id)
 		{
-			players.Where(p => p.PlayerIdentifier.Equals(id)).Single().Status = PlayerStatusTypes.Ready;
-			if (players.All(p => p != Dealer && p.Status.Equals(PlayerStatusTypes.Ready)))
+			var player = players.Where(p => p.PlayerIdentifier.Equals(id)).Single();
+			player.Status = PlayerStatusTypes.Ready;
+			SetGameInProgressOnAllPlayersReady();
+		}
+
+		private void SetCurrentPlayerOnFirstPlayerAdd(BlackJackPlayer player)
+		{
+			if (!Players.Any())
 			{
-				Status = GameStatus.InProgress;
+				CurrentPlayer = player;
 			}
 		}
 
-		private void SetInProgressOnMaxPlayers() =>
-			Status = players.Count >= MaxPlayerCount ?
-			GameStatus.InProgress :
-			GameStatus.Waiting;
+		private void AddDealerToListAfterFinalPlayer()
+		{
+			if (players.Count == MaxPlayerCount)
+			{
+				players.Add(Dealer);
+			}
+		}
 
-		public void PlayerHolds() => CurrentPlayer = CurrentPlayer.Equals(players.Last()) ?
-			Players.First() :
-			Players.ElementAt(players.IndexOf(CurrentPlayer) + 1);
+		private void SetGameInProgressOnAllPlayersReady() => Status = 
+				players.Count == MaxPlayerCount
+				&& players.All(p => p != Dealer
+					&& p.Status.Equals(PlayerStatusTypes.Ready))
+				? GameStatus.InProgress
+				: GameStatus.Waiting;
+
+		private void SetReadyOnMaxPlayers() => Status = players.Count >= MaxPlayerCount
+				? GameStatus.Ready
+				: GameStatus.Waiting;
+
+		public void PlayerHolds() => CurrentPlayer = CurrentPlayer.Equals(players.Last())
+				? Players.First()
+				: Players.ElementAt(players.IndexOf(CurrentPlayer) + 1);
 
 		public void PlayerHits(string handId, ICard card)
 		{

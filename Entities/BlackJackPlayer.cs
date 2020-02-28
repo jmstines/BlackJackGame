@@ -22,7 +22,7 @@ namespace Entities
 			HandIds = handIds?.ToList() ?? throw new ArgumentNullException(nameof(handIds));
 
 			AddHands();
-			Status = PlayerStatusTypes.InProgress;
+			Status = PlayerStatusTypes.Waiting;
 		}
 
 		public void AddHands() => HandIds.ForEach(id => hands.Add(id, new Hand()));

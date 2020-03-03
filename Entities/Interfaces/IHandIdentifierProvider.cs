@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Interactors.Providers
+namespace Entities.Interfaces
 {
 	public interface IHandIdentifierProvider
 	{

@@ -1,4 +1,6 @@
 ﻿using Entities.Enums;
+using Interactors.Providers;
+using Entities.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,19 +14,24 @@ namespace Entities
 		public IDictionary<string, Hand> Hands => hands;
 		public PlayerStatusTypes Status { get; set; }
 
-		private readonly List<string> HandIds;
 		private readonly Dictionary<string, Hand> hands = new Dictionary<string, Hand>();
+		private readonly IHandIdentifierProvider handIdProvider;
 
-		public BlackJackPlayer(KeyValuePair<string, Player> player, IEnumerable<string> handIds)
+		public BlackJackPlayer(KeyValuePair<string, Player> player, IHandIdentifierProvider handIdProvider)
 		{
 			Name = player.Value.Name;
 			PlayerIdentifier = player.Key;
-			HandIds = handIds?.ToList() ?? throw new ArgumentNullException(nameof(handIds));
+			this.handIdProvider = handIdProvider;
 
-			AddHands();
 			Status = PlayerStatusTypes.Waiting;
 		}
 
-		public void AddHands() => HandIds.ForEach(id => hands.Add(id, new Hand()));
+		public void AddHands(int handCount)
+		{
+			foreach(var id in handIdProvider.GenerateHandIds(handCount))
+			{
+				Hands.Add(id, new Hand());
+			}
+		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Entities.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,14 @@ namespace Interactors.Providers
 	{
 		private readonly IAvitarIdentifierProvider AvitarIdentifierProvider;
 		private readonly IEnumerable<BlackJackPlayer> Dealers;
+		private readonly IHandIdentifierProvider HandIdentifierProvider;
 
 		public BlackJackPlayer Dealer => RandomDealer();
 
-		public DealerProvider(IAvitarIdentifierProvider avitarIdentifier)
+		public DealerProvider(IAvitarIdentifierProvider avitarIdentifier, IHandIdentifierProvider handIdentifierProvider)
 		{
 			AvitarIdentifierProvider = avitarIdentifier ?? throw new ArgumentNullException(nameof(avitarIdentifier));
+			HandIdentifierProvider = handIdentifierProvider ?? throw new ArgumentNullException(nameof(handIdentifierProvider));
 			Dealers = DealersList();
 		}
 
@@ -30,13 +33,13 @@ namespace Interactors.Providers
 			var dealers = new List<BlackJackPlayer>
 			{
 				new BlackJackPlayer(new KeyValuePair<string, Player> (
-					AvitarIdentifierProvider.GenerateAvitar(), new Player("Data")), new List<string>() { "QWRW-1245" }),
+					AvitarIdentifierProvider.GenerateAvitar(), new Player("Data")), HandIdentifierProvider),
 				new BlackJackPlayer(new KeyValuePair<string, Player> (
-					AvitarIdentifierProvider.GenerateAvitar(), new Player("Jerry Maguire")), new List<string>() { "QWRW-1245" }),
+					AvitarIdentifierProvider.GenerateAvitar(), new Player("Jerry Maguire")), HandIdentifierProvider),
 				new BlackJackPlayer(new KeyValuePair<string, Player> (
-					AvitarIdentifierProvider.GenerateAvitar(), new Player("James Bond")), new List<string>() { "QWRW-1245" }),
+					AvitarIdentifierProvider.GenerateAvitar(), new Player("James Bond")), HandIdentifierProvider),
 				new BlackJackPlayer(new KeyValuePair<string, Player> (
-					AvitarIdentifierProvider.GenerateAvitar(), new Player("Rain Man")), new List<string>() { "QWRW-1245" })
+					AvitarIdentifierProvider.GenerateAvitar(), new Player("Rain Man")), HandIdentifierProvider)
 			};
 			return dealers;
 		}

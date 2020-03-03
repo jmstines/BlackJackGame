@@ -23,12 +23,11 @@ namespace Interactors
 		}
 
 		private readonly IGameRepository GameRepository;
-		private readonly ICardProvider CardProvider;
 
-		public BeginGameInteractor(IGameRepository gameRepository, ICardProvider cardProvider)
+		public BeginGameInteractor(IGameRepository gameRepository)
 		{
 			GameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
-			CardProvider = cardProvider ?? throw new ArgumentNullException(nameof(cardProvider));
+
 		}
 
 		public void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
@@ -38,13 +37,8 @@ namespace Interactors
 
 			if (game.Status == GameStatus.InProgress)
 			{
-				// TODO: Move this logic out if Possible
-				var cardCount = game.Players.Sum(p => p.Hands.Count());
-				var cards = CardProvider.Cards(cardCount);
-				
-				game.Players.ToList().ForEach(p => p.Hands.ToList().ForEach(h => h.Value.AddCardRange(cards.Take(2))));
+				game.DealHands();
 			}
-			//new BlackJackOutcomes(game).UpdateStatus();
 
 			GameRepository.UpdateAsync(requestModel.GameIdentifier, game);
 			var gameDto = new BlackJackGameDtoMapper(game);

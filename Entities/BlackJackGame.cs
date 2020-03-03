@@ -1,5 +1,6 @@
 ﻿using Entities.Enums;
 using Entities.Interfaces;
+using Interactors.Providers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace Entities
 	public class BlackJackGame
 	{
 		private readonly List<BlackJackPlayer> players = new List<BlackJackPlayer>();
+		private readonly ICardProvider cardProvider;
 
 		public IEnumerable<BlackJackPlayer> Players => players;
 		public BlackJackPlayer CurrentPlayer { get; private set; }
@@ -18,10 +20,11 @@ namespace Entities
 
 		public BlackJackGame() { }
 
-		public BlackJackGame(BlackJackPlayer dealer, int maxPlayers)
+		public BlackJackGame(ICardProvider cardProvider, BlackJackPlayer dealer, int maxPlayers)
 		{
 			Dealer = dealer ?? throw new ArgumentNullException(nameof(dealer));
 			MaxPlayerCount = maxPlayers;
+			this.cardProvider = cardProvider ?? throw new ArgumentNullException(nameof(cardProvider));
 		}
 
 		public void AddPlayer(BlackJackPlayer player)
@@ -44,6 +47,29 @@ namespace Entities
 			var player = players.Where(p => p.PlayerIdentifier.Equals(id)).Single();
 			player.Status = PlayerStatusTypes.Ready;
 			SetGameInProgressOnAllPlayersReady();
+		}
+
+		public void PlayerHolds() => CurrentPlayer = CurrentPlayer.Equals(players.Last())
+		? Players.First()
+		: Players.ElementAt(players.IndexOf(CurrentPlayer) + 1);
+
+		public void PlayerHits(string handId, ICard card)
+		{
+			if (card.Rank == 0 || card.Suit == 0) throw new ArgumentOutOfRangeException(nameof(card));
+			_ = handId ?? throw new ArgumentNullException(nameof(handId));
+			if (CurrentPlayer.Hands.TryGetValue(handId, out Hand hand))
+			{
+				throw new ArgumentException(nameof(handId));
+			}
+			hand.AddCard(card);
+		}
+
+		public void DealHands()
+		{
+			var cardCount = Players.Sum(p => p.Hands.Count());
+			var cards = cardProvider.Cards(cardCount);
+
+			Players.ToList().ForEach(p => p.Hands.ToList().ForEach(h => h.Value.AddCardRange(cards.Take(2))));
 		}
 
 		private void SetCurrentPlayerOnFirstPlayerAdd(BlackJackPlayer player)
@@ -72,20 +98,5 @@ namespace Entities
 		private void SetReadyOnMaxPlayers() => Status = players.Count >= MaxPlayerCount
 				? GameStatus.Ready
 				: GameStatus.Waiting;
-
-		public void PlayerHolds() => CurrentPlayer = CurrentPlayer.Equals(players.Last())
-				? Players.First()
-				: Players.ElementAt(players.IndexOf(CurrentPlayer) + 1);
-
-		public void PlayerHits(string handId, ICard card)
-		{
-			if (card.Rank == 0 || card.Suit == 0) throw new ArgumentOutOfRangeException(nameof(card));
-			_ = handId ?? throw new ArgumentNullException(nameof(handId));
-			if(CurrentPlayer.Hands.TryGetValue(handId, out Hand hand))
-			{
-				throw new ArgumentException(nameof(handId));
-			}
-			hand.AddCard(card);
-		}
 	}
 }

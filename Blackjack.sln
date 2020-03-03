@@ -8,6 +8,7 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardDealer.Tests", "CardDealer.Test\CardDealer.Tests.csproj", "{9922132D-9AEA-4B9F-92ED-3D0D15D8EC56}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A699F46F-46EB-4EDF-8AE1-D0E8F5B94C6C} = {A699F46F-46EB-4EDF-8AE1-D0E8F5B94C6C}
+		{154A13F6-B2A1-41A9-9D23-55529EB45F5E} = {154A13F6-B2A1-41A9-9D23-55529EB45F5E}
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interactors", "Interactors.cs\Interactors.csproj", "{75C29FA0-7AF9-47E3-BD85-7E893920854B}"
@@ -24,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackJackConsoleApp", "Blac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{154A13F6-B2A1-41A9-9D23-55529EB45F5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJackBlazorApp", "BlackJackBlazorApp\BlackJackBlazorApp.csproj", "{F146F290-CF59-446E-8B09-43200C16A472}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackJackBlazorApp", "BlackJackBlazorApp\BlackJackBlazorApp.csproj", "{F146F290-CF59-446E-8B09-43200C16A472}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Interactors.Providers
 {
-	class GuidBasedHandIdentifierProvider : GuidBasedIdentiferProviderBase, IHandIdentifierProvider
+	public class GuidBasedHandIdentifierProvider : GuidBasedIdentiferProviderBase, IHandIdentifierProvider
 	{
 		public IEnumerable<string> GenerateHandIds(int count)
 		{

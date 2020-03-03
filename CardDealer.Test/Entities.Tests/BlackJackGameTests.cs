@@ -1,5 +1,6 @@
-﻿using Entities.Enums;
-using Interactors.Providers;
+﻿using CardDealer.Tests.Providers.Mocks;
+using Entities.Enums;
+using Entities.Interfaces;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,19 @@ namespace Entities.Tests
 	{
 		private const string playerName = "Sam";
 		private const string playerName2 = "Tom";
-		private readonly BlackJackPlayer DealerNamedData = new BlackJackPlayer(new KeyValuePair<string, Player>(
-					"1234ck64-f9d8", new Player("Data")), new List<string>() { "QWRW-1245" });
+		private readonly BlackJackPlayer DealerNamedData;
+		private readonly Deck cards = new Deck();
+		private readonly IRandomProvider random = new RandomProvider();
+		private readonly CardProvider cardProvider;
+		private readonly IHandIdentifierProvider HandIdentifierProvider;
+
+		public BlackJackGameTests()
+		{
+			cardProvider = new CardProvider(random, cards);
+			HandIdentifierProvider = new GuidBasedHandIdentifierProviderMock();
+			DealerNamedData = new BlackJackPlayer(new KeyValuePair<string, Player>(
+					"1234ck64-f9d8", new Player("Data")), HandIdentifierProvider);
+		}
 
 		[Test]
 		public void NewGame_NullPlayer_ArgumentNullException()
@@ -21,29 +33,39 @@ namespace Entities.Tests
 				playerName,
 				playerName2
 			};
-			Assert.Throws<ArgumentNullException>(() => new BlackJackGame(DealerNamedData, 4).AddPlayer(null));
+			Assert.Throws<ArgumentNullException>(() => new BlackJackGame(cardProvider, DealerNamedData, 4).AddPlayer(null));
+		}
+
+		[Test]
+		public void NewGame_NullCardProvider_ArgumentNullException()
+		{
+			var players = new List<string>() {
+				playerName,
+				playerName2
+			};
+			Assert.Throws<ArgumentNullException>(() => new BlackJackGame(null, DealerNamedData, 4));
 		}
 
 		[Test]
 		public void NewGame_NullDeck_PlayerArgumentNullException()
 		{
-			var game = new BlackJackGame(DealerNamedData ,4);
+			var game = new BlackJackGame(cardProvider, DealerNamedData ,4);
 			var player = new Player(playerName);
-			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), new List<string>() { "8625cf04-b7e2" }));
-			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), new List<string>() { "8625cf04-b7e2" }));
-			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), new List<string>() { "8625cf04-b7e2" }));
-			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), new List<string>() { "8625cf04-b7e2" }));
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), HandIdentifierProvider));
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), HandIdentifierProvider));
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), HandIdentifierProvider));
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), HandIdentifierProvider));
 
 			Assert.Throws<InvalidOperationException>(() => game.AddPlayer(
-				new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), new List<string>() { "8625cf04-b7e2" })));
+				new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), HandIdentifierProvider)));
 		}
 
 		[Test]
 		public void NewGame_SinglePlayer_PlayerCountOne()
 		{
-			var game = new BlackJackGame(DealerNamedData, 4);
+			var game = new BlackJackGame(cardProvider, DealerNamedData, 4);
 			var player = new Player(playerName);
-			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), new List<string>() { "8625cf04-b7e2" }));
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), HandIdentifierProvider));
 			Assert.AreEqual(1, game.Players.Count());
 			Assert.AreEqual(GameStatus.Waiting, game.Status);
 		}
@@ -51,12 +73,12 @@ namespace Entities.Tests
 		[Test]
 		public void NewGame_FullGame_AutoSetToReady()
 		{
-			var game = new BlackJackGame(DealerNamedData, 4);
+			var game = new BlackJackGame(cardProvider, DealerNamedData, 4);
 			var player = new Player(playerName);
-			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), new List<string>() { "8625cf04-b7e2" }));
-			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), new List<string>() { "8625cf04-b7e2" }));
-			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), new List<string>() { "8625cf04-b7e2" }));
-			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), new List<string>() { "8625cf04-b7e2" }));
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), HandIdentifierProvider));
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), HandIdentifierProvider));
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), HandIdentifierProvider));
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), HandIdentifierProvider));
 			Assert.AreEqual(5, game.Players.Count());
 			Assert.AreEqual(GameStatus.Ready, game.Status);
 		}
@@ -64,12 +86,12 @@ namespace Entities.Tests
 		[Test]
 		public void NewGame_SinglePlayerAndDealer_CurrentPlayerIndexZero()
 		{
-			var game = new BlackJackGame(DealerNamedData, 4);
+			var game = new BlackJackGame(cardProvider, DealerNamedData, 4);
 			var player = new Player(playerName);
 			var player2 = new Player(playerName2);
 
-			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), new List<string>() { "8625cf04-b7e2" }));
-			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player2), new List<string>() { "8625cf04-b7e2" }));
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), HandIdentifierProvider));
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player2), HandIdentifierProvider));
 			Assert.AreEqual(playerName, game.CurrentPlayer.Name);
 		}
 

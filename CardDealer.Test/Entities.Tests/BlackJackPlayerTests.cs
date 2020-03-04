@@ -1,4 +1,5 @@
-﻿using Entities.Enums;
+﻿using CardDealer.Tests.Providers.Mocks;
+using Entities.Enums;
 using Entities.Interfaces;
 using NUnit.Framework;
 using System;
@@ -18,7 +19,7 @@ namespace Entities.Tests
 
 		public BlackJackPlayerTests()
 		{
-			HandIdentifierProvider = new GuidBasedHandIdentifierProvider();
+			HandIdentifierProvider = new GuidBasedHandIdentifierProviderMock();
 		}
 
 		[Test]
@@ -32,6 +33,7 @@ namespace Entities.Tests
 		public void NewPlayer_NoCards_HandEmpty()
 		{
 			var sam = new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player1), HandIdentifierProvider);
+			sam.AddHands(1);
 			Assert.AreEqual(false, sam.Hands.First().Value.Cards.Any());
 			Assert.AreEqual(playerName, sam.Name);
 			Assert.AreEqual(PlayerStatusTypes.Waiting, sam.Status);
@@ -48,6 +50,7 @@ namespace Entities.Tests
 		public void NewPlayer_CalculateTotal_TotalFive()
 		{
 			var sam = new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player1), HandIdentifierProvider);
+			sam.AddHands(1);
 			var blkJkTwoClubs = new BlackJackCard(twoClubs, true);
 			var blkJkThreeClubs = new BlackJackCard(threeClubs, true);
 			sam.Hands.First().Value.AddCard(blkJkTwoClubs);
@@ -59,6 +62,7 @@ namespace Entities.Tests
 		public void Player_DrawCard_TotalFifteen()
 		{
 			var playerOne = new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player1), HandIdentifierProvider);
+			playerOne.AddHands(1);
 			var blkJkTwoClubs = new BlackJackCard(twoClubs, true);
 			var blkJkThreeClubs = new BlackJackCard(threeClubs, true);
 			var blkJkJackClubs = new BlackJackCard(jackClubs, true);
@@ -73,6 +77,7 @@ namespace Entities.Tests
 		public void Player_DrawCard_FirstCardFaceDown()
 		{
 			var playerOne = new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player1), HandIdentifierProvider);
+			playerOne.AddHands(1);
 			var blkJkTwoClubs = new BlackJackCard(twoClubs, true);
 			playerOne.Hands.First().Value.AddCard(blkJkTwoClubs);
 
@@ -83,6 +88,7 @@ namespace Entities.Tests
 		public void Player_DrawCard_SecondCardFaceUp()
 		{
 			var playerOne = new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player1), HandIdentifierProvider);
+			playerOne.AddHands(1);
 			var blkJkTwoClubs = new BlackJackCard(twoClubs, true);
 			var blkJkThreeClubs = new BlackJackCard(threeClubs, false);
 			playerOne.Hands.First().Value.AddCard(blkJkTwoClubs);
@@ -95,6 +101,7 @@ namespace Entities.Tests
 		public void Player_DrawCard_ThirdCardFaceUp()
 		{
 			var playerOne = new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player1), HandIdentifierProvider);
+			playerOne.AddHands(1);
 			var blkJkTwoClubs = new BlackJackCard(twoClubs, true);
 			var blkJkThreeClubs = new BlackJackCard(threeClubs, false);
 			var blkJkJackClubs = new BlackJackCard(jackClubs, true);

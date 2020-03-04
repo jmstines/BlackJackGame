@@ -1,5 +1,4 @@
-﻿using Entities;
-using Interactors.Boundaries;
+﻿using Interactors.Boundaries;
 using Interactors.Repositories;
 using Interactors.ResponceDtos;
 using Interactors.ResponseDtoMapper;

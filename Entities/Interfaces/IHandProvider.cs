@@ -1,7 +1,6 @@
-﻿using Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Interactors.Providers
+namespace Entities.Interfaces
 {
 	public interface IHandProvider
 	{

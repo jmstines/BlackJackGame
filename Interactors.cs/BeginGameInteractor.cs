@@ -1,11 +1,9 @@
 ﻿using Entities.Enums;
 using Interactors.Boundaries;
-using Interactors.Providers;
 using Interactors.Repositories;
 using Interactors.ResponceDtos;
 using Interactors.ResponseDtoMapper;
 using System;
-using System.Linq;
 
 namespace Interactors
 {

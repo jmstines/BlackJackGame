@@ -1,6 +1,5 @@
 ﻿using Entities.Enums;
 using Entities.Interfaces;
-using Interactors.Providers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

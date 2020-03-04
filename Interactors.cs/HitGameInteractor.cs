@@ -1,6 +1,5 @@
-﻿using Entities;
+﻿using Entities.Interfaces;
 using Interactors.Boundaries;
-using Interactors.Providers;
 using Interactors.Repositories;
 using Interactors.ResponceDtos;
 using Interactors.ResponseDtoMapper;

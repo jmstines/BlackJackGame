@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Entities.Interfaces;
 
 namespace Interactors.Providers
 {

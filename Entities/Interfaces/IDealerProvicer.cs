@@ -1,6 +1,4 @@
-﻿using Entities;
-
-namespace Interactors.Providers
+﻿namespace Entities.Interfaces
 {
 	public interface IDealerProvider
 	{

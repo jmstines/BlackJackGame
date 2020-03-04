@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Entities.Interfaces;
 
 namespace Interactors.Providers
 {

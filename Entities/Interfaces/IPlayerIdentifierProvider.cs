@@ -1,4 +1,4 @@
-﻿namespace Interactors.Providers
+﻿namespace Entities.Interfaces
 {
 	public interface IPlayerIdentifierProvider
 	{

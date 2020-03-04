@@ -15,12 +15,12 @@ namespace Entities.Tests
 		private readonly BlackJackPlayer DealerNamedData;
 		private readonly Deck cards = new Deck();
 		private readonly IRandomProvider random = new RandomProvider();
-		private readonly CardProvider cardProvider;
+		private readonly ICardProvider cardProvider;
 		private readonly IHandIdentifierProvider HandIdentifierProvider;
 
 		public BlackJackGameTests()
 		{
-			cardProvider = new CardProvider(random, cards);
+			cardProvider = new CardProviderMock();
 			HandIdentifierProvider = new GuidBasedHandIdentifierProviderMock();
 			DealerNamedData = new BlackJackPlayer(new KeyValuePair<string, Player>(
 					"1234ck64-f9d8", new Player("Data")), HandIdentifierProvider);

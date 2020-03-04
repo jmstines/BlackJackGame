@@ -1,9 +1,6 @@
 ﻿using Entities.Enums;
-using Interactors.Providers;
 using Entities.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Entities
 {

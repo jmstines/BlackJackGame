@@ -14,10 +14,10 @@ namespace Entities
 		private readonly Dictionary<string, Hand> hands = new Dictionary<string, Hand>();
 		private readonly IHandIdentifierProvider handIdProvider;
 
-		public BlackJackPlayer(KeyValuePair<string, Player> player, IHandIdentifierProvider handIdProvider)
+		public BlackJackPlayer(KeyValuePair<string, Avitar> avitar, IHandIdentifierProvider handIdProvider)
 		{
-			Name = player.Value.Name;
-			PlayerIdentifier = player.Key;
+			Name = avitar.Value.Name;
+			PlayerIdentifier = avitar.Key;
 			this.handIdProvider = handIdProvider;
 
 			Status = PlayerStatusTypes.Waiting;

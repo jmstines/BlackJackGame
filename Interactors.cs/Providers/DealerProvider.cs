@@ -32,14 +32,14 @@ namespace Interactors.Providers
 		{
 			var dealers = new List<BlackJackPlayer>
 			{
-				new BlackJackPlayer(new KeyValuePair<string, Player> (
-					AvitarIdentifierProvider.GenerateAvitar(), new Player("Data")), HandIdentifierProvider),
-				new BlackJackPlayer(new KeyValuePair<string, Player> (
-					AvitarIdentifierProvider.GenerateAvitar(), new Player("Jerry Maguire")), HandIdentifierProvider),
-				new BlackJackPlayer(new KeyValuePair<string, Player> (
-					AvitarIdentifierProvider.GenerateAvitar(), new Player("James Bond")), HandIdentifierProvider),
-				new BlackJackPlayer(new KeyValuePair<string, Player> (
-					AvitarIdentifierProvider.GenerateAvitar(), new Player("Rain Man")), HandIdentifierProvider)
+				new BlackJackPlayer(new KeyValuePair<string, Avitar> (
+					AvitarIdentifierProvider.GenerateAvitar(), new Avitar("Data")), HandIdentifierProvider),
+				new BlackJackPlayer(new KeyValuePair<string, Avitar> (
+					AvitarIdentifierProvider.GenerateAvitar(), new Avitar("Jerry Maguire")), HandIdentifierProvider),
+				new BlackJackPlayer(new KeyValuePair<string, Avitar> (
+					AvitarIdentifierProvider.GenerateAvitar(), new Avitar("James Bond")), HandIdentifierProvider),
+				new BlackJackPlayer(new KeyValuePair<string, Avitar> (
+					AvitarIdentifierProvider.GenerateAvitar(), new Avitar("Rain Man")), HandIdentifierProvider)
 			};
 			return dealers;
 		}

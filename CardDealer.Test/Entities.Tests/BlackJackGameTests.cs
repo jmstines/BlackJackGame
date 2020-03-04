@@ -22,8 +22,8 @@ namespace Entities.Tests
 		{
 			cardProvider = new CardProviderMock();
 			HandIdentifierProvider = new GuidBasedHandIdentifierProviderMock();
-			DealerNamedData = new BlackJackPlayer(new KeyValuePair<string, Player>(
-					"1234ck64-f9d8", new Player("Data")), HandIdentifierProvider);
+			DealerNamedData = new BlackJackPlayer(new KeyValuePair<string, Avitar>(
+					"1234ck64-f9d8", new Avitar("Data")), HandIdentifierProvider);
 		}
 
 		[Test]
@@ -50,22 +50,22 @@ namespace Entities.Tests
 		public void NewGame_NullDeck_PlayerArgumentNullException()
 		{
 			var game = new BlackJackGame(cardProvider, DealerNamedData ,4);
-			var player = new Player(playerName);
-			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), HandIdentifierProvider));
-			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), HandIdentifierProvider));
-			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), HandIdentifierProvider));
-			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), HandIdentifierProvider));
+			var player = new Avitar(playerName);
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player), HandIdentifierProvider));
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player), HandIdentifierProvider));
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player), HandIdentifierProvider));
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player), HandIdentifierProvider));
 
 			Assert.Throws<InvalidOperationException>(() => game.AddPlayer(
-				new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), HandIdentifierProvider)));
+				new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player), HandIdentifierProvider)));
 		}
 
 		[Test]
 		public void NewGame_SinglePlayer_PlayerCountOne()
 		{
 			var game = new BlackJackGame(cardProvider, DealerNamedData, 4);
-			var player = new Player(playerName);
-			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), HandIdentifierProvider));
+			var player = new Avitar(playerName);
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player), HandIdentifierProvider));
 			Assert.AreEqual(1, game.Players.Count());
 			Assert.AreEqual(GameStatus.Waiting, game.Status);
 		}
@@ -74,11 +74,11 @@ namespace Entities.Tests
 		public void NewGame_FullGame_AutoSetToReady()
 		{
 			var game = new BlackJackGame(cardProvider, DealerNamedData, 4);
-			var player = new Player(playerName);
-			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), HandIdentifierProvider));
-			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), HandIdentifierProvider));
-			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), HandIdentifierProvider));
-			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), HandIdentifierProvider));
+			var player = new Avitar(playerName);
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player), HandIdentifierProvider));
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player), HandIdentifierProvider));
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player), HandIdentifierProvider));
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player), HandIdentifierProvider));
 			Assert.AreEqual(5, game.Players.Count());
 			Assert.AreEqual(GameStatus.Ready, game.Status);
 		}
@@ -87,11 +87,11 @@ namespace Entities.Tests
 		public void NewGame_SinglePlayerAndDealer_CurrentPlayerIndexZero()
 		{
 			var game = new BlackJackGame(cardProvider, DealerNamedData, 4);
-			var player = new Player(playerName);
-			var player2 = new Player(playerName2);
+			var player = new Avitar(playerName);
+			var player2 = new Avitar(playerName2);
 
-			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player), HandIdentifierProvider));
-			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player2), HandIdentifierProvider));
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player), HandIdentifierProvider));
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player2), HandIdentifierProvider));
 			Assert.AreEqual(playerName, game.CurrentPlayer.Name);
 		}
 

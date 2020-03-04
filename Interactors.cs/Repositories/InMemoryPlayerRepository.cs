@@ -6,15 +6,15 @@ namespace Interactors.Repositories
 {
 	public class InMemoryPlayerRepository : IPlayerRepository
 	{
-		private readonly Dictionary<string, Player> Players;
+		private readonly Dictionary<string, Avitar> Players;
 
-		public InMemoryPlayerRepository() => Players = new Dictionary<string, Player>();
+		public InMemoryPlayerRepository() => Players = new Dictionary<string, Avitar>();
 
-		public void CreatePlayerAsync(string identifier, Player player) => Players.Add(identifier, player);
+		public void CreatePlayerAsync(string identifier, Avitar player) => Players.Add(identifier, player);
 
-		public KeyValuePair<string, Player> ReadAsync(string identifier) => Players.Single(g => g.Key.Equals(identifier));
+		public KeyValuePair<string, Avitar> ReadAsync(string identifier) => Players.Single(g => g.Key.Equals(identifier));
 
-		public void UpdatePlayer(string identifier, Player player)
+		public void UpdatePlayer(string identifier, Avitar player)
 		{
 			Players.Remove(identifier);
 			Players.Add(identifier, player);

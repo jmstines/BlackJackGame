@@ -11,13 +11,13 @@ namespace Entities.Tests
 		[Test]
 		public void NewPlayer_NullName_ArgumentNullException()
 		{
-			Assert.Throws<ArgumentNullException>(() => new Player(null));
+			Assert.Throws<ArgumentNullException>(() => new Avitar(null));
 		}
 
 		[Test]
 		public void NewPlayer_Sam_CorrectName()
 		{
-			var sam = new Player(playerName);
+			var sam = new Avitar(playerName);
 			Assert.AreEqual(playerName, sam.Name);
 		}
 	}

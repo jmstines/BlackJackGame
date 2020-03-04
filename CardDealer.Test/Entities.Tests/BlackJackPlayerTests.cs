@@ -14,7 +14,7 @@ namespace Entities.Tests
 		private readonly Card threeClubs = new Card(CardSuit.Clubs, CardRank.Three);
 		private readonly Card jackClubs = new Card(CardSuit.Clubs, CardRank.Jack);
 		private const string playerName = "Sam";
-		private readonly Player player1 = new Player(playerName);
+		private readonly Avitar player1 = new Avitar(playerName);
 		private readonly IHandIdentifierProvider HandIdentifierProvider;
 
 		public BlackJackPlayerTests()
@@ -25,14 +25,14 @@ namespace Entities.Tests
 		[Test]
 		public void NewBlackJackPlayer_NullName_ArgumentNullException()
 		{
-			var player = new KeyValuePair<string, Player>("8625cf04-b7e2", null);
+			var player = new KeyValuePair<string, Avitar>("8625cf04-b7e2", null);
 			Assert.Throws<NullReferenceException>(() => new BlackJackPlayer(player, HandIdentifierProvider));
 		}
 
 		[Test]
 		public void NewPlayer_NoCards_HandEmpty()
 		{
-			var sam = new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player1), HandIdentifierProvider);
+			var sam = new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player1), HandIdentifierProvider);
 			sam.AddHands(1);
 			Assert.AreEqual(false, sam.Hands.First().Value.Cards.Any());
 			Assert.AreEqual(playerName, sam.Name);
@@ -42,14 +42,14 @@ namespace Entities.Tests
 		[Test]
 		public void NewPlayer_NoCards_StatusInProgress()
 		{
-			var sam = new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player1), HandIdentifierProvider);
+			var sam = new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player1), HandIdentifierProvider);
 			Assert.AreEqual(PlayerStatusTypes.Waiting, sam.Status);
 		}
 
 		[Test]
 		public void NewPlayer_CalculateTotal_TotalFive()
 		{
-			var sam = new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player1), HandIdentifierProvider);
+			var sam = new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player1), HandIdentifierProvider);
 			sam.AddHands(1);
 			var blkJkTwoClubs = new BlackJackCard(twoClubs, true);
 			var blkJkThreeClubs = new BlackJackCard(threeClubs, true);
@@ -61,7 +61,7 @@ namespace Entities.Tests
 		[Test]
 		public void Player_DrawCard_TotalFifteen()
 		{
-			var playerOne = new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player1), HandIdentifierProvider);
+			var playerOne = new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player1), HandIdentifierProvider);
 			playerOne.AddHands(1);
 			var blkJkTwoClubs = new BlackJackCard(twoClubs, true);
 			var blkJkThreeClubs = new BlackJackCard(threeClubs, true);
@@ -76,7 +76,7 @@ namespace Entities.Tests
 		[Test]
 		public void Player_DrawCard_FirstCardFaceDown()
 		{
-			var playerOne = new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player1), HandIdentifierProvider);
+			var playerOne = new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player1), HandIdentifierProvider);
 			playerOne.AddHands(1);
 			var blkJkTwoClubs = new BlackJackCard(twoClubs, true);
 			playerOne.Hands.First().Value.AddCard(blkJkTwoClubs);
@@ -87,7 +87,7 @@ namespace Entities.Tests
 		[Test]
 		public void Player_DrawCard_SecondCardFaceUp()
 		{
-			var playerOne = new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player1), HandIdentifierProvider);
+			var playerOne = new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player1), HandIdentifierProvider);
 			playerOne.AddHands(1);
 			var blkJkTwoClubs = new BlackJackCard(twoClubs, true);
 			var blkJkThreeClubs = new BlackJackCard(threeClubs, false);
@@ -100,7 +100,7 @@ namespace Entities.Tests
 		[Test]
 		public void Player_DrawCard_ThirdCardFaceUp()
 		{
-			var playerOne = new BlackJackPlayer(new KeyValuePair<string, Player>("8625cf04-b7e2", player1), HandIdentifierProvider);
+			var playerOne = new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player1), HandIdentifierProvider);
 			playerOne.AddHands(1);
 			var blkJkTwoClubs = new BlackJackCard(twoClubs, true);
 			var blkJkThreeClubs = new BlackJackCard(threeClubs, false);

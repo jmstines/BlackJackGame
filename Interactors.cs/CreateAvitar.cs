@@ -28,7 +28,7 @@ namespace Interactors
 		public void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
 		{
 			_ = requestModel.PlayerName ?? throw new ArgumentNullException(nameof(requestModel.PlayerName));
-			var player = new Player(requestModel.PlayerName);
+			var player = new Avitar(requestModel.PlayerName);
 			var identifier = IdentifierProvider.GenerateAvitar();
 			PlayerRepository.CreatePlayerAsync(identifier, player);
 

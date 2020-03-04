@@ -5,8 +5,8 @@ namespace Interactors.Repositories
 {
 	public interface IPlayerRepository
 	{
-		void CreatePlayerAsync(string identifier, Player player);
-		KeyValuePair<string, Player> ReadAsync(string identifier);
-		void UpdatePlayer(string identifier, Player player);
+		void CreatePlayerAsync(string identifier, Avitar player);
+		KeyValuePair<string, Avitar> ReadAsync(string identifier);
+		void UpdatePlayer(string identifier, Avitar player);
 	}
 }

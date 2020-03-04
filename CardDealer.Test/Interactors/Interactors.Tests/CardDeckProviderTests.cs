@@ -5,16 +5,10 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Interactors.Tests
-{
+namespace Interactors.Providers
+{ 
 	public class CardDeckProviderTests
 	{
-		[SetUp]
-		public void Setup()
-		{
-
-		}
-
 		[Test]
 		public void CreateNewDeck_CardCount_52()
 		{

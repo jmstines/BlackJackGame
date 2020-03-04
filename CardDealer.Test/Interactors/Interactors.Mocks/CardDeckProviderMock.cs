@@ -1,4 +1,5 @@
-﻿using Entities.Interfaces;
+﻿using Entities;
+using Entities.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,7 +7,7 @@ namespace Interactors.Mocks
 {
 	class CardDeckProviderMock : ICardDeckProvider
 	{
-		public IEnumerable<ICard> Deck => new CardDeckProviderMock().Deck;
+		public IEnumerable<ICard> Deck => new Deck();
 
 		public List<ICard> Deck_DealerWins()
 		{

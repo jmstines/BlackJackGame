@@ -55,8 +55,8 @@ namespace BlackJackConsoleApp
 
 			var gameStatus = beginGameResponse.Game.Status;
 			var game = beginGameResponse.Game;
-			var currentPlayer = game.CurrentPlayer;
-			var dealer = game.Dealer;
+			var currentPlayer = game.Players.Where(p => p.PlayerIdentifier == game.CurrentPlayerId).Single();
+			var dealer = game.Players.Where(p => p.PlayerIdentifier == game.DealerId).Single();
 			while (gameStatus == GameStatus.InProgress)
 			{
 				ConsoleKey key;
@@ -83,7 +83,7 @@ namespace BlackJackConsoleApp
 							PlayerIdentifier = playerIdentifier
 						});
 						game = holdGameResponse.Game;
-						currentPlayer = game.CurrentPlayer;
+						currentPlayer = game.Players.Where(p => p.PlayerIdentifier == game.CurrentPlayerId).Single();
 						gameStatus = game.Status;
 						break;
 					case ConsoleKey.W:
@@ -93,7 +93,7 @@ namespace BlackJackConsoleApp
 							PlayerIdentifier = playerIdentifier
 						});
 						game = hitGameResponse.Game;
-						currentPlayer = game.CurrentPlayer;
+						currentPlayer = game.Players.Where(p => p.PlayerIdentifier == game.CurrentPlayerId).Single();
 						gameStatus = game.Status;
 						break;
 					case ConsoleKey.S:
@@ -109,7 +109,7 @@ namespace BlackJackConsoleApp
 							PlayerIdentifier = playerIdentifier
 						});
 						game = holdGameResponse.Game;
-						currentPlayer = game.CurrentPlayer;
+						currentPlayer = game.Players.Where(p => p.PlayerIdentifier == game.CurrentPlayerId).Single();
 						gameStatus = game.Status;
 						break;
 					default:

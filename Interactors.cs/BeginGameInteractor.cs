@@ -36,15 +36,8 @@ namespace Interactors
 
 			GameRepository.UpdateAsync(requestModel.GameIdentifier, game);
 			var gameDto = new BlackJackGameDtoMapper(game);
-			bool showAll = false;
-			if (game.CurrentPlayer.Equals(game.Dealer))
-			{
-				showAll = true;
-			}
 
-
-
-			outputBoundary.HandleResponse(new ResponseModel() { Game = gameDto.Map(showAll) });
+			outputBoundary.HandleResponse(new ResponseModel() { Game = gameDto.Map(requestModel.PlayerIdentifier) });
 		}
 	}
 }

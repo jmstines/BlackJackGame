@@ -5,9 +5,9 @@ namespace Interactors.ResponceDtos
 {
 	public class BlackJackGameDto
 	{
-		public IEnumerable<BlackJackPlayerDto> Players { get; set; }
-		public BlackJackPlayerDto CurrentPlayer { get; set; }
-		public BlackJackPlayerDto Dealer { get; set; }
+		public List<BlackJackPlayerDto> Players { get; set; }
+		public string CurrentPlayerId { get; set; }
+		public string DealerId { get; set; }
 		public GameStatus Status { get; set; }
 	}
 }

@@ -45,9 +45,13 @@ namespace Entities
 			SetReadyOnMaxPlayers();
 		}
 
-		public void SetPlayerStatusReady(string id)
+		public void SetPlayerStatusReady(string playerId)
 		{
-			var player = players.Where(p => p.PlayerIdentifier.Equals(id)).Single();
+			var player = players.Where(p => p.PlayerIdentifier.Equals(playerId)).SingleOrDefault();
+			if (player == null) 
+			{
+				throw new ArgumentException(nameof(playerId), "Player Id NOT Found.");
+			}
 			player.Status = PlayerStatusTypes.Ready;
 			SetGameInProgressOnAllPlayersReady();
 		}

@@ -22,8 +22,12 @@ namespace Entities
 		public BlackJackGame(ICardProvider cardProvider, BlackJackPlayer dealer, int maxPlayers)
 		{
 			Dealer = dealer ?? throw new ArgumentNullException(nameof(dealer));
-			MaxPlayerCount = maxPlayers;
+			if (maxPlayers < 1)
+			{
+				throw new ArgumentOutOfRangeException(nameof(maxPlayers));
+			}
 			this.cardProvider = cardProvider ?? throw new ArgumentNullException(nameof(cardProvider));
+			MaxPlayerCount = maxPlayers;
 		}
 
 		public void AddPlayer(BlackJackPlayer player)

@@ -47,6 +47,16 @@ namespace Entities.Tests
 		}
 
 		[Test]
+		public void NewGame_ZeroHandCount_ArgumentOutOfRangeException()
+		{
+			var players = new List<string>() {
+				playerName,
+				playerName2
+			};
+			Assert.Throws<ArgumentOutOfRangeException>(() => new BlackJackGame(cardProvider, DealerNamedData, 0));
+		}
+
+		[Test]
 		public void NewGame_NullDeck_PlayerArgumentNullException()
 		{
 			var game = new BlackJackGame(cardProvider, DealerNamedData ,4);

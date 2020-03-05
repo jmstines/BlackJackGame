@@ -51,8 +51,7 @@ namespace Interactors
 
 			var player = PlayerRepository.ReadAsync(requestModel.PlayerId);
 
-			var currentPlayer = new BlackJackPlayer(player, HandIdProvider);
-			currentPlayer.AddHands(requestModel.HandCount);
+			var currentPlayer = new BlackJackPlayer(player, HandIdProvider, requestModel.HandCount);
 
 			var keyAndGame = GameRepository.FindByStatusFirstOrDefault(GameStatus.Waiting, requestModel.MaxPlayers);
 

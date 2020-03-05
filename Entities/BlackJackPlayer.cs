@@ -1,6 +1,7 @@
 ﻿using Entities.Enums;
 using Entities.Interfaces;
 using System.Collections.Generic;
+using System;
 
 namespace Entities
 {
@@ -14,11 +15,15 @@ namespace Entities
 		private readonly Dictionary<string, Hand> hands = new Dictionary<string, Hand>();
 		private readonly IHandIdentifierProvider handIdProvider;
 
-		public BlackJackPlayer(KeyValuePair<string, Avitar> avitar, IHandIdentifierProvider handIdProvider)
+		public BlackJackPlayer(KeyValuePair<string, Avitar> avitar, IHandIdentifierProvider handIdProvider, int handCount)
 		{
 			Name = avitar.Value.Name;
 			PlayerIdentifier = avitar.Key;
-			this.handIdProvider = handIdProvider;
+			this.handIdProvider = handIdProvider ?? throw new ArgumentNullException(nameof(handIdProvider));
+			if (handCount < 1)
+			{
+				throw new ArgumentOutOfRangeException(nameof(handCount));
+			}
 
 			Status = PlayerStatusTypes.Waiting;
 		}

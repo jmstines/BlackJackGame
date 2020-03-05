@@ -69,10 +69,12 @@ namespace Entities
 
 		public void DealHands()
 		{
-			var cardCount = Players.Sum(p => p.Hands.Count());
-			var cards = cardProvider.Cards(cardCount);
+			if (Status == GameStatus.InProgress) {
+				var cardCount = Players.Sum(p => p.Hands.Count());
+				var cards = cardProvider.Cards(cardCount);
 
-			Players.ToList().ForEach(p => p.Hands.ToList().ForEach(h => h.Value.AddCardRange(cards.Take(2))));
+				Players.ToList().ForEach(p => p.Hands.ToList().ForEach(h => h.Value.AddCardRange(cards.Take(2))));
+			}
 		}
 
 		private void SetCurrentPlayerOnFirstPlayerAdd(BlackJackPlayer player)

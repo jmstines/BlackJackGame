@@ -32,11 +32,7 @@ namespace Interactors
 		{
 			var game = GameRepository.ReadAsync(requestModel.GameIdentifier);
 			game.SetPlayerStatusReady(requestModel.PlayerIdentifier);
-
-			if (game.Status == GameStatus.InProgress)
-			{
-				game.DealHands();
-			}
+			game.DealHands();
 
 			GameRepository.UpdateAsync(requestModel.GameIdentifier, game);
 			var gameDto = new BlackJackGameDtoMapper(game);
@@ -45,6 +41,8 @@ namespace Interactors
 			{
 				showAll = true;
 			}
+
+
 
 			outputBoundary.HandleResponse(new ResponseModel() { Game = gameDto.Map(showAll) });
 		}

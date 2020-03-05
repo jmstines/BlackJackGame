@@ -1,7 +1,6 @@
 ﻿using Interactors.Boundaries;
 using Interactors.Repositories;
-using Interactors.ResponceDtos;
-using Interactors.ResponseDtoMapper;
+using Entities.ResponceDtos;
 using System;
 
 namespace Interactors
@@ -39,7 +38,7 @@ namespace Interactors
 
 				GameRepository.UpdateAsync(requestModel.GameIdentifier, game);
 			}
-			var gameDto = new BlackJackGameDtoMapper(game);
+			var gameDto = new MapperBlackJackGameDto(game);
 
 			outputBoundary.HandleResponse(new ResponseModel() { Game = gameDto.Map(requestModel.PlayerIdentifier) });
 		}

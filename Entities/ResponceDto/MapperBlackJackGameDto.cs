@@ -1,15 +1,14 @@
-﻿using Entities;
-using Interactors.ResponceDtos;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Interactors.ResponseDtoMapper
+namespace Entities.ResponceDtos
 {
-	class BlackJackGameDtoMapper
+	// TODO - Add Tests for the Mapper Class
+	public class MapperBlackJackGameDto
 	{
 		private readonly BlackJackGame Game;
-		public BlackJackGameDtoMapper(BlackJackGame game)
+		public MapperBlackJackGameDto(BlackJackGame game)
 		{
 			Game = game ?? throw new ArgumentNullException(nameof(game));
 		}
@@ -25,7 +24,7 @@ namespace Interactors.ResponseDtoMapper
 			foreach (var player in Game.Players)
 			{
 				BlackJackPlayerDto playerDto;
-				if (Game.Status != Entities.Enums.GameStatus.Complete)
+				if (Game.Status != Enums.GameStatus.Complete)
 				{
 					var isCurrentPlayer = player.PlayerIdentifier.Equals(playerId);
 					playerDto = MapPlayer(player, isCurrentPlayer);

@@ -2,7 +2,7 @@
 using Entities.Interfaces;
 using System.Collections.Generic;
 
-namespace Interactors.ResponceDtos
+namespace Entities.ResponceDtos
 {
 	public class HandDto
 	{

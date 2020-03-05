@@ -1,8 +1,7 @@
-﻿using Entities;
-using Entities.Enums;
+﻿using Entities.Enums;
 using System.Collections.Generic;
 
-namespace Interactors.ResponceDtos
+namespace Entities.ResponceDtos
 {
 	public class BlackJackPlayerDto
 	{

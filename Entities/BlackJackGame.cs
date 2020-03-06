@@ -60,15 +60,27 @@ namespace Entities
 		? Players.First()
 		: Players.ElementAt(players.IndexOf(CurrentPlayer) + 1);
 
-		public void PlayerHits(string handId, ICard card)
+		public void PlayerHits(string playerId, string handId)
 		{
-			if (card.Rank == 0 || card.Suit == 0) throw new ArgumentOutOfRangeException(nameof(card));
+			_ = playerId ?? throw new ArgumentNullException(nameof(playerId));
 			_ = handId ?? throw new ArgumentNullException(nameof(handId));
-			if (CurrentPlayer.Hands.TryGetValue(handId, out Hand hand))
+			if (CurrentPlayer.PlayerIdentifier == playerId)
 			{
-				throw new ArgumentException(nameof(handId));
+				if (CurrentPlayer.Hands.TryGetValue(handId, out Hand hand))
+				{
+					{
+						hand.AddCard(cardProvider.Cards(1).First());
+					}
+				}
+				else
+				{
+					throw new ArgumentException(nameof(handId), "Hand Id Not Found.");
+				}
 			}
-			hand.AddCard(card);
+			else
+			{
+				throw new ArgumentException(nameof(playerId), "Player Hit Action out of Turn.");
+			}
 		}
 
 		public void DealHands()

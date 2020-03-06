@@ -23,7 +23,6 @@ namespace Interactors
 		public BeginGameInteractor(IGameRepository gameRepository)
 		{
 			GameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
-
 		}
 
 		public void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)

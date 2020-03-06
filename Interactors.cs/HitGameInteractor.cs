@@ -22,28 +22,19 @@ namespace Interactors
 		}
 
 		private readonly IGameRepository GameRepository;
-		private readonly ICardProvider CardProvider;
+		
 
-		public HitGameInteractor(IGameRepository gameRepository, ICardProvider cardProvider)
+		public HitGameInteractor(IGameRepository gameRepository)
 		{
 			GameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
-			CardProvider = cardProvider ?? throw new ArgumentNullException(nameof(cardProvider));
 		}
 
 		public void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
 		{
 			var game = GameRepository.ReadAsync(requestModel.GameIdentifier);
-			if (game.CurrentPlayer.PlayerIdentifier.Equals(requestModel.PlayerIdentifier))
-			{
-				var card = CardProvider.Cards(1).First();
-				game.PlayerHits(requestModel.HandIdentifier, card);
+			game.PlayerHits(requestModel.PlayerIdentifier, requestModel.HandIdentifier);
 
-				if (game.CurrentPlayer.Equals(game.Dealer))
-				{
-					//new BlackJackOutcomes(game).UpdateStatus();
-				}
-				GameRepository.UpdateAsync(requestModel.GameIdentifier, game);
-			}
+			GameRepository.UpdateAsync(requestModel.GameIdentifier, game);
 			var gameDto = new MapperBlackJackGameDto(game);
 
 			outputBoundary.HandleResponse(new ResponseModel() { Game = gameDto.Map(requestModel.PlayerIdentifier) });

@@ -56,9 +56,19 @@ namespace Entities
 			SetGameInProgressOnAllPlayersReady();
 		}
 
-		public void PlayerHolds() => CurrentPlayer = CurrentPlayer.Equals(players.Last())
-		? Players.First()
-		: Players.ElementAt(players.IndexOf(CurrentPlayer) + 1);
+		public void PlayerHolds(string playerId)
+		{
+			if (CurrentPlayer.PlayerIdentifier == playerId && CurrentPlayer != Dealer)
+			{
+				CurrentPlayer = CurrentPlayer.Equals(players.Last())
+					? Players.First()
+					: Players.ElementAt(players.IndexOf(CurrentPlayer) + 1);
+			}
+			else if (Dealer.PlayerIdentifier == playerId)
+			{
+				Status = GameStatus.Complete;
+			}
+		}
 
 		public void PlayerHits(string playerId, string handId)
 		{

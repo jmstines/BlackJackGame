@@ -17,8 +17,6 @@ namespace Entities
 		public GameStatus Status { get; set; } = GameStatus.Waiting;
 		public int MaxPlayerCount { get; private set; }
 
-		public BlackJackGame() { }
-
 		public BlackJackGame(ICardProvider cardProvider, BlackJackPlayer dealer, int maxPlayers)
 		{
 			Dealer = dealer ?? throw new ArgumentNullException(nameof(dealer));
@@ -43,6 +41,7 @@ namespace Entities
 
 			AddDealerToListAfterFinalPlayer();
 			SetReadyOnMaxPlayers();
+
 		}
 
 		public void SetPlayerStatusReady(string playerId)
@@ -58,15 +57,12 @@ namespace Entities
 
 		public void PlayerHolds(string playerId)
 		{
-			if (CurrentPlayer.PlayerIdentifier == playerId && CurrentPlayer != Dealer)
+			if (CurrentPlayer.PlayerIdentifier == playerId)
 			{
 				CurrentPlayer = CurrentPlayer.Equals(players.Last())
 					? Players.First()
 					: Players.ElementAt(players.IndexOf(CurrentPlayer) + 1);
-			}
-			else if (Dealer.PlayerIdentifier == playerId)
-			{
-				Status = GameStatus.Complete;
+				SetGameCompleteOnAllPlayersComplete();
 			}
 		}
 
@@ -76,16 +72,8 @@ namespace Entities
 			_ = handId ?? throw new ArgumentNullException(nameof(handId));
 			if (CurrentPlayer.PlayerIdentifier == playerId)
 			{
-				if (CurrentPlayer.Hands.TryGetValue(handId, out Hand hand))
-				{
-					{
-						hand.AddCard(cardProvider.Cards(1).First());
-					}
-				}
-				else
-				{
-					throw new ArgumentException(nameof(handId), "Hand Id Not Found.");
-				}
+				CurrentPlayer.PlayerHits(handId, cardProvider.Cards(1).Single());
+				SetGameCompleteOnAllPlayersComplete();
 			}
 			else
 			{
@@ -95,11 +83,12 @@ namespace Entities
 
 		public void DealHands()
 		{
-			if (Status == GameStatus.InProgress) {
+			if (Status == GameStatus.Ready) {
 				var cardCount = Players.Sum(p => p.Hands.Count());
 				var cards = cardProvider.Cards(cardCount);
 
-				Players.ToList().ForEach(p => p.Hands.ToList().ForEach(h => h.Value.AddCardRange(cards.Take(2))));
+				Players.ToList().ForEach(p => p.Hands.ToList()
+					.ForEach(h => h.Value.AddCardRange(cards.Take(2))));
 			}
 		}
 
@@ -118,6 +107,11 @@ namespace Entities
 				players.Add(Dealer);
 			}
 		}
+
+		private void SetGameCompleteOnAllPlayersComplete() => Status =
+				players.All(p => p.Status.Equals(PlayerStatusTypes.Complete))
+				? GameStatus.Complete
+				: GameStatus.InProgress;
 
 		private void SetGameInProgressOnAllPlayersReady() => Status = 
 				players.Count == MaxPlayerCount

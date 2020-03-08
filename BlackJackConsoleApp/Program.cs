@@ -5,7 +5,6 @@ using Interactors;
 using Interactors.Boundaries;
 using Interactors.Providers;
 using Interactors.Repositories;
-using Interactors.ResponceDtos;
 using SimpleInjector;
 using System;
 using System.Collections.Generic;
@@ -65,10 +64,10 @@ namespace BlackJackConsoleApp
 				{
 					Console.Clear();
 					Console.WriteLine(" Dealer's Visible Cards.");
-					Console.Write($" \t{VisibleCards(dealer.Hands.First().Value, false)}");
+					//Console.Write($" \t{VisibleCards(dealer.Hands.First().Value, false)}");
 					Console.WriteLine("---------------------------------------------");
 					Console.WriteLine($" Player: {currentPlayer.Name}");
-					Console.Write($" {currentPlayer.Hands.First().Value.PointValue}\t{VisibleCards(currentPlayer.Hands.First().Value, true)}");
+					//Console.Write($" {currentPlayer.Hands.First().Value.PointValue}\t{VisibleCards(currentPlayer.Hands.First().Value, true)}");
 					Console.WriteLine(ActionMenuBuilder(currentPlayer.Hands.First().Value.Actions.ToList()));
 
 					key = Console.ReadKey(true).Key;
@@ -150,22 +149,22 @@ namespace BlackJackConsoleApp
 			return actionKeys;
 		}
 
-		private static string VisibleCards(HandDto hand, bool showAll)
-		{
-			string output = string.Empty;
-			foreach (var card in hand.Cards)
-			{
-				if (showAll || !card.FaceDown)
-				{
-					output += $"[{card.Rank.ToString()} {card.Suit.ToString()}]";
-					if (hand.Cards.Count() > 1)
-					{
-						output += card.Equals(hand.Cards.Last()) ? "\n" : ", ";
-					}
-				}
-			}
-			return output;
-		}
+		//private static string VisibleCards(HandDto hand, bool showAll)
+		//{
+		//	string output = string.Empty;
+		//	foreach (var card in hand.Cards)
+		//	{
+		//		if (showAll || !card.FaceDown)
+		//		{
+		//			output += $"[{card.Rank.ToString()} {card.Suit.ToString()}]";
+		//			if (hand.Cards.Count() > 1)
+		//			{
+		//				output += card.Equals(hand.Cards.Last()) ? "\n" : ", ";
+		//			}
+		//		}
+		//	}
+		//	return output;
+		//}
 
 		private static IEnumerable<ConsoleKey> ActionKeys(List<HandActionTypes> actions)
 		{

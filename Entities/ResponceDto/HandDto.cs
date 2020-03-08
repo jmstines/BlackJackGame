@@ -8,6 +8,7 @@ namespace Entities.ResponceDtos
 	{
 		public IEnumerable<HandActionTypes> Actions { get; set; }
 		public IEnumerable<IBlackJackCard> Cards { get; set; }
+		public int CardCount { get; set; }
 		public int PointValue { get; set; }
 		public HandStatusTypes Status { get; set; }
 	}

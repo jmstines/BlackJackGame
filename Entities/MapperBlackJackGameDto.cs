@@ -1,30 +1,28 @@
-﻿using System;
+﻿using Entities.Interfaces;
+using Entities.ResponceDtos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Entities.ResponceDtos
+namespace Entities
 {
 	// TODO - Add Tests for the Mapper Class
-	public class MapperBlackJackGameDto
+	public static class MapperBlackJackGameDto
 	{
-		private readonly BlackJackGame Game;
-		public MapperBlackJackGameDto(BlackJackGame game)
+		public static BlackJackGameDto Map(BlackJackGame game, string playerId)
 		{
-			Game = game ?? throw new ArgumentNullException(nameof(game));
-		}
-
-		public BlackJackGameDto Map(string playerId)
-		{
+			_ = game ?? throw new ArgumentNullException(nameof(game));
 			var dto = new BlackJackGameDto
 			{
-				Status = Game.Status,
-				CurrentPlayerId = Game.CurrentPlayer.PlayerIdentifier
+				Status = game.Status,
+				CurrentPlayerId = game.CurrentPlayer.PlayerIdentifier,
+				Players = new List<BlackJackPlayerDto>()
 			};
 
-			foreach (var player in Game.Players)
+			foreach (var player in game.Players)
 			{
 				BlackJackPlayerDto playerDto;
-				if (Game.Status != Enums.GameStatus.Complete)
+				if (game.Status != Enums.GameStatus.Complete)
 				{
 					var isCurrentPlayer = player.PlayerIdentifier.Equals(playerId);
 					playerDto = MapPlayer(player, isCurrentPlayer);
@@ -38,7 +36,7 @@ namespace Entities.ResponceDtos
 			return dto;
 		}
 
-		private BlackJackPlayerDto MapPlayer(BlackJackPlayer player, bool showAll)
+		private static BlackJackPlayerDto MapPlayer(BlackJackPlayer player, bool showAll)
 		{
 			return new BlackJackPlayerDto
 			{
@@ -49,7 +47,7 @@ namespace Entities.ResponceDtos
 			};
 		}
 
-		private IDictionary<string, HandDto> MapHand(IDictionary<string, Hand> Hands, bool showAll)
+		private static IDictionary<string, HandDto> MapHand(IDictionary<string, Hand> Hands, bool showAll)
 		{
 			IDictionary<string, HandDto> handDtos = new Dictionary<string, HandDto>();
 			foreach (var hand in Hands)
@@ -60,6 +58,7 @@ namespace Entities.ResponceDtos
 				{
 					dto.Actions = handValues.Actions;
 					dto.Cards = handValues.Cards;
+					dto.CardCount = handValues.Cards.Count();
 					dto.PointValue = handValues.PointValue;
 					dto.Status = handValues.Status;
 				}
@@ -67,6 +66,7 @@ namespace Entities.ResponceDtos
 				{
 					dto.Actions = handValues.Actions;
 					dto.Cards = handValues.Cards.Where(c => c.FaceDown.Equals(false));
+					dto.CardCount = handValues.Cards.Count();
 					dto.PointValue = handValues.PointValue;
 					dto.Status = handValues.Status;
 				}

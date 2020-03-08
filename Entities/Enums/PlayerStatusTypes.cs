@@ -5,8 +5,6 @@
 		Waiting = 1,
 		Ready,
 		InProgress,
-		Push,
-		PlayerWins,
-		PlayerLoses
+		Complete
 	}
 }

@@ -2,6 +2,7 @@
 using Entities.Interfaces;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 namespace Entities
 {
@@ -25,6 +26,7 @@ namespace Entities
 				throw new ArgumentOutOfRangeException(nameof(handCount));
 			}
 
+			AddHands(handCount);
 			Status = PlayerStatusTypes.Waiting;
 		}
 
@@ -33,6 +35,28 @@ namespace Entities
 			foreach(var id in handIdProvider.GenerateHandIds(handCount))
 			{
 				Hands.Add(id, new Hand());
+			}
+		}
+
+		public void PlayerHits(string handId, ICard card)
+		{
+			if (Hands.TryGetValue(handId, out var hand))
+			{
+				hand.AddCard(card);
+			}
+			else
+			{
+				throw new ArgumentException(nameof(handId), "Hand Id Not Found.");
+			}
+
+			CheckForPlayerEndOfTurn();
+		}
+
+		private void CheckForPlayerEndOfTurn()
+		{
+			if (Hands.Values.All(h => h.Status != HandStatusTypes.InProgress))
+			{
+				Status = PlayerStatusTypes.Complete;
 			}
 		}
 	}

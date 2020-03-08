@@ -2,6 +2,7 @@
 using Interactors.Repositories;
 using Entities.ResponceDtos;
 using System;
+using Entities;
 
 namespace Interactors
 {
@@ -32,9 +33,8 @@ namespace Interactors
 			game.DealHands();
 
 			GameRepository.UpdateAsync(requestModel.GameIdentifier, game);
-			var gameDto = new MapperBlackJackGameDto(game);
-
-			outputBoundary.HandleResponse(new ResponseModel() { Game = gameDto.Map(requestModel.PlayerIdentifier) });
+			var gameDto = MapperBlackJackGameDto.Map(game, requestModel.PlayerIdentifier);
+			outputBoundary.HandleResponse(new ResponseModel() { Game = gameDto });
 		}
 	}
 }

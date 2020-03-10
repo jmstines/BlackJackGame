@@ -35,68 +35,77 @@ namespace Entities
 			{
 				throw new InvalidOperationException($"{player.Name} can NOT join game, The game Status is {Status}.");
 			}
-			
-			SetCurrentPlayerOnFirstPlayerAdd(player);
 			players.Add(player);
 
+			SetCurrentPlayerOnFirstPlayerAdd();
 			AddDealerToListAfterFinalPlayer();
 			SetReadyOnMaxPlayers();
-
 		}
 
-		public void SetPlayerStatusReady(string playerId)
+		public void SetPlayerStatusReady(string playerIdentifier)
 		{
-			var player = players.Where(p => p.PlayerIdentifier.Equals(playerId)).SingleOrDefault();
+			var player = players.Where(p => p.Identifier.Equals(playerIdentifier)).SingleOrDefault();
 			if (player == null) 
 			{
-				throw new ArgumentException(nameof(playerId), "Player Id NOT Found.");
+				throw new ArgumentException(nameof(playerIdentifier), "Player Id NOT Found.");
 			}
 			player.Status = PlayerStatusTypes.Ready;
 			SetGameInProgressOnAllPlayersReady();
 		}
 
-		public void PlayerHolds(string playerId)
+		public void PlayerHolds(string playerIdentifier, string handIdentifier)
 		{
-			if (CurrentPlayer.PlayerIdentifier == playerId)
+			_ = playerIdentifier ?? throw new ArgumentNullException(nameof(playerIdentifier));
+			_ = handIdentifier ?? throw new ArgumentNullException(nameof(handIdentifier));
+			if (CurrentPlayer.Identifier != playerIdentifier)
 			{
-				CurrentPlayer = CurrentPlayer.Equals(players.Last())
-					? Players.First()
-					: Players.ElementAt(players.IndexOf(CurrentPlayer) + 1);
-				SetGameCompleteOnAllPlayersComplete();
+				throw new ArgumentException(nameof(playerIdentifier), $"Please wait your turn, Current player is {CurrentPlayer.Name}");
 			}
+
+			var player = Players.Single(p => p.Identifier == playerIdentifier);
+			player.Hold(handIdentifier);
+
+			CurrentPlayer = player.Identifier == Dealer.Identifier
+					? Players.First()
+					: Players.SkipWhile(p => p.Identifier != playerIdentifier).Skip(1).Take(1).Single();
+			SetGameCompleteOnAllPlayersComplete();
 		}
 
-		public void PlayerHits(string playerId, string handId)
+		public void PlayerHits(string playerIdentifier, string handIdentifier)
 		{
-			_ = playerId ?? throw new ArgumentNullException(nameof(playerId));
-			_ = handId ?? throw new ArgumentNullException(nameof(handId));
-			if (CurrentPlayer.PlayerIdentifier == playerId)
+			_ = playerIdentifier ?? throw new ArgumentNullException(nameof(playerIdentifier));
+			_ = handIdentifier ?? throw new ArgumentNullException(nameof(handIdentifier));
+			if (CurrentPlayer.Identifier != playerIdentifier)
 			{
-				CurrentPlayer.PlayerHits(handId, cardProvider.Cards(1).Single());
-				SetGameCompleteOnAllPlayersComplete();
+				throw new ArgumentException(nameof(playerIdentifier), $"Please wait your turn, Current player is {CurrentPlayer.Name}");
 			}
-			else
-			{
-				throw new ArgumentException(nameof(playerId), "Player Hit Action out of Turn.");
-			}
+
+			Players.Single(p => p.Identifier == playerIdentifier)
+					.Hit(handIdentifier, cardProvider.Cards(1).Single());
+			SetGameCompleteOnAllPlayersComplete();
 		}
 
 		public void DealHands()
 		{
-			if (Status == GameStatus.Ready) {
-				var cardCount = Players.Sum(p => p.Hands.Count());
-				var cards = cardProvider.Cards(cardCount);
-
-				Players.ToList().ForEach(p => p.Hands.ToList()
-					.ForEach(h => h.AddCardRange(cards.Take(2))));
+			if (Status != GameStatus.Ready)
+			{
+				throw new ArgumentOutOfRangeException(nameof(Status), "Game Status Must be Ready to Deal Hands.");
 			}
+
+			var cardCount = Players.Sum(p => p.Hands.Count());
+			var cards = cardProvider.Cards(cardCount);
+
+			Players.ToList().ForEach(p => p.Hands.ToList()
+				.ForEach(h => h.AddCardRange(cards.Take(2))));
+			
+			Status = GameStatus.InProgress;
 		}
 
-		private void SetCurrentPlayerOnFirstPlayerAdd(BlackJackPlayer player)
+		private void SetCurrentPlayerOnFirstPlayerAdd()
 		{
-			if (!Players.Any())
+			if (players.Count == 1)
 			{
-				CurrentPlayer = player;
+				CurrentPlayer = players.First();
 			}
 		}
 
@@ -120,7 +129,7 @@ namespace Entities
 				? GameStatus.InProgress
 				: GameStatus.Waiting;
 
-		private void SetReadyOnMaxPlayers() => Status = players.Count >= MaxPlayerCount
+		private void SetReadyOnMaxPlayers() => Status = players.Count >= MaxPlayerCount - 1
 				? GameStatus.Ready
 				: GameStatus.Waiting;
 	}

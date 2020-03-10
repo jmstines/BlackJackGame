@@ -9,7 +9,7 @@ namespace Entities
 	public class BlackJackPlayer
 	{
 		public string Name { get; private set; }
-		public string PlayerIdentifier { get; private set; }
+		public string Identifier { get; private set; }
 		public IEnumerable<Hand> Hands => hands;
 		public PlayerStatusTypes Status { get; set; }
 
@@ -19,7 +19,7 @@ namespace Entities
 		public BlackJackPlayer(KeyValuePair<string, Avitar> avitar, IHandIdentifierProvider handIdProvider, int handCount)
 		{
 			Name = avitar.Value.Name;
-			PlayerIdentifier = avitar.Key;
+			Identifier = avitar.Key;
 			this.handIdProvider = handIdProvider ?? throw new ArgumentNullException(nameof(handIdProvider));
 			if (handCount < 1)
 			{
@@ -38,17 +38,26 @@ namespace Entities
 			}
 		}
 
-		public void PlayerHits(string handId, ICard card)
+		public void Hit(string handIdentifier, ICard card)
 		{
-			var hand = Hands.SingleOrDefault(h => h.Identifier == handId);
-			if (hand != null)
+			var hand = Hands.SingleOrDefault(h => h.Identifier == handIdentifier);
+			if (hand == null)
 			{
-				hand.AddCard(card);
+				throw new ArgumentException(nameof(handIdentifier), "Hand Identifier NOT Found.");
 			}
-			else
+			hand.AddCard(card);
+
+			CheckForPlayerEndOfTurn();
+		}
+
+		public void Hold(string handIdentifier)
+		{
+			var hand = Hands.SingleOrDefault(h => h.Identifier == handIdentifier);
+			if (hand == null)
 			{
-				throw new ArgumentException(nameof(handId), "Hand Identifier NOT Found.");
+				throw new ArgumentException(nameof(handIdentifier), "Hand Identifier NOT Found.");
 			}
+			hand.SetStatus(HandStatusTypes.Hold);
 
 			CheckForPlayerEndOfTurn();
 		}

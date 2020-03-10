@@ -12,6 +12,7 @@ namespace Interactors
 		{
 			public string GameIdentifier { get; set; }
 			public string PlayerIdentifier { get; set; }
+			public string HandIdentifier { get; set; }
 		}
 
 		public class ResponseModel
@@ -30,7 +31,7 @@ namespace Interactors
 		{
 			var game = GameRepository.ReadAsync(requestModel.GameIdentifier);
 
-			game.PlayerHolds(requestModel.PlayerIdentifier);
+			game.PlayerHolds(requestModel.PlayerIdentifier, requestModel.HandIdentifier);
 
 			GameRepository.UpdateAsync(requestModel.GameIdentifier, game);
 			var gameDto = MapperBlackJackGameDto.Map(game, requestModel.PlayerIdentifier);

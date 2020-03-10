@@ -35,10 +35,10 @@ namespace Entities.Tests
 			game.DealHands();
 			var gameDto = MapperBlackJackGameDto.Map(game, PlayerTedId);
 
-			var Ted = game.Players.Single(p => p.PlayerIdentifier == PlayerTedId);
+			var Ted = game.Players.Single(p => p.Identifier == PlayerTedId);
 			var TedDto = gameDto.Players.Single(p => p.PlayerIdentifier == PlayerTedId);
 
-			var dealer = game.Players.Single(p => p.PlayerIdentifier == DealerDataId);
+			var dealer = game.Players.Single(p => p.Identifier == DealerDataId);
 			var dealerDto = gameDto.Players.Single(p => p.PlayerIdentifier == DealerDataId);
 			
 			Assert.AreEqual(game.Players.Count(), gameDto.Players.Count);
@@ -76,10 +76,10 @@ namespace Entities.Tests
 			game.PlayerHits(PlayerTedId, TedHandKey);
 			var gameDto = MapperBlackJackGameDto.Map(game, PlayerTedId);
 
-			var Ted = game.Players.Single(p => p.PlayerIdentifier == PlayerTedId);
+			var Ted = game.Players.Single(p => p.Identifier == PlayerTedId);
 			var TedDto = gameDto.Players.Single(p => p.PlayerIdentifier == PlayerTedId);
 
-			var dealer = game.Players.Single(p => p.PlayerIdentifier == DealerDataId);
+			var dealer = game.Players.Single(p => p.Identifier == DealerDataId);
 			var dealerDto = gameDto.Players.Single(p => p.PlayerIdentifier == DealerDataId);
 
 			Assert.AreEqual(game.Players.Count(), gameDto.Players.Count);

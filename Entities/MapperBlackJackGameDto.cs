@@ -15,7 +15,7 @@ namespace Entities
 			var dto = new BlackJackGameDto
 			{
 				Status = game.Status,
-				CurrentPlayerId = game.CurrentPlayer.PlayerIdentifier,
+				CurrentPlayerId = game.CurrentPlayer.Identifier,
 				Players = new List<BlackJackPlayerDto>()
 			};
 
@@ -24,7 +24,7 @@ namespace Entities
 				BlackJackPlayerDto playerDto;
 				if (game.Status != Enums.GameStatus.Complete)
 				{
-					var isCurrentPlayer = player.PlayerIdentifier.Equals(playerId);
+					var isCurrentPlayer = player.Identifier.Equals(playerId);
 					playerDto = MapPlayer(player, isCurrentPlayer);
 				}
 				else
@@ -41,7 +41,7 @@ namespace Entities
 			return new BlackJackPlayerDto
 			{
 				Name = player.Name,
-				PlayerIdentifier = player.PlayerIdentifier,
+				PlayerIdentifier = player.Identifier,
 				Hands = MapHand(player.Hands, showAll),
 				Status = player.Status
 			};

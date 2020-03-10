@@ -8,11 +8,15 @@ using System.Linq;
 
 namespace Entities.Tests
 {
+	[TestFixture]
 	public class BlackJackGameTests
 	{
 		private const string playerName = "Sam";
 		private const string playerName2 = "Tom";
-		private readonly BlackJackPlayer DealerNamedData;
+		private const string DealerDataId = "1234ck64-f9d8";
+
+		private BlackJackPlayer DealerNamedData;
+
 		private readonly Deck cards = new Deck();
 		private readonly IRandomProvider random = new RandomProvider();
 		private readonly ICardProvider cardProvider;
@@ -22,6 +26,11 @@ namespace Entities.Tests
 		{
 			cardProvider = new CardProviderMock();
 			HandIdentifierProvider = new GuidBasedHandIdentifierProviderMock();
+		}
+
+		[SetUp]
+		public void Init()
+		{
 			DealerNamedData = new BlackJackPlayer(new KeyValuePair<string, Avitar>(
 					"1234ck64-f9d8", new Avitar("Data")), HandIdentifierProvider, 1);
 		}
@@ -44,6 +53,16 @@ namespace Entities.Tests
 				playerName2
 			};
 			Assert.Throws<ArgumentNullException>(() => new BlackJackGame(null, DealerNamedData, 4));
+		}
+
+		[Test]
+		public void NewGame_NullDealer_ArgumentNullException()
+		{
+			var players = new List<string>() {
+				playerName,
+				playerName2
+			};
+			Assert.Throws<ArgumentNullException>(() => new BlackJackGame(cardProvider, null, 4));
 		}
 
 		[Test]
@@ -73,11 +92,11 @@ namespace Entities.Tests
 		[Test]
 		public void NewGame_SinglePlayer_PlayerCountOne()
 		{
-			var game = new BlackJackGame(cardProvider, DealerNamedData, 4);
+			var game = new BlackJackGame(cardProvider, DealerNamedData, 1);
 			var player = new Avitar(playerName);
 			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player), HandIdentifierProvider, 1));
-			Assert.AreEqual(1, game.Players.Count());
-			Assert.AreEqual(GameStatus.Waiting, game.Status);
+			Assert.AreEqual(2, game.Players.Count());
+			Assert.AreEqual(GameStatus.Ready, game.Status);
 		}
 
 		[Test]
@@ -103,98 +122,114 @@ namespace Entities.Tests
 			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player), HandIdentifierProvider, 1));
 			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player2), HandIdentifierProvider, 1));
 			Assert.AreEqual(playerName, game.CurrentPlayer.Name);
+			Assert.AreEqual(2, game.Players.Count());
+			Assert.AreEqual(GameStatus.Waiting, game.Status);
 		}
 
 
-		//[Test]
-		//public void Deal_NullDeck_ThrowArgumentNullException()
-		//{
-		//	var dealerName = "Jeff";
-		//	var game = new BlackJackGame();
-		//	var player = new Player(playerName);
-		//	var dealer = new Player(dealerName);
-		//	game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player));
-		//	game.AddPlayer(new BlackJackPlayer("8625cf04-b7e3", dealer));
-		//	Assert.Throws<ArgumentNullException>(() => game.DealHands(null));
-		//}
+		[Test]
+		public void Deal_NullDeck_ThrowArgumentNullException()
+		{
+			var game = new BlackJackGame(cardProvider, DealerNamedData, 4);
+			var player = new Avitar(playerName);
+			var player2 = new Avitar(playerName2);
 
-		//[Test]
-		//public void Deal_ThenAddNewPlayer_ThrowInvalidOperationException()
-		//{
-		//	var dealerName = "Jeff";
-		//	var game = new BlackJackGame();
-		//	var player = new Player(playerName);
-		//	var dealer = new Player(dealerName);
-		//	game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player));
-		//	game.AddPlayer(new BlackJackPlayer("8625cf04-b7e3", dealer));
-		//	game.DealHands(deck);
-		//	Assert.Throws<InvalidOperationException>(() => game.AddPlayer(new BlackJackPlayer("8625cf04-b7e4", player)));
-		//}
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player), HandIdentifierProvider, 1));
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player2), HandIdentifierProvider, 1));
+			Assert.Throws<ArgumentOutOfRangeException>(() => game.DealHands());
+		}
 
-		//[Test]
-		//public void AfterDeal_DeckOutOfCards_ThrowArgumentOutOfRangeException()
-		//{
-		//	var dealerName = "Jeff";
-		//	var game = new BlackJackGame();
-		//	var currentDeck = deck.Take(4);
-		//	var player = new Player(playerName);
-		//	var dealer = new Player(dealerName);
-		//	game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player));
-		//	game.AddPlayer(new BlackJackPlayer("8625cf04-b7e3", dealer));
-		//	game.DealHands(currentDeck);
-		//	Assert.Throws<ArgumentOutOfRangeException>(() => game.PlayerHits());
-		//}
+		[Test]
+		public void Deal_ThenAddNewPlayer_ThrowInvalidOperationException()
+		{
+			var game = new BlackJackGame(cardProvider, DealerNamedData, 2);
+			var player = new Avitar(playerName);
+			var player2 = new Avitar(playerName2);
 
-		//[Test]
-		//public void Deal_SinglePlayerAndDealer_CurrectValues()
-		//{
-		//	var dealerName = "Jeff";
-		//	var game = new BlackJackGame();
-		//	var player = new Player(playerName);
-		//	var dealer = new Player(dealerName);
-		//	game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player));
-		//	game.AddPlayer(new BlackJackPlayer("8625cf04-b7e3", dealer));
-		//	game.DealHands(deck);
-		//	Assert.AreEqual(2, game.Players.Last().Hand.Cards.Count());
-		//	Assert.AreEqual(6, game.Players.First().Hand.PointValue);
-		//	Assert.AreEqual(8, game.Players.Last().Hand.PointValue);
-		//	Assert.IsTrue(game.Players.First().Hand.Cards.First().FaceDown);
-		//	Assert.IsFalse(game.Players.First().Hand.Cards.Last().FaceDown);
-		//	Assert.AreEqual(48, game.Deck.Count());
-		//}
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player), HandIdentifierProvider, 1));
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player2), HandIdentifierProvider, 1));
+			game.DealHands();
+			Assert.Throws<InvalidOperationException>(() =>
+				game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player), HandIdentifierProvider, 1))
+			);
+		}
 
-		//[Test]
-		//public void AfterDeal_PlayerHits_CurrectValues()
-		//{
-		//	var dealerName = "Jeff";
-		//	var game = new BlackJackGame();
-		//	var player = new Player(playerName);
-		//	var dealer = new Player(dealerName);
-		//	game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player));
-		//	game.AddPlayer(new BlackJackPlayer("8625cf04-b7e3", dealer));
-		//	game.DealHands(deck);
-		//	game.PlayerHits();
-		//	Assert.AreEqual(2, game.Players.Last().Hand.Cards.Count());
-		//	Assert.AreEqual(12, game.Players.First().Hand.PointValue);
-		//	Assert.AreEqual(8, game.Players.Last().Hand.PointValue);
-		//	Assert.IsTrue(game.Players.First().Hand.Cards.First().FaceDown);
-		//	Assert.IsFalse(game.Players.First().Hand.Cards.Last().FaceDown);
-		//	Assert.AreEqual(47, game.Deck.Count());
-		//}
+		[Test]
+		public void Deal_SinglePlayerAndDealer_CurrectValues()
+		{
+			var game = new BlackJackGame(cardProvider, DealerNamedData, 2);
+			var player = new Avitar(playerName);
+			var player2 = new Avitar(playerName2);
 
-		//[Test]
-		//public void AfterDeal_PlayerHolds_DealerCurrentPlayer()
-		//{
-		//	var dealerName = "Jeff";
-		//	var game = new BlackJackGame();
-		//	var player = new Player(playerName);
-		//	var dealer = new Player(dealerName);
-		//	game.AddPlayer(new BlackJackPlayer("8625cf04-b7e2", player));
-		//	game.AddPlayer(new BlackJackPlayer("8625cf04-b7e3", dealer));
-		//	game.DealHands(deck);
-		//	game.PlayerHolds();
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player), HandIdentifierProvider, 1));
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player2), HandIdentifierProvider, 1));
+			game.DealHands();
+			Assert.AreEqual(GameStatus.InProgress, game.Status);
+			Assert.AreEqual(2, game.Players.Last().Hands.First().Cards.Count());
+			Assert.AreEqual(5, game.Players.First().Hands.First().PointValue);
+			Assert.AreEqual(5, game.Players.Skip(1).Take(1).Single().Hands.Single().PointValue);
+			Assert.AreEqual(5, game.Players.Last().Hands.First().PointValue);
+			Assert.IsTrue(game.Players.First().Hands.First().Cards.First().FaceDown);
+			Assert.IsFalse(game.Players.First().Hands.First().Cards.Last().FaceDown);
+			Assert.IsTrue(game.Players.Skip(1).Take(1).Single().Hands.First().Cards.First().FaceDown);
+			Assert.IsFalse(game.Players.Skip(1).Take(1).Single().Hands.First().Cards.Last().FaceDown);
+			Assert.IsTrue(game.Players.Skip(2).Take(1).Single().Hands.First().Cards.First().FaceDown);
+			Assert.IsFalse(game.Players.Skip(2).Take(1).Single().Hands.First().Cards.Last().FaceDown);
+		}
 
-		//	Assert.AreEqual(dealerName, game.CurrentPlayer.Name);
-		//}
+		[Test]
+		public void AfterDeal_PlayerHits_CurrectValues()
+		{
+			var playerOneId = "8625cf04-b7e2";
+			var game = new BlackJackGame(cardProvider, DealerNamedData, 1);
+			var player2 = new Avitar(playerName2);
+
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>(playerOneId, player2), HandIdentifierProvider, 1));
+			game.DealHands();
+			Assert.AreEqual(2, game.Players.Last().Hands.First().Cards.Count());
+			Assert.AreEqual(5, game.Players.First().Hands.First().PointValue);
+			Assert.AreEqual(5, game.Players.Last().Hands.First().PointValue);
+			Assert.IsTrue(game.Players.First().Hands.First().Cards.First().FaceDown);
+			Assert.IsFalse(game.Players.First().Hands.First().Cards.Last().FaceDown);
+			Assert.IsTrue(game.Players.Last().Hands.First().Cards.First().FaceDown);
+			Assert.IsFalse(game.Players.Last().Hands.First().Cards.Last().FaceDown);
+
+			game.PlayerHits(playerOneId, HandIdentifierProvider.GenerateHandIds(1).Single());
+			Assert.AreEqual(3, game.Players.First().Hands.First().Cards.Count());
+			Assert.AreEqual(7, game.Players.First().Hands.First().PointValue);
+		}
+
+		[Test]
+		public void AfterDeal_PlayerHolds_CurrectValues()
+		{
+			var playerOneId = "8625cf04-b7e2";
+			var game = new BlackJackGame(cardProvider, DealerNamedData, 1);
+			var player2 = new Avitar(playerName2);
+
+			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>(playerOneId, player2), HandIdentifierProvider, 1));
+			game.DealHands();
+			Assert.AreEqual(2, game.Players.Last().Hands.First().Cards.Count());
+			Assert.AreEqual(5, game.Players.First().Hands.First().PointValue);
+			Assert.AreEqual(5, game.Players.Last().Hands.First().PointValue);
+			Assert.IsTrue(game.Players.First().Hands.First().Cards.First().FaceDown);
+			Assert.IsFalse(game.Players.First().Hands.First().Cards.Last().FaceDown);
+			Assert.IsTrue(game.Players.Last().Hands.First().Cards.First().FaceDown);
+			Assert.IsFalse(game.Players.Last().Hands.First().Cards.Last().FaceDown);
+			Assert.AreEqual(GameStatus.InProgress, game.Status);
+
+			game.PlayerHolds(playerOneId, HandIdentifierProvider.GenerateHandIds(1).Single());
+			Assert.AreEqual(2, game.Players.First().Hands.First().Cards.Count());
+			Assert.AreEqual(5, game.Players.First().Hands.First().PointValue);
+			Assert.AreEqual(PlayerStatusTypes.Complete, game.Players.First().Status);
+			Assert.AreEqual(PlayerStatusTypes.InProgress, game.Players.Last().Status);
+			Assert.AreEqual(GameStatus.InProgress, game.Status);
+
+			game.PlayerHolds(DealerDataId, HandIdentifierProvider.GenerateHandIds(1).Single());
+			Assert.AreEqual(3, game.Players.Last().Hands.First().Cards.Count());
+			Assert.AreEqual(7, game.Players.Last().Hands.First().PointValue);
+			Assert.AreEqual(PlayerStatusTypes.Complete, game.Players.First().Status);
+			Assert.AreEqual(PlayerStatusTypes.InProgress, game.Players.Last().Status);
+			Assert.AreEqual(GameStatus.Complete, game.Status);
+		}
 	}
 }

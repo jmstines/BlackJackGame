@@ -88,7 +88,7 @@ namespace Entities
 				var cards = cardProvider.Cards(cardCount);
 
 				Players.ToList().ForEach(p => p.Hands.ToList()
-					.ForEach(h => h.Value.AddCardRange(cards.Take(2))));
+					.ForEach(h => h.AddCardRange(cards.Take(2))));
 			}
 		}
 

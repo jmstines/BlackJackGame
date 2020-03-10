@@ -47,30 +47,29 @@ namespace Entities
 			};
 		}
 
-		private static IDictionary<string, HandDto> MapHand(IDictionary<string, Hand> Hands, bool showAll)
+		private static IDictionary<string, HandDto> MapHand(IEnumerable<Hand> Hands, bool showAll)
 		{
 			IDictionary<string, HandDto> handDtos = new Dictionary<string, HandDto>();
 			foreach (var hand in Hands)
 			{
 				var dto = new HandDto();
-				var handValues = hand.Value;
 				if (showAll)
 				{
-					dto.Actions = handValues.Actions;
-					dto.Cards = handValues.Cards;
-					dto.CardCount = handValues.Cards.Count();
-					dto.PointValue = handValues.PointValue;
-					dto.Status = handValues.Status;
+					dto.Actions = hand.Actions;
+					dto.Cards = hand.Cards;
+					dto.CardCount = hand.Cards.Count();
+					dto.PointValue = hand.PointValue;
+					dto.Status = hand.Status;
 				}
 				else
 				{
-					dto.Actions = handValues.Actions;
-					dto.Cards = handValues.Cards.Where(c => c.FaceDown.Equals(false));
-					dto.CardCount = handValues.Cards.Count();
-					dto.PointValue = handValues.PointValue;
-					dto.Status = handValues.Status;
+					dto.Actions = hand.Actions;
+					dto.Cards = hand.Cards.Where(c => c.FaceDown.Equals(false));
+					dto.CardCount = hand.Cards.Count();
+					dto.PointValue = hand.PointValue;
+					dto.Status = hand.Status;
 				}
-				handDtos.Add(hand.Key, dto);
+				handDtos.Add(hand.Identifier, dto);
 			}
 			return handDtos;
 		}

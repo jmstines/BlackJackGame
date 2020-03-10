@@ -10,12 +10,12 @@ namespace Interactors.Providers
 		public override IEnumerable<ICard> Deck { get; set; }
 		public override IRandomProvider RandomProvider { get; set; }
 
-		public IDictionary<string, Hand> Hands(IEnumerable<string> identifiers)
+		public IEnumerable<Hand> Hands(IEnumerable<string> identifiers)
 		{
-			var hands = new Dictionary<string, Hand>();
+			var hands = new List<Hand>();
 			foreach(var id in identifiers)
 			{
-				hands.Add(id, new Hand());
+				hands.Add(new Hand(id));
 			}
 			return hands;
 		}

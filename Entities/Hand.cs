@@ -3,6 +3,7 @@ using Entities.Interfaces;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace Entities
 {
@@ -11,12 +12,17 @@ namespace Entities
 		private readonly List<IBlackJackCard> cards = new List<IBlackJackCard>();
 		private List<HandActionTypes> actions;
 
+		public string Identifier { get; private set; }
 		public IEnumerable<HandActionTypes> Actions => actions;
 		public IEnumerable<IBlackJackCard> Cards => cards;
 		public int PointValue { get; private set; } = 0;
 		public HandStatusTypes Status { get; private set; } = HandStatusTypes.InProgress;
 
-		public Hand() => SetHandActions();
+		public Hand(string identifier)
+		{
+			Identifier = identifier ?? throw new ArgumentNullException(nameof(identifier));
+			SetHandActions();
+		}
 
 		public void AddCard(ICard card)
 		{

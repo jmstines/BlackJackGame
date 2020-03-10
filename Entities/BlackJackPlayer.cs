@@ -10,10 +10,10 @@ namespace Entities
 	{
 		public string Name { get; private set; }
 		public string PlayerIdentifier { get; private set; }
-		public IDictionary<string, Hand> Hands => hands;
+		public IEnumerable<Hand> Hands => hands;
 		public PlayerStatusTypes Status { get; set; }
 
-		private readonly Dictionary<string, Hand> hands = new Dictionary<string, Hand>();
+		private readonly List<Hand> hands = new List<Hand>();
 		private readonly IHandIdentifierProvider handIdProvider;
 
 		public BlackJackPlayer(KeyValuePair<string, Avitar> avitar, IHandIdentifierProvider handIdProvider, int handCount)
@@ -34,19 +34,20 @@ namespace Entities
 		{
 			foreach(var id in handIdProvider.GenerateHandIds(handCount))
 			{
-				Hands.Add(id, new Hand());
+				hands.Add(new Hand(id));
 			}
 		}
 
 		public void PlayerHits(string handId, ICard card)
 		{
-			if (Hands.TryGetValue(handId, out var hand))
+			var hand = Hands.SingleOrDefault(h => h.Identifier == handId);
+			if (hand != null)
 			{
 				hand.AddCard(card);
 			}
 			else
 			{
-				throw new ArgumentException(nameof(handId), "Hand Id Not Found.");
+				throw new ArgumentException(nameof(handId), "Hand Identifier NOT Found.");
 			}
 
 			CheckForPlayerEndOfTurn();
@@ -54,7 +55,7 @@ namespace Entities
 
 		private void CheckForPlayerEndOfTurn()
 		{
-			if (Hands.Values.All(h => h.Status != HandStatusTypes.InProgress))
+			if (Hands.All(h => h.Status != HandStatusTypes.InProgress))
 			{
 				Status = PlayerStatusTypes.Complete;
 			}

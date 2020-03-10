@@ -4,6 +4,6 @@ namespace Entities.Interfaces
 {
 	public interface IHandProvider
 	{
-		IDictionary<string, Hand> Hands(IEnumerable<string> identifiers);
+		IEnumerable<Hand> Hands(IEnumerable<string> identifiers);
 	}
 }

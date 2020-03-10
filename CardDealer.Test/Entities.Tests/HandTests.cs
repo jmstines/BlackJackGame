@@ -16,7 +16,7 @@ namespace Entities.Tests
 		[Test]
 		public void NewHand_DefaultValues_CorrectValues()
 		{
-			var hand = new Hand();
+			var hand = new Hand("1234-QWERY");
 
 			Assert.AreEqual(0, hand.PointValue);
 			Assert.AreEqual(false, hand.Cards.Any());
@@ -27,7 +27,7 @@ namespace Entities.Tests
 		[Test]
 		public void NewHand_AddAceSpadesUp_CorrectValues()
 		{
-			var hand = new Hand();
+			var hand = new Hand("4567-ASDF");
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Ace)));
 
 			Assert.AreEqual(11, hand.PointValue);
@@ -39,7 +39,7 @@ namespace Entities.Tests
 		[Test]
 		public void AfterDeal_AddAceSpadesUp_CorrectValues()
 		{
-			var hand = new Hand();
+			var hand = new Hand("7890-ZXCVB");
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Jack)));
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Ten)));
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Ace)));
@@ -53,7 +53,7 @@ namespace Entities.Tests
 		[Test]
 		public void HandDeal_DefaultValues_CorrectValues()
 		{
-			var hand = new Hand();
+			var hand = new Hand("1234-YUIOP");
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Ace)));
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Jack)));
 
@@ -67,7 +67,7 @@ namespace Entities.Tests
 		[Test]
 		public void NewHand_DefaultValues_IncorrectValues()
 		{
-			var hand = new Hand();
+			var hand = new Hand("3210-JHJKL");
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Three)));
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Jack)));
 
@@ -80,7 +80,7 @@ namespace Entities.Tests
 		[Test]
 		public void NewHand2TenValues_SplitAndDefaultHand_CorrectValues()
 		{
-			var hand = new Hand();
+			var hand = new Hand("9874-BNMV");
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.King)));
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Jack)));
 
@@ -93,7 +93,7 @@ namespace Entities.Tests
 		[Test]
 		public void BustHand_EndHandValues_CorrectValues()
 		{
-			var hand = new Hand();
+			var hand = new Hand("3210-POIUY");
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.King)));
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Jack)));
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Queen)));
@@ -107,7 +107,7 @@ namespace Entities.Tests
 		[Test]
 		public void AceAndTen_GetValue_ValueEqualsBlackJack()
 		{
-			var hand = new Hand();
+			var hand = new Hand("6547-IUYTR");
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Ace)));
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Ten)));
 
@@ -117,7 +117,7 @@ namespace Entities.Tests
 		[Test]
 		public void AceTenTen_GetValue_ValueEqualsBlackJack()
 		{
-			var hand = new Hand();
+			var hand = new Hand("7410-HGFDS");
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Ace)));
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Ten)));
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Ten)));
@@ -128,7 +128,7 @@ namespace Entities.Tests
 		[Test]
 		public void AceAceTen_GetValue_ValueEqualsTwelve()
 		{
-			var hand = new Hand();
+			var hand = new Hand("9632-YUITR");
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Ace)));
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Ace)));
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Ten)));

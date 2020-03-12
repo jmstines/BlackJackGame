@@ -1,10 +1,9 @@
-﻿using Entities.Enums;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System;
 
 namespace Entities.Tests
 {
-	public class PlayerTests
+	public class AvitarTests
 	{
 		private const string playerName = "Sam";
 

@@ -207,6 +207,7 @@ namespace Entities.Tests
 			var player2 = new Avitar(playerName2);
 
 			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>(playerOneId, player2), HandIdentifierProvider, 1));
+			game.SetPlayerStatusReady(playerOneId);
 			game.DealHands();
 			Assert.AreEqual(2, game.Players.Last().Hands.First().Cards.Count());
 			Assert.AreEqual(5, game.Players.First().Hands.First().PointValue);
@@ -225,10 +226,10 @@ namespace Entities.Tests
 			Assert.AreEqual(GameStatus.InProgress, game.Status);
 
 			game.PlayerHolds(DealerDataId, HandIdentifierProvider.GenerateHandIds(1).Single());
-			Assert.AreEqual(3, game.Players.Last().Hands.First().Cards.Count());
-			Assert.AreEqual(7, game.Players.Last().Hands.First().PointValue);
+			Assert.AreEqual(2, game.Players.Last().Hands.First().Cards.Count());
+			Assert.AreEqual(5, game.Players.Last().Hands.First().PointValue);
 			Assert.AreEqual(PlayerStatusTypes.Complete, game.Players.First().Status);
-			Assert.AreEqual(PlayerStatusTypes.InProgress, game.Players.Last().Status);
+			Assert.AreEqual(PlayerStatusTypes.Complete, game.Players.Last().Status);
 			Assert.AreEqual(GameStatus.Complete, game.Status);
 		}
 	}

@@ -113,6 +113,7 @@ namespace Entities
 		{
 			if (players.Count == MaxPlayerCount)
 			{
+				Dealer.Status = PlayerStatusTypes.Ready;
 				players.Add(Dealer);
 			}
 		}
@@ -122,12 +123,18 @@ namespace Entities
 				? GameStatus.Complete
 				: GameStatus.InProgress;
 
-		private void SetGameInProgressOnAllPlayersReady() => Status = 
-				players.Count == MaxPlayerCount
-				&& players.All(p => p != Dealer
-					&& p.Status.Equals(PlayerStatusTypes.Ready))
-				? GameStatus.InProgress
-				: GameStatus.Waiting;
+		private void SetGameInProgressOnAllPlayersReady()
+		{
+			if (players.Count >= MaxPlayerCount && players.All(p => p.Status.Equals(PlayerStatusTypes.Ready)))
+			{
+				Status = GameStatus.Ready;
+				Dealer.Status = PlayerStatusTypes.InProgress;
+			}
+			else
+			{
+				Status = GameStatus.Waiting;
+			}
+		}
 
 		private void SetReadyOnMaxPlayers() => Status = players.Count >= MaxPlayerCount - 1
 				? GameStatus.Ready

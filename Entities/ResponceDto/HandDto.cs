@@ -6,6 +6,7 @@ namespace Entities.ResponceDtos
 {
 	public class HandDto
 	{
+		public string Identifier { get; set; }
 		public IEnumerable<HandActionTypes> Actions { get; set; }
 		public IEnumerable<IBlackJackCard> Cards { get; set; }
 		public int CardCount { get; set; }

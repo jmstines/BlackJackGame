@@ -59,7 +59,7 @@ namespace BlackJackConsoleApp
 			while (gameStatus == GameStatus.InProgress)
 			{
 				ConsoleKey key;
-				var validKeys = ActionKeys(currentPlayer.Hands.First().Value.Actions.ToList());
+				var validKeys = ActionKeys(currentPlayer.Hands.First().Actions.ToList());
 				do
 				{
 					Console.Clear();
@@ -68,7 +68,7 @@ namespace BlackJackConsoleApp
 					Console.WriteLine("---------------------------------------------");
 					Console.WriteLine($" Player: {currentPlayer.Name}");
 					//Console.Write($" {currentPlayer.Hands.First().Value.PointValue}\t{VisibleCards(currentPlayer.Hands.First().Value, true)}");
-					Console.WriteLine(ActionMenuBuilder(currentPlayer.Hands.First().Value.Actions.ToList()));
+					Console.WriteLine(ActionMenuBuilder(currentPlayer.Hands.First().Actions.ToList()));
 
 					key = Console.ReadKey(true).Key;
 				} while (InValidActionKey(validKeys, key));

@@ -43,15 +43,16 @@ namespace Entities.Tests
 			
 			Assert.AreEqual(game.Players.Count(), gameDto.Players.Count);
 			Assert.AreEqual(Ted.Hands.Count(), TedDto.Hands.Count);
-			Assert.AreEqual(Ted.Hands.Single().Identifier, TedDto.Hands.Single().Key);
-			Assert.AreEqual(Ted.Hands.Single().PointValue, TedDto.Hands.Single().Value.PointValue);
-			Assert.AreEqual(2, TedDto.Hands.Single().Value.CardCount);
+			Assert.AreEqual(Ted.Hands.Single().Identifier, TedDto.Hands.Single().Identifier);
+			Assert.AreEqual(Ted.Hands.Single().Actions, TedDto.Hands.Single().Actions);
+			Assert.AreEqual(Ted.Hands.Single().PointValue, TedDto.Hands.Single().PointValue);
+			Assert.AreEqual(2, TedDto.Hands.Single().CardCount);
 
 			Assert.AreEqual(dealer.Hands.Count(), dealerDto.Hands.Count);
-			Assert.AreEqual(dealer.Hands.Single().Identifier, dealerDto.Hands.Single().Key);
-			Assert.AreEqual(dealer.Hands.Single().PointValue, dealerDto.Hands.Single().Value.PointValue);
-			Assert.AreEqual(2, dealerDto.Hands.Single().Value.CardCount);
-			Assert.AreEqual(1, dealerDto.Hands.Single().Value.Cards.Count());
+			Assert.AreEqual(dealer.Hands.Single().Identifier, dealerDto.Hands.Single().Identifier);
+			Assert.AreEqual(dealer.Hands.Single().Actions, dealerDto.Hands.Single().Actions);
+			Assert.AreEqual(dealer.Hands.Single().PointValue, dealerDto.Hands.Single().PointValue);
+			Assert.AreEqual(2, dealerDto.Hands.Single().CardCount);
 		}
 
 		[Test]
@@ -84,15 +85,14 @@ namespace Entities.Tests
 
 			Assert.AreEqual(game.Players.Count(), gameDto.Players.Count);
 			Assert.AreEqual(Ted.Hands.Count(), TedDto.Hands.Count);
-			Assert.AreEqual(Ted.Hands.Single().Identifier, TedDto.Hands.Single().Key);
-			Assert.AreEqual(Ted.Hands.Single().PointValue, TedDto.Hands.Single().Value.PointValue);
-			Assert.AreEqual(13, TedDto.Hands.Single().Value.CardCount);
+			Assert.AreEqual(Ted.Hands.Single().Identifier, TedDto.Hands.Single().Identifier);
+			Assert.AreEqual(Ted.Hands.Single().PointValue, TedDto.Hands.Single().PointValue);
+			Assert.AreEqual(13, TedDto.Hands.Single().CardCount);
 
 			Assert.AreEqual(dealer.Hands.Count(), dealerDto.Hands.Count);
-			Assert.AreEqual(dealer.Hands.Single().Identifier, dealerDto.Hands.Single().Key);
-			Assert.AreEqual(dealer.Hands.Single().PointValue, dealerDto.Hands.Single().Value.PointValue);
-			Assert.AreEqual(2, dealerDto.Hands.Single().Value.CardCount);
-			Assert.AreEqual(2, dealerDto.Hands.Single().Value.Cards.Count());
+			Assert.AreEqual(dealer.Hands.Single().Identifier, dealerDto.Hands.Single().Identifier);
+			Assert.AreEqual(dealer.Hands.Single().PointValue, dealerDto.Hands.Single().PointValue);
+			Assert.AreEqual(2, dealerDto.Hands.Single().CardCount);
 		}
 	}
 }

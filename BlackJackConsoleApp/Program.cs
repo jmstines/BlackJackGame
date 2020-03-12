@@ -1,6 +1,7 @@
 ﻿using Entities;
 using Entities.Enums;
 using Entities.Interfaces;
+using Entities.Providers;
 using Interactors;
 using Interactors.Boundaries;
 using Interactors.Providers;

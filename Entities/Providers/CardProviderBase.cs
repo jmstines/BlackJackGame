@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Interactors.Providers
+namespace Entities.Providers
 {
 	abstract public class CardProviderBase
 	{

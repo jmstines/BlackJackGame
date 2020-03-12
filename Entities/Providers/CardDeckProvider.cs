@@ -1,10 +1,9 @@
-﻿using Entities;
-using Entities.Enums;
+﻿using Entities.Enums;
 using Entities.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Interactors.Providers
+namespace Entities.Providers
 {
 	public class CardDeckProvider : ICardDeckProvider
 	{

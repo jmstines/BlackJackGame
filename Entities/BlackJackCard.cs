@@ -16,12 +16,7 @@ namespace Entities
 			Suit = card.Suit != 0 ? card.Suit : throw new ArgumentOutOfRangeException(nameof(card.Suit));
 			Rank = card.Rank != 0 ? card.Rank : throw new ArgumentOutOfRangeException(nameof(card.Rank));
 			FaceDown = faceDown;
-			Value = 0;
-			SetCardValue();
-		}
 
-		private void SetCardValue()
-		{
 			switch (Rank)
 			{
 				case CardRank.Ace:
@@ -51,9 +46,20 @@ namespace Entities
 				case CardRank.Nine:
 					Value = 9;
 					break;
-				default:
+				case CardRank.Ten:
 					Value = BlackJackConstants.DefaultCardValue;
 					break;
+				case CardRank.Jack:
+					Value = BlackJackConstants.DefaultCardValue;
+					break;
+				case CardRank.Queen:
+					Value = BlackJackConstants.DefaultCardValue;
+					break;
+				case CardRank.King:
+					Value = BlackJackConstants.DefaultCardValue;
+					break;
+				default:
+					throw new ArgumentOutOfRangeException(nameof(card.Rank), "Card Rank must be 2 through Ace.");
 			}
 		}
 
@@ -63,8 +69,14 @@ namespace Entities
 
 		public override int GetHashCode() => HashCode.Combine(Suit, Rank);
 
-		public static bool operator ==(BlackJackCard left, BlackJackCard right) => left.Equals(right);
+		public static bool operator ==(BlackJackCard left, BlackJackCard right)
+		{
+			return left.Equals(right);
+		}
 
-		public static bool operator !=(BlackJackCard left, BlackJackCard right) => !(left == right);
+		public static bool operator !=(BlackJackCard left, BlackJackCard right)
+		{
+			return !(left == right);
+		}
 	}
 }

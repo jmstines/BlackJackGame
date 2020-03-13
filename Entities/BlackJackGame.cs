@@ -92,11 +92,10 @@ namespace Entities
 				throw new ArgumentOutOfRangeException(nameof(Status), "Game Status Must be Ready to Deal Hands.");
 			}
 
-			var cardCount = Players.Sum(p => p.Hands.Count());
+			var cardCount = players.Sum(p => p.Hands.Count());
 			var cards = cardProvider.Cards(cardCount);
 
-			Players.ToList().ForEach(p => p.Hands.ToList()
-				.ForEach(h => h.AddCardRange(cards.Take(2))));
+			players.ForEach(p => p.DealHands(cards.Take(p.Hands.Count() * 2)));
 			
 			Status = GameStatus.InProgress;
 		}

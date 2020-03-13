@@ -30,12 +30,10 @@ namespace Entities
 			Status = PlayerStatusTypes.Waiting;
 		}
 
-		public void AddHands(int handCount)
+		public void DealHands(IEnumerable<ICard> cards)
 		{
-			foreach(var id in handIdProvider.GenerateHandIds(handCount))
-			{
-				hands.Add(new Hand(id));
-			}
+			hands.ForEach(h => h.AddCardRange(cards.Take(2)));
+			Status = PlayerStatusTypes.InProgress;
 		}
 
 		public void Hit(string handIdentifier, ICard card)
@@ -60,6 +58,14 @@ namespace Entities
 			hand.SetStatus(HandStatusTypes.Hold);
 
 			CheckForPlayerEndOfTurn();
+		}
+
+		private void AddHands(int handCount)
+		{
+			foreach (var id in handIdProvider.GenerateHandIds(handCount))
+			{
+				hands.Add(new Hand(id));
+			}
 		}
 
 		private void CheckForPlayerEndOfTurn()

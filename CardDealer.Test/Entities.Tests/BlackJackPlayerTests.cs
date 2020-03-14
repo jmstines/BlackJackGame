@@ -81,6 +81,34 @@ namespace Entities.Tests
 		}
 
 		[Test]
+		public void PlayerSingleHand_DealDeal_CorrectStartingValues()
+		{
+			var playerId = "8625cf04-b7e2";
+			var playerOne = new BlackJackPlayer(new KeyValuePair<string, Avitar>(playerId, player1), HandIdentifierProvider, 1);
+
+			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
+			playerOne.DealHands(twoThreeClubs);
+
+			Assert.AreEqual(true, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(0).FaceDown);
+			Assert.AreEqual(false, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(1).FaceDown);
+			Assert.AreEqual(5, playerOne.Hands.Single(h => h.Identifier == handId).PointValue);
+			Assert.AreEqual(PlayerStatusTypes.InProgress, playerOne.Status);
+			Assert.AreEqual(playerId, playerOne.Identifier);
+			Assert.AreEqual(1, playerOne.Hands.Count());
+			Assert.AreEqual(HandStatusTypes.InProgress, playerOne.Hands.Single(h => h.Identifier == handId).Status);
+
+			Assert.Throws<InvalidOperationException>(() => playerOne.DealHands(twoThreeClubs));
+
+			Assert.AreEqual(true, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(0).FaceDown);
+			Assert.AreEqual(false, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(1).FaceDown);
+			Assert.AreEqual(5, playerOne.Hands.Single(h => h.Identifier == handId).PointValue);
+			Assert.AreEqual(PlayerStatusTypes.InProgress, playerOne.Status);
+			Assert.AreEqual(playerId, playerOne.Identifier);
+			Assert.AreEqual(1, playerOne.Hands.Count());
+			Assert.AreEqual(HandStatusTypes.InProgress, playerOne.Hands.Single(h => h.Identifier == handId).Status);
+		}
+
+		[Test]
 		public void PlayerSingleHand_DealAndHit_CorrectInstanceValues()
 		{
 			var playerId = "8625cf04-b7e2";
@@ -101,6 +129,88 @@ namespace Entities.Tests
 			Assert.AreEqual(playerId, playerOne.Identifier);
 			Assert.AreEqual(1, playerOne.Hands.Count());
 			Assert.AreEqual(HandStatusTypes.InProgress, playerOne.Hands.Single(h => h.Identifier == handId).Status);
+		}
+
+		[Test]
+		public void PlayerSingleHand_DealHitBustHit_CorrectInstanceValues()
+		{
+			var playerId = "8625cf04-b7e2";
+			var playerOne = new BlackJackPlayer(new KeyValuePair<string, Avitar>(playerId, player1), HandIdentifierProvider, 1);
+			var blkJkJackClubs = new BlackJackCard(jackClubs, true);
+			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
+
+			playerOne.DealHands(twoThreeClubs);
+			Assert.AreEqual(PlayerStatusTypes.InProgress, playerOne.Status);
+
+			playerOne.Hit(handId, blkJkJackClubs);
+
+			Assert.AreEqual(true, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(0).FaceDown);
+			Assert.AreEqual(false, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(1).FaceDown);
+			Assert.AreEqual(false, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(2).FaceDown);
+			Assert.AreEqual(15, playerOne.Hands.Single(h => h.Identifier == handId).PointValue);
+			Assert.AreEqual(PlayerStatusTypes.InProgress, playerOne.Status);
+			Assert.AreEqual(playerId, playerOne.Identifier);
+			Assert.AreEqual(1, playerOne.Hands.Count());
+			Assert.AreEqual(HandStatusTypes.InProgress, playerOne.Hands.Single(h => h.Identifier == handId).Status);
+
+			playerOne.Hit(handId, blkJkJackClubs);
+
+			Assert.AreEqual(true, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(0).FaceDown);
+			Assert.AreEqual(false, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(1).FaceDown);
+			Assert.AreEqual(false, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(2).FaceDown);
+			Assert.AreEqual(25, playerOne.Hands.Single(h => h.Identifier == handId).PointValue);
+			Assert.AreEqual(PlayerStatusTypes.Complete, playerOne.Status);
+			Assert.AreEqual(HandStatusTypes.Bust, playerOne.Hands.Single(h => h.Identifier == handId).Status);
+
+			Assert.Throws<InvalidOperationException>(() => playerOne.Hit(handId, blkJkJackClubs));
+
+			Assert.AreEqual(true, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(0).FaceDown);
+			Assert.AreEqual(false, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(1).FaceDown);
+			Assert.AreEqual(false, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(2).FaceDown);
+			Assert.AreEqual(25, playerOne.Hands.Single(h => h.Identifier == handId).PointValue);
+			Assert.AreEqual(PlayerStatusTypes.Complete, playerOne.Status);
+			Assert.AreEqual(HandStatusTypes.Bust, playerOne.Hands.Single(h => h.Identifier == handId).Status);
+		}
+
+		[Test]
+		public void PlayerSingleHand_DealHitBustHold_CorrectInstanceValues()
+		{
+			var playerId = "8625cf04-b7e2";
+			var playerOne = new BlackJackPlayer(new KeyValuePair<string, Avitar>(playerId, player1), HandIdentifierProvider, 1);
+			var blkJkJackClubs = new BlackJackCard(jackClubs, true);
+			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
+
+			playerOne.DealHands(twoThreeClubs);
+			Assert.AreEqual(PlayerStatusTypes.InProgress, playerOne.Status);
+
+			playerOne.Hit(handId, blkJkJackClubs);
+
+			Assert.AreEqual(true, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(0).FaceDown);
+			Assert.AreEqual(false, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(1).FaceDown);
+			Assert.AreEqual(false, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(2).FaceDown);
+			Assert.AreEqual(15, playerOne.Hands.Single(h => h.Identifier == handId).PointValue);
+			Assert.AreEqual(PlayerStatusTypes.InProgress, playerOne.Status);
+			Assert.AreEqual(playerId, playerOne.Identifier);
+			Assert.AreEqual(1, playerOne.Hands.Count());
+			Assert.AreEqual(HandStatusTypes.InProgress, playerOne.Hands.Single(h => h.Identifier == handId).Status);
+
+			playerOne.Hit(handId, blkJkJackClubs);
+
+			Assert.AreEqual(true, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(0).FaceDown);
+			Assert.AreEqual(false, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(1).FaceDown);
+			Assert.AreEqual(false, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(2).FaceDown);
+			Assert.AreEqual(25, playerOne.Hands.Single(h => h.Identifier == handId).PointValue);
+			Assert.AreEqual(PlayerStatusTypes.Complete, playerOne.Status);
+			Assert.AreEqual(HandStatusTypes.Bust, playerOne.Hands.Single(h => h.Identifier == handId).Status);
+
+			Assert.Throws<InvalidOperationException>(() => playerOne.Hit(handId, blkJkJackClubs));
+
+			Assert.AreEqual(true, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(0).FaceDown);
+			Assert.AreEqual(false, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(1).FaceDown);
+			Assert.AreEqual(false, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(2).FaceDown);
+			Assert.AreEqual(25, playerOne.Hands.Single(h => h.Identifier == handId).PointValue);
+			Assert.AreEqual(PlayerStatusTypes.Complete, playerOne.Status);
+			Assert.AreEqual(HandStatusTypes.Bust, playerOne.Hands.Single(h => h.Identifier == handId).Status);
 		}
 
 		[Test]
@@ -144,6 +254,7 @@ namespace Entities.Tests
 			var playerOne = new BlackJackPlayer(new KeyValuePair<string, Avitar>(playerId, player1), HandIdentifierProvider, 2);
 
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
+			var handId2 = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(2).Single(i => i != handId);
 			playerOne.DealHands(twoThreeClubs);
 
 			Assert.AreEqual(true, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(0).FaceDown);
@@ -153,16 +264,21 @@ namespace Entities.Tests
 			Assert.AreEqual(playerId, playerOne.Identifier);
 			Assert.AreEqual(2, playerOne.Hands.Count());
 			Assert.AreEqual(HandStatusTypes.InProgress, playerOne.Hands.Single(h => h.Identifier == handId).Status);
-			// TODO Test Second Hand Values
+
+			Assert.AreEqual(true, playerOne.Hands.Single(h => h.Identifier == handId2).Cards.ElementAt(0).FaceDown);
+			Assert.AreEqual(false, playerOne.Hands.Single(h => h.Identifier == handId2).Cards.ElementAt(1).FaceDown);
+			Assert.AreEqual(5, playerOne.Hands.Single(h => h.Identifier == handId2).PointValue);
+			Assert.AreEqual(HandStatusTypes.InProgress, playerOne.Hands.Single(h => h.Identifier == handId2).Status);
 		}
 
 		[Test]
-		public void Player2Hands_DealAndHit_CorrectInstanceValues()
+		public void Player2Hands_DealAndHitAndHitAndBust_CorrectInstanceValues()
 		{
 			var playerId = "8625cf04-b7e2";
 			var playerOne = new BlackJackPlayer(new KeyValuePair<string, Avitar>(playerId, player1), HandIdentifierProvider, 2);
 			var blkJkJackClubs = new BlackJackCard(jackClubs, true);
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
+			var handId2 = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(2).Single(i => i != handId);
 
 			playerOne.DealHands(twoThreeClubs);
 			Assert.AreEqual(PlayerStatusTypes.InProgress, playerOne.Status);
@@ -177,16 +293,37 @@ namespace Entities.Tests
 			Assert.AreEqual(playerId, playerOne.Identifier);
 			Assert.AreEqual(2, playerOne.Hands.Count());
 			Assert.AreEqual(HandStatusTypes.InProgress, playerOne.Hands.Single(h => h.Identifier == handId).Status);
-			// TODO Test Second Hand Values
+
+			Assert.AreEqual(true, playerOne.Hands.Single(h => h.Identifier == handId2).Cards.ElementAt(0).FaceDown);
+			Assert.AreEqual(false, playerOne.Hands.Single(h => h.Identifier == handId2).Cards.ElementAt(1).FaceDown);
+			Assert.AreEqual(5, playerOne.Hands.Single(h => h.Identifier == handId2).PointValue);
+			Assert.AreEqual(HandStatusTypes.InProgress, playerOne.Hands.Single(h => h.Identifier == handId2).Status);
+
+			playerOne.Hit(handId, blkJkJackClubs);
+
+			Assert.AreEqual(true, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(0).FaceDown);
+			Assert.AreEqual(false, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(1).FaceDown);
+			Assert.AreEqual(false, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(2).FaceDown);
+			Assert.AreEqual(25, playerOne.Hands.Single(h => h.Identifier == handId).PointValue);
+			Assert.AreEqual(PlayerStatusTypes.InProgress, playerOne.Status);
+			Assert.AreEqual(playerId, playerOne.Identifier);
+			Assert.AreEqual(2, playerOne.Hands.Count());
+			Assert.AreEqual(HandStatusTypes.Bust, playerOne.Hands.Single(h => h.Identifier == handId).Status);
+
+			Assert.AreEqual(true, playerOne.Hands.Single(h => h.Identifier == handId2).Cards.ElementAt(0).FaceDown);
+			Assert.AreEqual(false, playerOne.Hands.Single(h => h.Identifier == handId2).Cards.ElementAt(1).FaceDown);
+			Assert.AreEqual(5, playerOne.Hands.Single(h => h.Identifier == handId2).PointValue);
+			Assert.AreEqual(HandStatusTypes.InProgress, playerOne.Hands.Single(h => h.Identifier == handId2).Status);
 		}
 
 		[Test]
-		public void Player2Hands_DealAndHitAndHold_CorrectInstanceValues()
+		public void Player2Hands_DealAndHitAndHoldBothHands_CorrectInstanceValues()
 		{
 			var playerId = "8625cf04-b7e2";
 			var playerOne = new BlackJackPlayer(new KeyValuePair<string, Avitar>(playerId, player1), HandIdentifierProvider, 2);
 			var blkJkJackClubs = new BlackJackCard(jackClubs, true);
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
+			var handId2 = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(2).Single(i => i != handId);
 
 			playerOne.DealHands(twoThreeClubs);
 			Assert.AreEqual(PlayerStatusTypes.InProgress, playerOne.Status);
@@ -201,7 +338,11 @@ namespace Entities.Tests
 			Assert.AreEqual(playerId, playerOne.Identifier);
 			Assert.AreEqual(2, playerOne.Hands.Count());
 			Assert.AreEqual(HandStatusTypes.InProgress, playerOne.Hands.Single(h => h.Identifier == handId).Status);
-			// TODO Test Second Hand Values
+
+			Assert.AreEqual(true, playerOne.Hands.Single(h => h.Identifier == handId2).Cards.ElementAt(0).FaceDown);
+			Assert.AreEqual(false, playerOne.Hands.Single(h => h.Identifier == handId2).Cards.ElementAt(1).FaceDown);
+			Assert.AreEqual(5, playerOne.Hands.Single(h => h.Identifier == handId2).PointValue);
+			Assert.AreEqual(HandStatusTypes.InProgress, playerOne.Hands.Single(h => h.Identifier == handId2).Status);
 
 			playerOne.Hold(handId);
 
@@ -213,7 +354,27 @@ namespace Entities.Tests
 			Assert.AreEqual(playerId, playerOne.Identifier);
 			Assert.AreEqual(2, playerOne.Hands.Count());
 			Assert.AreEqual(HandStatusTypes.Hold, playerOne.Hands.Single(h => h.Identifier == handId).Status);
-			// TODO Test Second Hand Values
+
+			Assert.AreEqual(true, playerOne.Hands.Single(h => h.Identifier == handId2).Cards.ElementAt(0).FaceDown);
+			Assert.AreEqual(false, playerOne.Hands.Single(h => h.Identifier == handId2).Cards.ElementAt(1).FaceDown);
+			Assert.AreEqual(5, playerOne.Hands.Single(h => h.Identifier == handId2).PointValue);
+			Assert.AreEqual(HandStatusTypes.InProgress, playerOne.Hands.Single(h => h.Identifier == handId2).Status);
+
+			playerOne.Hold(handId2);
+
+			Assert.AreEqual(true, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(0).FaceDown);
+			Assert.AreEqual(false, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(1).FaceDown);
+			Assert.AreEqual(false, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(2).FaceDown);
+			Assert.AreEqual(15, playerOne.Hands.Single(h => h.Identifier == handId).PointValue);
+			Assert.AreEqual(PlayerStatusTypes.Complete, playerOne.Status);
+			Assert.AreEqual(playerId, playerOne.Identifier);
+			Assert.AreEqual(2, playerOne.Hands.Count());
+			Assert.AreEqual(HandStatusTypes.Hold, playerOne.Hands.Single(h => h.Identifier == handId).Status);
+
+			Assert.AreEqual(true, playerOne.Hands.Single(h => h.Identifier == handId2).Cards.ElementAt(0).FaceDown);
+			Assert.AreEqual(false, playerOne.Hands.Single(h => h.Identifier == handId2).Cards.ElementAt(1).FaceDown);
+			Assert.AreEqual(5, playerOne.Hands.Single(h => h.Identifier == handId2).PointValue);
+			Assert.AreEqual(HandStatusTypes.Hold, playerOne.Hands.Single(h => h.Identifier == handId2).Status);
 		}
 
 		[Test]

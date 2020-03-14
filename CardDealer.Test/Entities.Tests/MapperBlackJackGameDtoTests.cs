@@ -73,8 +73,9 @@ namespace Entities.Tests
 			game.PlayerHits(PlayerTedId, TedHandKey);
 			game.PlayerHits(PlayerTedId, TedHandKey);
 			game.PlayerHits(PlayerTedId, TedHandKey);
-			game.PlayerHits(PlayerTedId, TedHandKey);
-			game.PlayerHits(PlayerTedId, TedHandKey);
+
+			Assert.Throws<InvalidOperationException>(() => game.PlayerHits(PlayerTedId, TedHandKey));
+
 			var gameDto = MapperBlackJackGameDto.Map(game, PlayerTedId);
 
 			var Ted = game.Players.Single(p => p.Identifier == PlayerTedId);
@@ -87,7 +88,8 @@ namespace Entities.Tests
 			Assert.AreEqual(Ted.Hands.Count(), TedDto.Hands.Count);
 			Assert.AreEqual(Ted.Hands.Single().Identifier, TedDto.Hands.Single().Identifier);
 			Assert.AreEqual(Ted.Hands.Single().PointValue, TedDto.Hands.Single().PointValue);
-			Assert.AreEqual(13, TedDto.Hands.Single().CardCount);
+			Assert.AreEqual(11, TedDto.Hands.Single().CardCount);
+			Assert.AreEqual(23, TedDto.Hands.Single().PointValue);
 
 			Assert.AreEqual(dealer.Hands.Count(), dealerDto.Hands.Count);
 			Assert.AreEqual(dealer.Hands.Single().Identifier, dealerDto.Hands.Single().Identifier);

@@ -164,6 +164,7 @@ namespace Entities.Tests
 			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player), HandIdentifierProvider, 1));
 			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player2), HandIdentifierProvider, 1));
 			game.DealHands();
+
 			Assert.AreEqual(GameStatus.InProgress, game.Status);
 			Assert.AreEqual(2, game.Players.Last().Hands.First().Cards.Count());
 			Assert.AreEqual(5, game.Players.First().Hands.First().PointValue);
@@ -207,7 +208,7 @@ namespace Entities.Tests
 			var player2 = new Avitar(playerName2);
 
 			game.AddPlayer(new BlackJackPlayer(new KeyValuePair<string, Avitar>(playerOneId, player2), HandIdentifierProvider, 1));
-			game.SetPlayerStatusReady(playerOneId);
+
 			game.DealHands();
 			Assert.AreEqual(2, game.Players.Last().Hands.First().Cards.Count());
 			Assert.AreEqual(5, game.Players.First().Hands.First().PointValue);

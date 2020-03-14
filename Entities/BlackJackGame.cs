@@ -112,7 +112,7 @@ namespace Entities
 		{
 			if (players.Count == MaxPlayerCount)
 			{
-				Dealer.Status = PlayerStatusTypes.Ready;
+				Dealer.Status = PlayerStatusTypes.Waiting;
 				players.Add(Dealer);
 			}
 		}

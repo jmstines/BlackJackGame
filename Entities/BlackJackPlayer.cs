@@ -32,6 +32,11 @@ namespace Entities
 
 		public void DealHands(IEnumerable<ICard> cards)
 		{
+			if (Status != PlayerStatusTypes.Waiting)
+			{
+				throw new InvalidOperationException("Player Status Must be Waiting to Deal Hands.");
+			}
+
 			hands.ForEach(h => h.AddCardRange(cards.Take(2)));
 			Status = PlayerStatusTypes.InProgress;
 		}
@@ -41,8 +46,14 @@ namespace Entities
 			var hand = Hands.SingleOrDefault(h => h.Identifier == handIdentifier);
 			if (hand == null)
 			{
-				throw new ArgumentException(nameof(handIdentifier), "Hand Identifier NOT Found.");
+				throw new ArgumentException(nameof(handIdentifier), $"{handIdentifier} Hand Identifier NOT Found.");
 			}
+
+			if (hand.Status != HandStatusTypes.InProgress)
+			{
+				throw new InvalidOperationException($"{handIdentifier} Hand Status Must be In Progress to Hit.");
+			}
+
 			hand.AddCard(card);
 
 			CheckForPlayerEndOfTurn();
@@ -53,8 +64,14 @@ namespace Entities
 			var hand = Hands.SingleOrDefault(h => h.Identifier == handIdentifier);
 			if (hand == null)
 			{
-				throw new ArgumentException(nameof(handIdentifier), "Hand Identifier NOT Found.");
+				throw new ArgumentException(nameof(handIdentifier), $"{handIdentifier} Hand Identifier NOT Found.");
 			}
+
+			if (hand.Status != HandStatusTypes.InProgress)
+			{
+				throw new InvalidOperationException($"{handIdentifier} Hand Status Must be In Progress to Hold.");
+			}
+
 			hand.SetStatus(HandStatusTypes.Hold);
 
 			CheckForPlayerEndOfTurn();

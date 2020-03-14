@@ -1,6 +1,7 @@
 ﻿using Entities.Enums;
 using Entities.Interfaces;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -118,11 +119,23 @@ namespace Entities.Tests
 		public void AceTenTen_GetValue_ValueEqualsBlackJack()
 		{
 			var hand = new Hand("7410-HGFDS");
+			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Ten)));
+			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Ten)));
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Ace)));
+
+			Assert.AreEqual(BlackJackConstants.BlackJack, hand.PointValue);
+		}
+
+		[Test]
+		public void TenTenTenTen_GetValue_ThrowsInvalidOperation()
+		{
+			var hand = new Hand("7410-HGFDS");
+			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Ten)));
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Ten)));
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Ten)));
 
-			Assert.AreEqual(BlackJackConstants.BlackJack, hand.PointValue);
+			Assert.Throws<InvalidOperationException>(() => hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Ten))));
+			Assert.AreEqual(30, hand.PointValue);
 		}
 
 		[Test]

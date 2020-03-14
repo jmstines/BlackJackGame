@@ -124,10 +124,11 @@ namespace Entities
 
 		private void SetGameInProgressOnAllPlayersReady()
 		{
-			if (players.Count >= MaxPlayerCount && players.All(p => p.Status.Equals(PlayerStatusTypes.Ready)))
+			if (players.Count >= MaxPlayerCount 
+				&& players.Where(p => p != Dealer).All(p => p.Status.Equals(PlayerStatusTypes.Ready)))
 			{
 				Status = GameStatus.Ready;
-				Dealer.Status = PlayerStatusTypes.InProgress;
+				Dealer.Status = PlayerStatusTypes.Ready;
 			}
 			else
 			{

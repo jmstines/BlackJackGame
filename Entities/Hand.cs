@@ -26,6 +26,11 @@ namespace Entities
 
 		public void AddCard(ICard card)
 		{
+			_ = card ?? throw new ArgumentNullException(nameof(card));
+			if (Actions.Contains(HandActionTypes.Draw) == false)
+			{
+				throw new InvalidOperationException("Drawing A card is not a valid Action on this Hand.");
+			}
 			cards.Add(new BlackJackCard(card, !Cards.Any()));
 			SetPointValue();
 			SetStatus(HandStatusTypes.InProgress);
@@ -35,6 +40,7 @@ namespace Entities
 		public void AddCardRange(IEnumerable<ICard> cards)
 		{
 			_ = cards ?? throw new ArgumentNullException(nameof(cards));
+
 			cards.ToList().ForEach(c => AddCard(c));
 		}
 

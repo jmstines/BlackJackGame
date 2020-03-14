@@ -32,6 +32,7 @@ namespace Entities.Tests
 		{
 			var game = new BlackJackGame(defautlCardProvider, DealerNamedData, 1);
 			game.AddPlayer(PlayerTed);
+			game.SetPlayerStatusReady(PlayerTedId);
 			game.DealHands();
 			var gameDto = MapperBlackJackGameDto.Map(game, PlayerTedId);
 
@@ -60,11 +61,11 @@ namespace Entities.Tests
 		{
 			var game = new BlackJackGame(defautlCardProvider, DealerNamedData, 1);
 			game.AddPlayer(PlayerTed);
+			game.SetPlayerStatusReady(PlayerTedId);
 			game.DealHands();
 
 			var TedHandKey = game.CurrentPlayer.Hands.Single().Identifier;
 
-			game.PlayerHits(PlayerTedId, TedHandKey);
 			game.PlayerHits(PlayerTedId, TedHandKey);
 			game.PlayerHits(PlayerTedId, TedHandKey);
 			game.PlayerHits(PlayerTedId, TedHandKey);
@@ -88,8 +89,8 @@ namespace Entities.Tests
 			Assert.AreEqual(Ted.Hands.Count(), TedDto.Hands.Count);
 			Assert.AreEqual(Ted.Hands.Single().Identifier, TedDto.Hands.Single().Identifier);
 			Assert.AreEqual(Ted.Hands.Single().PointValue, TedDto.Hands.Single().PointValue);
-			Assert.AreEqual(11, TedDto.Hands.Single().CardCount);
-			Assert.AreEqual(23, TedDto.Hands.Single().PointValue);
+			Assert.AreEqual(10, TedDto.Hands.Single().CardCount);
+			Assert.AreEqual(21, TedDto.Hands.Single().PointValue);
 
 			Assert.AreEqual(dealer.Hands.Count(), dealerDto.Hands.Count);
 			Assert.AreEqual(dealer.Hands.Single().Identifier, dealerDto.Hands.Single().Identifier);

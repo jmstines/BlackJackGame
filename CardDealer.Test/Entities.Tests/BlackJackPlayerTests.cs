@@ -58,6 +58,7 @@ namespace Entities.Tests
 			var sam = new BlackJackPlayer(new KeyValuePair<string, Avitar>("8625cf04-b7e2", player1), HandIdentifierProvider, 1);
 
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
+			sam.Status = PlayerStatusTypes.Ready;
 			sam.DealHands(twoThreeClubs);
 			Assert.AreEqual(5, sam.Hands.First().PointValue);
 		}
@@ -67,8 +68,9 @@ namespace Entities.Tests
 		{
 			var playerId = "8625cf04-b7e2";
 			var playerOne = new BlackJackPlayer(new KeyValuePair<string, Avitar>(playerId, player1), HandIdentifierProvider, 1);
-
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
+			
+			playerOne.Status = PlayerStatusTypes.Ready;
 			playerOne.DealHands(twoThreeClubs);
 
 			Assert.AreEqual(true, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(0).FaceDown);
@@ -87,6 +89,8 @@ namespace Entities.Tests
 			var playerOne = new BlackJackPlayer(new KeyValuePair<string, Avitar>(playerId, player1), HandIdentifierProvider, 1);
 
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
+
+			playerOne.Status = PlayerStatusTypes.Ready;
 			playerOne.DealHands(twoThreeClubs);
 
 			Assert.AreEqual(true, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(0).FaceDown);
@@ -116,6 +120,7 @@ namespace Entities.Tests
 			var blkJkJackClubs = new BlackJackCard(jackClubs, true);
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
 
+			playerOne.Status = PlayerStatusTypes.Ready;
 			playerOne.DealHands(twoThreeClubs);
 			Assert.AreEqual(PlayerStatusTypes.InProgress, playerOne.Status);
 
@@ -139,6 +144,7 @@ namespace Entities.Tests
 			var blkJkJackClubs = new BlackJackCard(jackClubs, true);
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
 
+			playerOne.Status = PlayerStatusTypes.Ready;
 			playerOne.DealHands(twoThreeClubs);
 			Assert.AreEqual(PlayerStatusTypes.InProgress, playerOne.Status);
 
@@ -180,6 +186,7 @@ namespace Entities.Tests
 			var blkJkJackClubs = new BlackJackCard(jackClubs, true);
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
 
+			playerOne.Status = PlayerStatusTypes.Ready;
 			playerOne.DealHands(twoThreeClubs);
 			Assert.AreEqual(PlayerStatusTypes.InProgress, playerOne.Status);
 
@@ -221,6 +228,7 @@ namespace Entities.Tests
 			var blkJkJackClubs = new BlackJackCard(jackClubs, true);
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
 
+			playerOne.Status = PlayerStatusTypes.Ready;
 			playerOne.DealHands(twoThreeClubs);
 			Assert.AreEqual(PlayerStatusTypes.InProgress, playerOne.Status);
 
@@ -255,6 +263,8 @@ namespace Entities.Tests
 
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
 			var handId2 = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(2).Single(i => i != handId);
+
+			playerOne.Status = PlayerStatusTypes.Ready;
 			playerOne.DealHands(twoThreeClubs);
 
 			Assert.AreEqual(true, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(0).FaceDown);
@@ -280,6 +290,7 @@ namespace Entities.Tests
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
 			var handId2 = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(2).Single(i => i != handId);
 
+			playerOne.Status = PlayerStatusTypes.Ready;
 			playerOne.DealHands(twoThreeClubs);
 			Assert.AreEqual(PlayerStatusTypes.InProgress, playerOne.Status);
 
@@ -325,6 +336,7 @@ namespace Entities.Tests
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
 			var handId2 = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(2).Single(i => i != handId);
 
+			playerOne.Status = PlayerStatusTypes.Ready;
 			playerOne.DealHands(twoThreeClubs);
 			Assert.AreEqual(PlayerStatusTypes.InProgress, playerOne.Status);
 
@@ -402,7 +414,8 @@ namespace Entities.Tests
 
 			var blkJkJackClubs = new BlackJackCard(jackClubs, true);
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
-
+			
+			playerOne.Status = PlayerStatusTypes.Ready;
 			playerOne.DealHands(twoThreeClubs);
 			playerOne.Hit(handId, blkJkJackClubs);
 			playerOne.Hold(handId);

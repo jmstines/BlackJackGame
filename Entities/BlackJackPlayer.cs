@@ -32,7 +32,7 @@ namespace Entities
 
 		public void DealHands(IEnumerable<ICard> cards)
 		{
-			if (Status != PlayerStatusTypes.Waiting)
+			if (Status != PlayerStatusTypes.Ready)
 			{
 				throw new InvalidOperationException("Player Status Must be Waiting to Deal Hands.");
 			}

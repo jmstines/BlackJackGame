@@ -148,5 +148,20 @@ namespace Entities.Tests
 
 			Assert.AreEqual(12, hand.PointValue);
 		}
+
+		[Test]
+		public void NewHand_AddCardRangeAddNull_ThrowsArgumentNullException()
+		{
+			var hand = new Hand("9632-YUITR");
+			Assert.Throws<ArgumentNullException>(() => hand.AddCardRange(null));
+		}
+
+		[Test]
+		public void NewHand_AddCardRangeAddListofNull_ThrowsArgumentNullException()
+		{
+			var hand = new Hand("9632-YUITR");
+			var cards = new List<ICard>() { null, null };
+			Assert.Throws<ArgumentNullException>(() => hand.AddCardRange(null));
+		}
 	}
 }

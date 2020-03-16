@@ -36,6 +36,10 @@ namespace Entities
 			{
 				throw new InvalidOperationException("Player Status Must be Waiting to Deal Hands.");
 			}
+			if (cards.Count() != hands.Count * 2)
+			{
+				throw new ArgumentOutOfRangeException("Card Count must equal TWO Per Hand.");
+			}
 
 			hands.ForEach(h => h.AddCardRange(cards.Take(2)));
 			Status = PlayerStatusTypes.InProgress;
@@ -77,12 +81,33 @@ namespace Entities
 			CheckForPlayerEndOfTurn();
 		}
 
-		private void AddHands(int handCount)
+		public void Split(string handIdentifier)
 		{
+			var hand = Hands.SingleOrDefault(h => h.Identifier == handIdentifier);
+			if (hand == null)
+			{
+				throw new ArgumentException(nameof(handIdentifier), $"{handIdentifier} Hand Identifier NOT Found.");
+			}
+
+			var ids = AddHands(2);
+			var cards = hand.Split();
+			hands.Remove(hand);
+			var first = cards.First();
+			var second = cards.Last();
+			
+			Hands.Single(h => h.Identifier == ids.First()).AddCard(first);
+			Hands.Single(h => h.Identifier == ids.Last()).AddCard(second);
+		}
+
+		private List<string> AddHands(int handCount)
+		{
+			var ids = new List<string>();
 			foreach (var id in handIdProvider.GenerateHandIds(handCount))
 			{
 				hands.Add(new Hand(id));
+				ids.Add(id);
 			}
+			return ids;
 		}
 
 		private void CheckForPlayerEndOfTurn()

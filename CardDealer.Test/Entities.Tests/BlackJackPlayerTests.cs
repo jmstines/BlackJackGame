@@ -14,6 +14,7 @@ namespace Entities.Tests
 		private readonly Card threeClubs = new Card(CardSuit.Clubs, CardRank.Three);
 		private readonly Card jackClubs = new Card(CardSuit.Clubs, CardRank.Jack);
 		private readonly IEnumerable<ICard> twoThreeClubs;
+		private readonly IEnumerable<ICard> twoThreeClubs2X;
 		private const string playerName = "Sam";
 		private readonly Avitar player1 = new Avitar(playerName);
 		private readonly IHandIdentifierProvider HandIdentifierProvider;
@@ -25,6 +26,7 @@ namespace Entities.Tests
 			cardProvider = new CardProviderMock();
 			twoClubs = cardProvider.Cards(CardRank.Two, CardSuit.Clubs).Single();
 			twoThreeClubs = cardProvider.Cards(new List<CardRank>() { CardRank.Two, CardRank.Three });
+			twoThreeClubs2X = cardProvider.Cards(new List<CardRank>() { CardRank.Two, CardRank.Three, CardRank.Two, CardRank.Three });
 		}
 
 		[Test]
@@ -265,7 +267,7 @@ namespace Entities.Tests
 			var handId2 = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(2).Single(i => i != handId);
 
 			playerOne.Status = PlayerStatusTypes.Ready;
-			playerOne.DealHands(twoThreeClubs);
+			playerOne.DealHands(twoThreeClubs2X);
 
 			Assert.AreEqual(true, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(0).FaceDown);
 			Assert.AreEqual(false, playerOne.Hands.Single(h => h.Identifier == handId).Cards.ElementAt(1).FaceDown);
@@ -291,7 +293,7 @@ namespace Entities.Tests
 			var handId2 = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(2).Single(i => i != handId);
 
 			playerOne.Status = PlayerStatusTypes.Ready;
-			playerOne.DealHands(twoThreeClubs);
+			playerOne.DealHands(twoThreeClubs2X);
 			Assert.AreEqual(PlayerStatusTypes.InProgress, playerOne.Status);
 
 			playerOne.Hit(handId, blkJkJackClubs);
@@ -337,7 +339,7 @@ namespace Entities.Tests
 			var handId2 = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(2).Single(i => i != handId);
 
 			playerOne.Status = PlayerStatusTypes.Ready;
-			playerOne.DealHands(twoThreeClubs);
+			playerOne.DealHands(twoThreeClubs2X);
 			Assert.AreEqual(PlayerStatusTypes.InProgress, playerOne.Status);
 
 			playerOne.Hit(handId, blkJkJackClubs);
@@ -416,7 +418,7 @@ namespace Entities.Tests
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
 			
 			playerOne.Status = PlayerStatusTypes.Ready;
-			playerOne.DealHands(twoThreeClubs);
+			playerOne.DealHands(twoThreeClubs2X);
 			playerOne.Hit(handId, blkJkJackClubs);
 			playerOne.Hold(handId);
 

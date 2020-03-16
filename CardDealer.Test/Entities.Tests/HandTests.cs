@@ -98,6 +98,59 @@ namespace Entities.Tests
 		}
 
 		[Test]
+		public void NewHand2TenValues_SplitHand_CardsCountZero()
+		{
+			var hand = new Hand("9874-BNMV");
+			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.King)));
+			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Jack)));
+
+			Assert.AreEqual(20, hand.PointValue);
+			Assert.AreEqual(2, hand.Cards.Count());
+			Assert.True(hand.Actions.Contains(HandActionTypes.Draw));
+			Assert.True(hand.Actions.Contains(HandActionTypes.Hold));
+			Assert.True(hand.Actions.Contains(HandActionTypes.Split));
+			Assert.False(hand.Actions.Contains(HandActionTypes.Pass));
+			Assert.AreEqual(HandStatusTypes.InProgress, hand.Status);
+
+			hand.Split();
+
+			Assert.AreEqual(0, hand.PointValue);
+			Assert.AreEqual(0, hand.Cards.Count());
+			Assert.False(hand.Actions.Contains(HandActionTypes.Draw));
+			Assert.False(hand.Actions.Contains(HandActionTypes.Hold));
+			Assert.False(hand.Actions.Contains(HandActionTypes.Split));
+			Assert.True(hand.Actions.Contains(HandActionTypes.Pass));
+			Assert.AreEqual(HandStatusTypes.Hold, hand.Status);
+		}
+
+		[Test]
+		public void NewHand2TenValues_TrySplitHand_ThrowInvalidOperationException()
+		{
+			var hand = new Hand("9874-BNMV");
+			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.King)));
+			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Jack)));
+
+			Assert.AreEqual(20, hand.PointValue);
+			Assert.AreEqual(2, hand.Cards.Count());
+			Assert.True(hand.Actions.Contains(HandActionTypes.Draw));
+			Assert.True(hand.Actions.Contains(HandActionTypes.Hold));
+			Assert.True(hand.Actions.Contains(HandActionTypes.Split));
+			Assert.False(hand.Actions.Contains(HandActionTypes.Pass));
+			Assert.AreEqual(HandStatusTypes.InProgress, hand.Status);
+
+			hand.Hold();
+			Assert.Throws<InvalidOperationException>(() => hand.Split());
+
+			Assert.AreEqual(20, hand.PointValue);
+			Assert.AreEqual(2, hand.Cards.Count());
+			Assert.False(hand.Actions.Contains(HandActionTypes.Draw));
+			Assert.False(hand.Actions.Contains(HandActionTypes.Hold));
+			Assert.False(hand.Actions.Contains(HandActionTypes.Split));
+			Assert.True(hand.Actions.Contains(HandActionTypes.Pass));
+			Assert.AreEqual(HandStatusTypes.Hold, hand.Status);
+		}
+
+		[Test]
 		public void BustHand_EndHandValues_CorrectValues()
 		{
 			var hand = new Hand("3210-POIUY");
@@ -129,10 +182,10 @@ namespace Entities.Tests
 
 			Assert.AreEqual(20, hand.PointValue);
 			Assert.AreEqual(2, hand.Cards.Count());
-			Assert.Contains(HandActionTypes.Draw, hand.Actions.ToList());
-			Assert.Contains(HandActionTypes.Hold, hand.Actions.ToList());
-			Assert.Contains(HandActionTypes.Split, hand.Actions.ToList());
-			Assert.AreEqual(HandStatusTypes.Hold, hand.Status);
+			Assert.False(hand.Actions.Contains(HandActionTypes.Draw));
+			Assert.False(hand.Actions.Contains(HandActionTypes.Hold));
+			Assert.False(hand.Actions.Contains(HandActionTypes.Split));
+			Assert.True(hand.Actions.Contains(HandActionTypes.Pass));
 		}
 
 		[Test]
@@ -199,7 +252,7 @@ namespace Entities.Tests
 		public void NewHand_AddCardRangeAddNull_ThrowsArgumentNullException()
 		{
 			var hand = new Hand("9632-YUITR");
-			Assert.Throws<ArgumentNullException>(() => hand.AddCardRange(null));
+			Assert.Throws<ArgumentNullException>(() => hand.AddCard(null));
 		}
 
 		[Test]

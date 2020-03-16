@@ -50,6 +50,23 @@ namespace Entities
 				throw new InvalidOperationException("Hand Status Must be In Progress to be Modified.");
 			}
 			SetStatus(HandStatusTypes.Hold);
+			SetHandActions();
+		}
+
+		public IEnumerable<ICard> Split()
+		{
+			if (Actions.Contains(HandActionTypes.Split) == false)
+			{
+				throw new InvalidOperationException("Hand Status is not Eligable for Spliting.");
+			}
+			var splitCards = new List<ICard>();
+			cards.ForEach(c => splitCards.Add(c));
+			cards.Clear();
+			SetPointValue();
+			SetStatus(HandStatusTypes.Hold);
+			SetHandActions();
+
+			return splitCards;
 		}
 
 		private void SetStatus(HandStatusTypes status) => Status = BustHand() ?
@@ -58,7 +75,7 @@ namespace Entities
 		private void SetHandActions()
 		{
 			actions = new List<HandActionTypes>();
-			if (PointValue >= BlackJackConstants.BlackJack)
+			if (Status == HandStatusTypes.Hold || PointValue >= BlackJackConstants.BlackJack)
 			{
 				actions.Add(HandActionTypes.Pass);
 			}

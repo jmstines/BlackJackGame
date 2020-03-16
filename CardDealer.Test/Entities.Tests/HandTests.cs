@@ -9,9 +9,7 @@ namespace Entities.Tests
 {
 	class HandTests
 	{
-		private readonly IEnumerable<HandActionTypes> DefualtActions = new List<HandActionTypes> { HandActionTypes.Draw, HandActionTypes.Hold };
-		private readonly IEnumerable<HandActionTypes> SplitHandActions = new List<HandActionTypes> { HandActionTypes.Draw, HandActionTypes.Hold, HandActionTypes.Split };
-		private readonly IEnumerable<HandActionTypes> EndHandActions = new List<HandActionTypes> { HandActionTypes.Pass };
+		//private readonly IEnumerable<HandActionTypes> SplitHandActions = new List<HandActionTypes> { HandActionTypes.Draw, HandActionTypes.Hold, HandActionTypes.Split };
 		private readonly Deck DefaultDeck = new Deck();
 
 		[Test]
@@ -22,7 +20,10 @@ namespace Entities.Tests
 			Assert.AreEqual(0, hand.PointValue);
 			Assert.AreEqual(false, hand.Cards.Any());
 			Assert.AreEqual(HandStatusTypes.InProgress, hand.Status);
-			Assert.AreEqual(DefualtActions, hand.Actions);
+			Assert.True(hand.Actions.Contains(HandActionTypes.Draw));
+			Assert.True(hand.Actions.Contains(HandActionTypes.Hold));
+			Assert.False(hand.Actions.Contains(HandActionTypes.Split));
+			Assert.False(hand.Actions.Contains(HandActionTypes.Pass));
 		}
 
 		[Test]
@@ -34,7 +35,10 @@ namespace Entities.Tests
 			Assert.AreEqual(11, hand.PointValue);
 			Assert.AreEqual(true, hand.Cards.First().FaceDown);
 			Assert.AreEqual(HandStatusTypes.InProgress, hand.Status);
-			Assert.AreEqual(DefualtActions, hand.Actions);
+			Assert.True(hand.Actions.Contains(HandActionTypes.Draw));
+			Assert.True(hand.Actions.Contains(HandActionTypes.Hold));
+			Assert.False(hand.Actions.Contains(HandActionTypes.Split));
+			Assert.False(hand.Actions.Contains(HandActionTypes.Pass));
 		}
 
 		[Test]
@@ -48,7 +52,7 @@ namespace Entities.Tests
 			Assert.AreEqual(21, hand.PointValue);
 			Assert.AreEqual(true, hand.Cards.First().FaceDown);
 			Assert.AreEqual(HandStatusTypes.InProgress, hand.Status);
-			Assert.AreEqual(EndHandActions, hand.Actions);
+			Assert.Contains(HandActionTypes.Pass, hand.Actions.ToList());
 		}
 
 		[Test]
@@ -58,11 +62,10 @@ namespace Entities.Tests
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Ace)));
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Jack)));
 
-			Assert.AreEqual(EndHandActions, hand.Actions);
 			Assert.AreEqual(21, hand.PointValue);
 			Assert.AreEqual(2, hand.Cards.Count());
 			Assert.AreEqual(HandStatusTypes.InProgress, hand.Status);
-			Assert.AreEqual(EndHandActions, hand.Actions);
+			Assert.True(hand.Actions.Contains(HandActionTypes.Pass));
 		}
 
 		[Test]
@@ -72,7 +75,7 @@ namespace Entities.Tests
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Three)));
 			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Jack)));
 
-			Assert.AreNotEqual(EndHandActions, hand.Actions);
+			Assert.False(hand.Actions.Contains(HandActionTypes.Pass));
 			Assert.AreEqual(13, hand.PointValue);
 			Assert.AreEqual(2, hand.Cards.Count());
 			Assert.AreEqual(HandStatusTypes.InProgress, hand.Status);
@@ -87,7 +90,10 @@ namespace Entities.Tests
 
 			Assert.AreEqual(20, hand.PointValue);
 			Assert.AreEqual(2, hand.Cards.Count());
-			Assert.AreNotEqual(SplitHandActions, hand.Actions);
+			Assert.True(hand.Actions.Contains(HandActionTypes.Draw));
+			Assert.True(hand.Actions.Contains(HandActionTypes.Hold));
+			Assert.True(hand.Actions.Contains(HandActionTypes.Split));
+			Assert.False(hand.Actions.Contains(HandActionTypes.Pass));
 			Assert.AreEqual(HandStatusTypes.InProgress, hand.Status);
 		}
 
@@ -101,8 +107,48 @@ namespace Entities.Tests
 
 			Assert.AreEqual(30, hand.PointValue);
 			Assert.AreEqual(3, hand.Cards.Count());
-			Assert.AreEqual(EndHandActions, hand.Actions);
+			Assert.Contains(HandActionTypes.Pass, hand.Actions.ToList());
 			Assert.AreEqual(HandStatusTypes.Bust, hand.Status);
+		}
+
+		[Test]
+		public void HandPoint20_SetStatusHold_SetStatusHoldCorrectlyNoOtherChanges()
+		{
+			var hand = new Hand("3210-POIUY");
+			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.King)));
+			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Jack)));
+
+			Assert.AreEqual(20, hand.PointValue);
+			Assert.AreEqual(2, hand.Cards.Count());
+			Assert.Contains(HandActionTypes.Draw, hand.Actions.ToList());
+			Assert.Contains(HandActionTypes.Hold, hand.Actions.ToList());
+			Assert.Contains(HandActionTypes.Split, hand.Actions.ToList());
+			Assert.AreEqual(HandStatusTypes.InProgress, hand.Status);
+
+			hand.Hold();
+
+			Assert.AreEqual(20, hand.PointValue);
+			Assert.AreEqual(2, hand.Cards.Count());
+			Assert.Contains(HandActionTypes.Draw, hand.Actions.ToList());
+			Assert.Contains(HandActionTypes.Hold, hand.Actions.ToList());
+			Assert.Contains(HandActionTypes.Split, hand.Actions.ToList());
+			Assert.AreEqual(HandStatusTypes.Hold, hand.Status);
+		}
+
+		[Test]
+		public void BustHand_TrySetStatus_ThrowsInvalidOperation()
+		{
+			var hand = new Hand("3210-POIUY");
+			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.King)));
+			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Jack)));
+			hand.AddCard(DefaultDeck.First(c => c.Rank.Equals(CardRank.Queen)));
+
+			Assert.AreEqual(30, hand.PointValue);
+			Assert.AreEqual(3, hand.Cards.Count());
+			Assert.Contains(HandActionTypes.Pass, hand.Actions.ToList());
+			Assert.AreEqual(HandStatusTypes.Bust, hand.Status);
+
+			Assert.Throws<InvalidOperationException>(() => hand.Hold());
 		}
 
 		[Test]

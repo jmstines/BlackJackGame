@@ -72,7 +72,7 @@ namespace Entities
 				throw new InvalidOperationException($"{handIdentifier} Hand Status Must be In Progress to Hold.");
 			}
 
-			hand.SetStatus(HandStatusTypes.Hold);
+			hand.Hold();
 
 			CheckForPlayerEndOfTurn();
 		}

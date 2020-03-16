@@ -3,7 +3,6 @@ using Entities.Interfaces;
 using System.Collections.Generic;
 using System;
 using System.Linq;
-using System.Collections.ObjectModel;
 
 namespace Entities
 {
@@ -44,7 +43,16 @@ namespace Entities
 			cards.ToList().ForEach(c => AddCard(c));
 		}
 
-		public void SetStatus(HandStatusTypes status) => Status = BustHand() ? 
+		public void Hold()
+		{
+			if (Status != HandStatusTypes.InProgress)
+			{
+				throw new InvalidOperationException("Hand Status Must be In Progress to be Modified.");
+			}
+			SetStatus(HandStatusTypes.Hold);
+		}
+
+		private void SetStatus(HandStatusTypes status) => Status = BustHand() ?
 			HandStatusTypes.Bust : status;
 
 		private void SetHandActions()

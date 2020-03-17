@@ -24,13 +24,13 @@ namespace Interactors
 		private readonly IGameRepository GameRepository;
 		private readonly IGameIdentifierProvider GameIdProviders;
 		private readonly IHandIdentifierProvider HandIdProvider;
-		private readonly IPlayerRepository PlayerRepository;
+		private readonly IAvitarRepository AvitarRepository;
 		private readonly IDealerProvider DealerProvider;
 		private readonly ICardProvider CardProvider;
 
 		public JoinGameInteractor(
 			IGameRepository gameRepository, 
-			IPlayerRepository playerRepository, 
+			IAvitarRepository avitarRepository, 
 			IDealerProvider dealerProvider,
 			IGameIdentifierProvider gameIdProviders,
 			IHandIdentifierProvider handIdProvider,
@@ -40,7 +40,7 @@ namespace Interactors
 			GameRepository = gameRepository ?? throw new ArgumentNullException(nameof(gameRepository));
 			GameIdProviders = gameIdProviders ?? throw new ArgumentNullException(nameof(gameIdProviders));
 			HandIdProvider = handIdProvider ?? throw new ArgumentNullException(nameof(handIdProvider));
-			PlayerRepository = playerRepository ?? throw new ArgumentNullException(nameof(playerRepository));
+			AvitarRepository = avitarRepository ?? throw new ArgumentNullException(nameof(avitarRepository));
 			DealerProvider = dealerProvider ?? throw new ArgumentNullException(nameof(dealerProvider));
 			CardProvider = cardProvider ?? throw new ArgumentNullException(nameof(cardProvider));
 		}
@@ -49,9 +49,9 @@ namespace Interactors
 		{
 			_ = requestModel?.PlayerId ?? throw new ArgumentNullException(nameof(requestModel.PlayerId));
 
-			var player = PlayerRepository.ReadAsync(requestModel.PlayerId);
+			var avitar = AvitarRepository.ReadAsync(requestModel.PlayerId);
 
-			var currentPlayer = new BlackJackPlayer(player, HandIdProvider, requestModel.HandCount);
+			var currentPlayer = new BlackJackPlayer(avitar, HandIdProvider, requestModel.HandCount);
 
 			var keyAndGame = GameRepository.FindByStatusFirstOrDefault(GameStatus.Waiting, requestModel.MaxPlayers);
 

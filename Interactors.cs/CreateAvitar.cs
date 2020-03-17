@@ -17,11 +17,11 @@ namespace Interactors
 			public string AvitarIdentifier { get; set; }
 		}
 
-		private readonly IPlayerRepository PlayerRepository;
+		private readonly IAvitarRepository AvitarRepository;
 		private readonly IAvitarIdentifierProvider IdentifierProvider;
-		public CreateAvitar(IPlayerRepository playerRepository, IAvitarIdentifierProvider identifierProvider)
+		public CreateAvitar(IAvitarRepository playerRepository, IAvitarIdentifierProvider identifierProvider)
 		{
-			PlayerRepository = playerRepository ?? throw new ArgumentNullException(nameof(playerRepository));
+			AvitarRepository = playerRepository ?? throw new ArgumentNullException(nameof(playerRepository));
 			IdentifierProvider = identifierProvider ?? throw new ArgumentNullException(nameof(identifierProvider));
 		}
 
@@ -30,7 +30,7 @@ namespace Interactors
 			_ = requestModel.PlayerName ?? throw new ArgumentNullException(nameof(requestModel.PlayerName));
 			var player = new Avitar(requestModel.PlayerName);
 			var identifier = IdentifierProvider.GenerateAvitar();
-			PlayerRepository.CreatePlayerAsync(identifier, player);
+			AvitarRepository.CreateAsync(identifier, player);
 
 			outputBoundary.HandleResponse(new ResponseModel()
 			{

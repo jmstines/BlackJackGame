@@ -1,7 +1,7 @@
 ﻿using Entities.Enums;
 using System.Collections.Generic;
 
-namespace Entities.ResponceDtos
+namespace Entities.ResponceDto
 {
 	public class BlackJackPlayerDto
 	{

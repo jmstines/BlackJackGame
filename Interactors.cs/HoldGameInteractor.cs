@@ -1,6 +1,6 @@
 ﻿using Interactors.Boundaries;
 using Interactors.Repositories;
-using Entities.ResponceDtos;
+using Entities.ResponceDto;
 using System;
 using Entities;
 

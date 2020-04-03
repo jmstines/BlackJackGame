@@ -1,5 +1,5 @@
 ﻿using Entities.Interfaces;
-using Entities.ResponceDtos;
+using Entities.ResponceDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -17,7 +17,7 @@ using Microsoft.Azure.Cosmos;
 
 namespace BlackJackActions
 {
-	public static class BlackJackActions
+	public class BlackJackActions
 	{
 		//private readonly IAvitarIdentifierProvider IdentifierProvider;
 

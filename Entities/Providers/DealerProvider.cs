@@ -40,13 +40,13 @@ namespace Entities.Providers
 			var dealers = new List<BlackJackPlayer>
 			{
 				new BlackJackPlayer(new AvitarDto() {
-					id = ids[0], Identifier = ids[0], Name = "Data" }, HandIdentifierProvider, 1),
+					id = ids[0], Name = "Data" }, HandIdentifierProvider, 1),
 				new BlackJackPlayer(new AvitarDto() {
-					id = ids[1], Identifier = ids[1], Name = "Jerry Maguire" }, HandIdentifierProvider, 1),
+					id = ids[1], Name = "Jerry Maguire" }, HandIdentifierProvider, 1),
 				new BlackJackPlayer(new AvitarDto() {
-					id = ids[2], Identifier = ids[2], Name = "James Bond" }, HandIdentifierProvider, 1),
+					id = ids[2], Name = "James Bond" }, HandIdentifierProvider, 1),
 				new BlackJackPlayer(new AvitarDto() {
-					id = ids[3], Identifier = ids[3], Name = "Rain Man" }, HandIdentifierProvider, 1)
+					id = ids[3], Name = "Rain Man" }, HandIdentifierProvider, 1)
 			};
 			return dealers;
 		}

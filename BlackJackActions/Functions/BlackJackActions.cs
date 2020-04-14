@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -8,9 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Interactors.Repositories;
-using Entities.Interfaces;
 using Entities.RepositoryDto;
-using Entities;
 using Interactors.Providers;
 
 namespace BlackJackActions
@@ -40,7 +37,7 @@ namespace BlackJackActions
 
 			var identifier = new GuidBasedAvitarIdentifierProvider().GenerateAvitar();
 
-			var avitar = new AvitarDto() { id = identifier, Identifier = identifier, Name = name };
+			var avitar = new AvitarDto() { id = identifier, Name = name };
 			Repository.CreateAsync(avitar);
 
 			return name != null

@@ -3,6 +3,7 @@ using Entities.Interfaces;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using Entities.RepositoryDto;
 
 namespace Entities
 {
@@ -16,10 +17,10 @@ namespace Entities
 		private readonly List<Hand> hands = new List<Hand>();
 		private readonly IHandIdentifierProvider handIdProvider;
 
-		public BlackJackPlayer(KeyValuePair<string, Avitar> avitar, IHandIdentifierProvider handIdProvider, int handCount)
+		public BlackJackPlayer(AvitarDto avitar, IHandIdentifierProvider handIdProvider, int handCount)
 		{
-			Name = avitar.Value.Name;
-			Identifier = avitar.Key;
+			Name = avitar.Name;
+			Identifier = avitar.Identifier;
 			this.handIdProvider = handIdProvider ?? throw new ArgumentNullException(nameof(handIdProvider));
 			if (handCount < 1)
 			{

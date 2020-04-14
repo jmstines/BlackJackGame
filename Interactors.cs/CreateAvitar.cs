@@ -1,5 +1,6 @@
 ﻿using Entities;
 using Entities.Interfaces;
+using Entities.RepositoryDto;
 using Interactors.Boundaries;
 using Interactors.Repositories;
 using System;
@@ -28,9 +29,10 @@ namespace Interactors
 		public void HandleRequestAsync(RequestModel requestModel, IOutputBoundary<ResponseModel> outputBoundary)
 		{
 			_ = requestModel.PlayerName ?? throw new ArgumentNullException(nameof(requestModel.PlayerName));
-			var player = new Avitar(requestModel.PlayerName);
 			var identifier = IdentifierProvider.GenerateAvitar();
-			AvitarRepository.CreateAsync(identifier, player);
+			var player = new AvitarDto(){ id = identifier, Identifier = identifier, Name = requestModel.PlayerName };
+			
+			AvitarRepository.CreateAsync(player);
 
 			outputBoundary.HandleResponse(new ResponseModel()
 			{

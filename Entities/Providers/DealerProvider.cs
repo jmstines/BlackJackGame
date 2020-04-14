@@ -1,4 +1,5 @@
 ﻿using Entities.Interfaces;
+using Entities.RepositoryDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,16 +30,23 @@ namespace Entities.Providers
 
 		private IEnumerable<BlackJackPlayer> DealersList()
 		{
+			var ids = new List<string> { 
+				AvitarIdentifierProvider.GenerateAvitar(),
+				AvitarIdentifierProvider.GenerateAvitar(), 
+				AvitarIdentifierProvider.GenerateAvitar(), 
+				AvitarIdentifierProvider.GenerateAvitar()
+			};
+
 			var dealers = new List<BlackJackPlayer>
 			{
-				new BlackJackPlayer(new KeyValuePair<string, Avitar> (
-					AvitarIdentifierProvider.GenerateAvitar(), new Avitar("Data")), HandIdentifierProvider, 1),
-				new BlackJackPlayer(new KeyValuePair<string, Avitar> (
-					AvitarIdentifierProvider.GenerateAvitar(), new Avitar("Jerry Maguire")), HandIdentifierProvider, 1),
-				new BlackJackPlayer(new KeyValuePair<string, Avitar> (
-					AvitarIdentifierProvider.GenerateAvitar(), new Avitar("James Bond")), HandIdentifierProvider, 1),
-				new BlackJackPlayer(new KeyValuePair<string, Avitar> (
-					AvitarIdentifierProvider.GenerateAvitar(), new Avitar("Rain Man")), HandIdentifierProvider, 1)
+				new BlackJackPlayer(new AvitarDto() {
+					id = ids[0], Identifier = ids[0], Name = "Data" }, HandIdentifierProvider, 1),
+				new BlackJackPlayer(new AvitarDto() {
+					id = ids[1], Identifier = ids[1], Name = "Jerry Maguire" }, HandIdentifierProvider, 1),
+				new BlackJackPlayer(new AvitarDto() {
+					id = ids[2], Identifier = ids[2], Name = "James Bond" }, HandIdentifierProvider, 1),
+				new BlackJackPlayer(new AvitarDto() {
+					id = ids[3], Identifier = ids[3], Name = "Rain Man" }, HandIdentifierProvider, 1)
 			};
 			return dealers;
 		}

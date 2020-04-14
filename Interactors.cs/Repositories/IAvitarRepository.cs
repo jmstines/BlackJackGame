@@ -1,12 +1,12 @@
 ﻿using Entities;
-using System.Collections.Generic;
+using Entities.RepositoryDto;
 
 namespace Interactors.Repositories
 {
 	public interface IAvitarRepository
 	{
-		void CreateAsync(string identifier, Avitar player);
-		KeyValuePair<string, Avitar> ReadAsync(string identifier);
-		void UpdateAsync(string identifier, Avitar player);
+		void CreateAsync(AvitarDto player);
+		AvitarDto ReadAsync(string identifier);
+		void UpdateAsync(string identifier, AvitarDto player);
 	}
 }

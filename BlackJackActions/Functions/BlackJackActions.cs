@@ -12,25 +12,25 @@ using Entities.Interfaces;
 using Entities.RepositoryDto;
 using Entities;
 using Interactors.Providers;
-using Microsoft.Azure.Cosmos;
 
 namespace BlackJackActions
 {
 	public class BlackJackActions
 	{
 		private readonly IAvitarRepository Repository;
-		public BlackJackActions(IAvitarRepository repository)
+		private readonly ILogger Logger;
+		public BlackJackActions(IAvitarRepository repository, ILogger<BlackJackActions> logger)
 		{
 			Repository = repository;
+			Logger = logger;
 		}
 
 		[FunctionName(nameof(BlackJackActions))]
 		public async Task<IActionResult> Run(
 			[HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "CreateAvitar"
-			)] HttpRequest req,
-			ILogger log)
+			)] HttpRequest req)
 		{
-			log.LogInformation("C# HTTP trigger function processed a request.");
+			Logger.LogInformation("C# HTTP trigger function processed a request.");
 
 			string name = req.Query["name"];
 

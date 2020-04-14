@@ -8,5 +8,10 @@
         "leasePrefix": "prefix1"
       }
     }
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information"
+    }
   }
 }

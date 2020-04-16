@@ -1,5 +1,4 @@
-﻿using Entities;
-using Entities.RepositoryDto;
+﻿using Entities.RepositoryDto;
 using Interactors.Repositories;
 using Microsoft.Azure.Cosmos;
 using System;
@@ -10,24 +9,9 @@ namespace BlackJackActions.Repositories
 	{
 		private readonly Container Container;
 
-		public CosmosDbAvitarRepository()
+		public CosmosDbAvitarRepository(Container container)
 		{
-			var cosmosServiceEndpoint = Environment.GetEnvironmentVariable("CosmosDbServiceEndpoint");
-			var cosmosAuthKey = Environment.GetEnvironmentVariable("CosmosDbAuthKey");
-			var cosmosDatabaseName = Environment.GetEnvironmentVariable("CosmosDbDatabaseName");
-			var cosmosContainerName = Environment.GetEnvironmentVariable("CosmosDbContainerName");
-			var cosmosPartitionKey = Environment.GetEnvironmentVariable("CosmosDbPartitionKey");
-
-			var client = new CosmosClient(cosmosServiceEndpoint, cosmosAuthKey, new CosmosClientOptions()
-			{
-				ConnectionMode = ConnectionMode.Direct
-			});
-
-			client.CreateDatabaseIfNotExistsAsync(cosmosDatabaseName).Wait();
-			var database = client.GetDatabase(cosmosDatabaseName);
-			database.CreateContainerIfNotExistsAsync(cosmosContainerName, cosmosPartitionKey);
-
-			Container = database.GetContainer(cosmosContainerName);
+			Container = container ?? throw new ArgumentNullException(nameof(container));
 		}
 
 		public void CreateAsync(AvitarDto player)

@@ -15,6 +15,8 @@ namespace BlackJackActions.Helpers
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
+            builder.Services.AddSingleton(new CosmosDbRepositorySetup().Container);
+
             builder.Services.AddSingleton<IAvitarRepository, CosmosDbAvitarRepository>();
             builder.Services.AddLogging();
         }

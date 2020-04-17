@@ -21,6 +21,7 @@ namespace BlackJackActions.Repositories
 
 			client.CreateDatabaseIfNotExistsAsync(cosmosDatabaseName).Wait();
 			var database = client.GetDatabase(cosmosDatabaseName);
+
 			database.CreateContainerIfNotExistsAsync(cosmosContainerName, cosmosPartitionKey);
 
 			Container = database.GetContainer(cosmosContainerName);

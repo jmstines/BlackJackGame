@@ -1,7 +1,9 @@
 ﻿using Entities.RepositoryDto;
-using Interactors.Repositories;
 using Microsoft.Azure.Cosmos;
+using System.Linq;
 using System;
+using System.Threading.Tasks;
+using Microsoft.Azure.Cosmos.Linq;
 
 namespace BlackJackActions.Repositories
 {
@@ -14,14 +16,17 @@ namespace BlackJackActions.Repositories
 			Container = container ?? throw new ArgumentNullException(nameof(container));
 		}
 
-		public void CreateAsync(AvitarDto player)
+		public async Task<ItemResponse<AvitarDto>> CreateAsync(AvitarDto player)
 		{
-			Container.CreateItemAsync(player);
+			return await Container.CreateItemAsync(player);
 		}
 
-		public AvitarDto ReadAsync(string identifier)
+		public async Task<FeedResponse<AvitarDto>> ReadAsync(string identifier)
 		{
-			throw new NotImplementedException();
+			var feedIterator = Container.GetItemLinqQueryable<AvitarDto>(true)
+				.Where(a => a.id == identifier).ToFeedIterator();
+
+			return await feedIterator.ReadNextAsync();
 		}
 
 		public void UpdateAsync(string identifier, AvitarDto player)

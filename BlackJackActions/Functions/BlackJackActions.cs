@@ -6,9 +6,9 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Interactors.Repositories;
 using Entities.RepositoryDto;
 using Interactors.Providers;
+using BlackJackActions.Repositories;
 
 namespace BlackJackActions
 {
@@ -38,7 +38,9 @@ namespace BlackJackActions
 			var identifier = new GuidBasedAvitarIdentifierProvider().GenerateAvitar();
 
 			var avitar = new AvitarDto() { id = identifier, Name = name };
-			Repository.CreateAsync(avitar);
+			var response = await Repository.CreateAsync(avitar);
+
+			Logger.LogInformation(response.Headers.ToString());
 
 			return name != null
 				? (ActionResult)new OkObjectResult($"Hello, {name}: {identifier}")

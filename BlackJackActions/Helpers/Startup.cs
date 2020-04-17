@@ -1,7 +1,6 @@
 ﻿using System;
 using BlackJackActions.Helpers;
 using BlackJackActions.Repositories;
-using Interactors.Repositories;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Http;

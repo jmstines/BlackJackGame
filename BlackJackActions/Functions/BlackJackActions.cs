@@ -37,7 +37,7 @@ namespace BlackJackActions
 
 			var identifier = new GuidBasedAvitarIdentifierProvider().GenerateAvitar();
 
-			var avitar = new AvitarDto() { id = identifier, Name = name };
+			var avitar = new AvitarDto() { Id = identifier, Name = name };
 			var response = await Repository.CreateAsync(avitar);
 
 			Logger.LogInformation(response.Headers.ToString());

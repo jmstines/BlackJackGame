@@ -1,5 +1,6 @@
 ﻿using Entities;
 using Entities.Interfaces;
+using Entities.RepositoryDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,14 +30,10 @@ namespace CardDealer.Tests.Providers.Mocks
 		{
 			var dealers = new List<BlackJackPlayer>
 			{
-				new BlackJackPlayer(new KeyValuePair<string, Avitar> (
-					"10111001", new Avitar("Data")), HandIdentifierProvider, 1),
-				new BlackJackPlayer(new KeyValuePair<string, Avitar> (
-					"SHOW_MONEY", new Avitar("Jerry Maguire")), HandIdentifierProvider, 1),
-				new BlackJackPlayer(new KeyValuePair<string, Avitar> (
-					"007-SECRET", new Avitar("James Bond")), HandIdentifierProvider, 1),
-				new BlackJackPlayer(new KeyValuePair<string, Avitar> (
-					"777-7777", new Avitar("Rain Man")), HandIdentifierProvider, 1)
+				new BlackJackPlayer(new AvitarDto() { Id = "10111001", Name = "Data" }, HandIdentifierProvider, 1),
+				new BlackJackPlayer(new AvitarDto() { Id = "SHOW_MONEY", Name = "Jerry Maguire" }, HandIdentifierProvider, 1),
+				new BlackJackPlayer(new AvitarDto() { Id = "007-SECRET", Name ="James Bond" }, HandIdentifierProvider, 1),
+				new BlackJackPlayer(new AvitarDto() { Id = "777-7777", Name = "Rain Man" }, HandIdentifierProvider, 1)
 			};
 			return dealers;
 		}

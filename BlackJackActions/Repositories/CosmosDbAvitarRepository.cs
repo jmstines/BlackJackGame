@@ -24,7 +24,7 @@ namespace BlackJackActions.Repositories
 		public async Task<FeedResponse<AvitarDto>> ReadAsync(string identifier)
 		{
 			var feedIterator = Container.GetItemLinqQueryable<AvitarDto>(true)
-				.Where(a => a.id == identifier).ToFeedIterator();
+				.Where(a => a.Id == identifier).ToFeedIterator();
 
 			return await feedIterator.ReadNextAsync();
 		}

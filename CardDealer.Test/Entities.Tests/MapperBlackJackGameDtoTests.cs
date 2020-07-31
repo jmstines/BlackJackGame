@@ -1,6 +1,7 @@
 ﻿using CardDealer.Tests.Providers.Mocks;
 using Entities.Enums;
 using Entities.Interfaces;
+using Entities.RepositoryDto;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -14,12 +15,10 @@ namespace Entities.Tests
 		private readonly IHandIdentifierProvider HandIdentifierProvider = new GuidBasedHandIdentifierProviderMock();
 		
 		private readonly string PlayerTedId = "1234-ASDF";
-		private BlackJackPlayer PlayerTed => new BlackJackPlayer(new KeyValuePair<string, Avitar>(
-				PlayerTedId, new Avitar("Ted")), HandIdentifierProvider, 1);
+		private BlackJackPlayer PlayerTed => new BlackJackPlayer(new AvitarDto() { Id = PlayerTedId, Name = "Ted" }, HandIdentifierProvider, 1);
 
 		private readonly string DealerDataId = "10111001";
-		private BlackJackPlayer DealerNamedData => new BlackJackPlayer(new KeyValuePair<string, Avitar>(
-			   DealerDataId, new Avitar("Data")), HandIdentifierProvider, 1);
+		private BlackJackPlayer DealerNamedData => new BlackJackPlayer(new AvitarDto() { Id = DealerDataId, Name = "Data" }, HandIdentifierProvider, 1);
 
 		[Test]
 		public void Map_NullGame_ArgumentNullException() 

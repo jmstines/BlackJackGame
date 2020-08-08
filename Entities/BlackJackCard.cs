@@ -17,50 +17,23 @@ namespace Entities
 			Rank = card.Rank != 0 ? card.Rank : throw new ArgumentOutOfRangeException(nameof(card.Rank));
 			FaceDown = faceDown;
 
-			switch (Rank)
+			Value = Rank switch
 			{
-				case CardRank.Ace:
-					Value = BlackJackConstants.AceHighValue;
-					break;
-				case CardRank.Two:
-					Value = 2;
-					break;
-				case CardRank.Three:
-					Value = 3;
-					break;
-				case CardRank.Four:
-					Value = 4;
-					break;
-				case CardRank.Five:
-					Value = 5;
-					break;
-				case CardRank.Six:
-					Value = 6;
-					break;
-				case CardRank.Seven:
-					Value = 7;
-					break;
-				case CardRank.Eight:
-					Value = 8;
-					break;
-				case CardRank.Nine:
-					Value = 9;
-					break;
-				case CardRank.Ten:
-					Value = BlackJackConstants.DefaultCardValue;
-					break;
-				case CardRank.Jack:
-					Value = BlackJackConstants.DefaultCardValue;
-					break;
-				case CardRank.Queen:
-					Value = BlackJackConstants.DefaultCardValue;
-					break;
-				case CardRank.King:
-					Value = BlackJackConstants.DefaultCardValue;
-					break;
-				default:
-					throw new ArgumentOutOfRangeException(nameof(card.Rank), "Card Rank must be 2 through Ace.");
-			}
+				CardRank.Ace => BlackJackConstants.AceHighValue,
+				CardRank.Two => 2,
+				CardRank.Three => 3,
+				CardRank.Four => 4,
+				CardRank.Five => 5,
+				CardRank.Six => 6,
+				CardRank.Seven => 7,
+				CardRank.Eight => 8,
+				CardRank.Nine => 9,
+				CardRank.Ten => BlackJackConstants.DefaultCardValue,
+				CardRank.Jack => BlackJackConstants.DefaultCardValue,
+				CardRank.Queen => BlackJackConstants.DefaultCardValue,
+				CardRank.King => BlackJackConstants.DefaultCardValue,
+				_ => throw new ArgumentOutOfRangeException(nameof(card.Rank), "Card Rank must be 2 through Ace."),
+			};
 		}
 
 		public override bool Equals(object obj) => obj is BlackJackCard card &&

@@ -16,22 +16,14 @@ namespace Avitar.Repositories
 			Container = container ?? throw new ArgumentNullException(nameof(container));
 		}
 
-		public async Task<ItemResponse<AvitarDto>> CreateAsync(AvitarDto player)
+		public async Task<ItemResponse<AvitarDto>> SaveAsync(AvitarDto player)
 		{
-			return await Container.CreateItemAsync(player);
+			return await Container.UpsertItemAsync(player);
 		}
 
-		public async Task<FeedResponse<AvitarDto>> ReadAsync(string identifier)
+		public async Task<ItemResponse<AvitarDto>> ReadAsync(string identifier)
 		{
-			var feedIterator = Container.GetItemLinqQueryable<AvitarDto>(true)
-				.Where(a => a.id == identifier).ToFeedIterator();
-
-			return await feedIterator.ReadNextAsync();
-		}
-
-		public void UpdateAsync(string identifier, AvitarDto player)
-		{
-			throw new NotImplementedException();
+			return await Container.ReadItemAsync<AvitarDto>(identifier, new PartitionKey("name"));
 		}
 	}
 }

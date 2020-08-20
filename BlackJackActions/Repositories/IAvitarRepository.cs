@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.Azure.Cosmos;
 
-namespace BlackJackActions.Repositories
+namespace Avitar.Repositories
 {
 	public interface IAvitarRepository
 	{

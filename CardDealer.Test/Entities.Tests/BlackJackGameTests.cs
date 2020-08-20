@@ -32,7 +32,7 @@ namespace Entities.Tests
 		[SetUp]
 		public void Init()
 		{
-			DealerNamedData = new BlackJackPlayer(new AvitarDto() { Id = "1234ck64-f9d8", Name = "Data" }, HandIdentifierProvider, 1);
+			DealerNamedData = new BlackJackPlayer(new AvitarDto() { id = "1234ck64-f9d8", name = "Data" }, HandIdentifierProvider, 1);
 		}
 
 		[Test]
@@ -80,13 +80,13 @@ namespace Entities.Tests
 		{
 			var game = new BlackJackGame(cardProvider, DealerNamedData ,4);
 
-			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1));
-			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1));
-			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1));
-			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1));
+			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1));
+			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1));
+			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1));
+			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1));
 
 			Assert.Throws<InvalidOperationException>(() => game.AddPlayer(
-				new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1)));
+				new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1)));
 		}
 
 		[Test]
@@ -94,7 +94,7 @@ namespace Entities.Tests
 		{
 			var game = new BlackJackGame(cardProvider, DealerNamedData, 1);
 
-			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1)); ;
+			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1)); ;
 			Assert.AreEqual(2, game.Players.Count());
 			Assert.AreEqual(GameStatus.Ready, game.Status);
 			Assert.AreEqual(game.CurrentPlayer, game.Players.First());
@@ -105,10 +105,10 @@ namespace Entities.Tests
 		{
 			var game = new BlackJackGame(cardProvider, DealerNamedData, 4);
 
-			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1));
-			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1));
-			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1));
-			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1));
+			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1));
+			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1));
+			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1));
+			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1));
 			Assert.AreEqual(5, game.Players.Count());
 			Assert.AreEqual(GameStatus.Ready, game.Status);
 			Assert.AreEqual(game.CurrentPlayer, game.Players.First());
@@ -119,11 +119,11 @@ namespace Entities.Tests
 		{
 			var game = new BlackJackGame(cardProvider, DealerNamedData, 3);
 			var player = new Avitar(playerName);
-			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1));
-			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1));
-			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1));
+			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1));
+			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1));
+			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1));
 
-			Assert.Throws<InvalidOperationException>(() => game.AddPlayer(new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1)));
+			Assert.Throws<InvalidOperationException>(() => game.AddPlayer(new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1)));
 			Assert.AreEqual(4, game.Players.Count());
 			Assert.AreEqual(GameStatus.Ready, game.Status);
 			Assert.AreEqual(game.CurrentPlayer, game.Players.First());
@@ -134,8 +134,8 @@ namespace Entities.Tests
 		{
 			var game = new BlackJackGame(cardProvider, DealerNamedData, 4);
 
-			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1));
-			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName2 }, HandIdentifierProvider, 1));
+			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1));
+			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName2 }, HandIdentifierProvider, 1));
 			Assert.AreEqual(playerName, game.CurrentPlayer.Name);
 			Assert.AreEqual(2, game.Players.Count());
 			Assert.AreEqual(GameStatus.Waiting, game.Status);
@@ -148,8 +148,8 @@ namespace Entities.Tests
 			var game = new BlackJackGame(cardProvider, DealerNamedData, 4);
 			var player2Id = "8625cf04-b7e2";
 
-			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { Id = player2Id, Name = playerName }, HandIdentifierProvider, 1));
-			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { Id = player2Id, Name = playerName2 }, HandIdentifierProvider, 1));
+			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { id = player2Id, name = playerName }, HandIdentifierProvider, 1));
+			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { id = player2Id, name = playerName2 }, HandIdentifierProvider, 1));
 			Assert.Throws<ArgumentOutOfRangeException>(() => game.DealHands());
 		}
 
@@ -162,13 +162,13 @@ namespace Entities.Tests
 			var playerId = "8625cf04-b7e1";
 			var player2Id = "8625cf04-b7e2";
 
-			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { Id = playerId, Name = playerName }, HandIdentifierProvider, 1));
-			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { Id = player2Id, Name = playerName2 }, HandIdentifierProvider, 1));
+			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { id = playerId, name = playerName }, HandIdentifierProvider, 1));
+			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { id = player2Id, name = playerName2 }, HandIdentifierProvider, 1));
 			game.SetPlayerStatusReady(playerId);
 			game.SetPlayerStatusReady(player2Id);
 			game.DealHands();
 			Assert.Throws<InvalidOperationException>(() =>
-				game.AddPlayer(new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1))
+				game.AddPlayer(new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1))
 			);
 		}
 
@@ -179,8 +179,8 @@ namespace Entities.Tests
 			var playerId = "8625cf04-b7e1";
 			var player2Id = "8625cf04-b7e2";
 
-			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { Id = playerId, Name = playerName }, HandIdentifierProvider, 1));
-			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { Id = player2Id, Name = playerName2 }, HandIdentifierProvider, 1));
+			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { id = playerId, name = playerName }, HandIdentifierProvider, 1));
+			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { id = player2Id, name = playerName2 }, HandIdentifierProvider, 1));
 			game.SetPlayerStatusReady(playerId);
 			game.SetPlayerStatusReady(player2Id);
 			game.DealHands();
@@ -204,7 +204,7 @@ namespace Entities.Tests
 			var playerOneId = "8625cf04-b7e2";
 			var game = new BlackJackGame(cardProvider, DealerNamedData, 1);
 
-			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName2 }, HandIdentifierProvider, 1));
+			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName2 }, HandIdentifierProvider, 1));
 			game.SetPlayerStatusReady(playerOneId);
 			game.DealHands();
 			Assert.AreEqual(2, game.Players.Last().Hands.First().Cards.Count());
@@ -227,7 +227,7 @@ namespace Entities.Tests
 			var game = new BlackJackGame(cardProvider, DealerNamedData, 1);
 			var player2 = new Avitar(playerName2);
 
-			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName2 }, HandIdentifierProvider, 1));
+			game.AddPlayer(new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName2 }, HandIdentifierProvider, 1));
 			game.SetPlayerStatusReady(playerOneId);
 			game.DealHands();
 

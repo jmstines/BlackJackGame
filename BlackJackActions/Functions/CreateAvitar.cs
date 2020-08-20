@@ -8,21 +8,21 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Entities.RepositoryDto;
 using Interactors.Providers;
-using BlackJackActions.Repositories;
+using Avitar.Repositories;
 
-namespace BlackJackActions
+namespace Avitar
 {
-	public class BlackJackActions
+	public class CreateAvitar
 	{
 		private readonly IAvitarRepository Repository;
 		private readonly ILogger Logger;
-		public BlackJackActions(IAvitarRepository repository, ILogger<BlackJackActions> logger)
+		public CreateAvitar(IAvitarRepository repository, ILogger<CreateAvitar> logger)
 		{
 			Repository = repository;
 			Logger = logger;
 		}
 
-		[FunctionName(nameof(BlackJackActions))]
+		[FunctionName(nameof(CreateAvitar))]
 		public async Task<IActionResult> Run(
 			[HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "CreateAvitar"
 			)] HttpRequest req)
@@ -37,7 +37,7 @@ namespace BlackJackActions
 
 			var identifier = new GuidBasedAvitarIdentifierProvider().GenerateAvitar();
 
-			var avitar = new AvitarDto() { Id = identifier, Name = name };
+			var avitar = new AvitarDto() { id = identifier, name = name };
 			var response = await Repository.CreateAsync(avitar);
 
 			Logger.LogInformation(response.Headers.ToString());

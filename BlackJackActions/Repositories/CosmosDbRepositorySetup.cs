@@ -1,7 +1,7 @@
 ﻿using Microsoft.Azure.Cosmos;
 using System;
 
-namespace BlackJackActions.Repositories
+namespace Avitar.Repositories
 {
 	class CosmosDbRepositorySetup
 	{

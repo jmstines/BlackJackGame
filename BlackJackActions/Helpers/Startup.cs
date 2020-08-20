@@ -1,6 +1,6 @@
 ﻿using System;
-using BlackJackActions.Helpers;
-using BlackJackActions.Repositories;
+using Avitar.Helpers;
+using Avitar.Repositories;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Http;
@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 
-namespace BlackJackActions.Helpers
+namespace Avitar.Helpers
 {
     public class Startup : FunctionsStartup
     {

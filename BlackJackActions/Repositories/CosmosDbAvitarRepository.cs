@@ -5,7 +5,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Azure.Cosmos.Linq;
 
-namespace BlackJackActions.Repositories
+namespace Avitar.Repositories
 {
 	class CosmosDbAvitarRepository : IAvitarRepository
 	{
@@ -24,7 +24,7 @@ namespace BlackJackActions.Repositories
 		public async Task<FeedResponse<AvitarDto>> ReadAsync(string identifier)
 		{
 			var feedIterator = Container.GetItemLinqQueryable<AvitarDto>(true)
-				.Where(a => a.Id == identifier).ToFeedIterator();
+				.Where(a => a.id == identifier).ToFeedIterator();
 
 			return await feedIterator.ReadNextAsync();
 		}

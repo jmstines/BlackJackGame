@@ -14,7 +14,7 @@ namespace Interactors.Repositories
 			Avitars = new Dictionary<string, AvitarDto>();
 		}
 
-		public void CreateAsync(AvitarDto player) => Avitars.Add(player.Id, player);
+		public void CreateAsync(AvitarDto player) => Avitars.Add(player.id, player);
 
 		public AvitarDto ReadAsync(string identifier) => Avitars.Single(g => g.Key.Equals(identifier)).Value;
 

@@ -34,14 +34,14 @@ namespace Entities.Tests
 
 		public void NewBlackJackPlayer_NullName_ArgumentNullException()
 		{
-			var player = new AvitarDto() { Id = "8625cf04-b7e2", Name = null };
+			var player = new AvitarDto() { id = "8625cf04-b7e2", name = null };
 			Assert.Throws<ArgumentNullException>(() => new BlackJackPlayer(player, HandIdentifierProvider, 1));
 		}
 
 		[Test]
 		public void NewPlayer_NoCards_HandEmpty()
 		{
-			var sam = new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1);
+			var sam = new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1);
 
 			Assert.AreEqual(1, sam.Hands.Count());
 			Assert.AreEqual(false, sam.Hands.First().Cards.Any());
@@ -52,14 +52,14 @@ namespace Entities.Tests
 		[Test]
 		public void NewPlayer_NoCards_StatusInProgress()
 		{
-			var sam = new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1);
+			var sam = new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1);
 			Assert.AreEqual(PlayerStatusTypes.Waiting, sam.Status);
 		}
 
 		[Test]
 		public void NewPlayer_CalculateTotal_TotalFive()
 		{
-			var sam = new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1);
+			var sam = new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1);
 
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
 			sam.Status = PlayerStatusTypes.Ready;
@@ -71,7 +71,7 @@ namespace Entities.Tests
 		public void PlayerSingleHand_DealHand_CorrectStartingValues()
 		{
 			var playerId = "8625cf04-b7e2";
-			var playerOne = new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1);
+			var playerOne = new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1);
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
 			
 			playerOne.Status = PlayerStatusTypes.Ready;
@@ -90,7 +90,7 @@ namespace Entities.Tests
 		public void PlayerSingleHand_DealDeal_CorrectStartingValues()
 		{
 			var playerId = "8625cf04-b7e2";
-			var playerOne = new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1);
+			var playerOne = new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1);
 
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
 
@@ -120,7 +120,7 @@ namespace Entities.Tests
 		public void PlayerSingleHand_DealAndHit_CorrectInstanceValues()
 		{
 			var playerId = "8625cf04-b7e2";
-			var playerOne = new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1);
+			var playerOne = new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1);
 			var blkJkJackClubs = new BlackJackCard(jackClubs, true);
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
 
@@ -144,7 +144,7 @@ namespace Entities.Tests
 		public void PlayerSingleHand_DealHitBustHit_CorrectInstanceValues()
 		{
 			var playerId = "8625cf04-b7e2";
-			var playerOne = new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1);
+			var playerOne = new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1);
 			var blkJkJackClubs = new BlackJackCard(jackClubs, true);
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
 
@@ -186,7 +186,7 @@ namespace Entities.Tests
 		public void PlayerSingleHand_DealHitBustHold_CorrectInstanceValues()
 		{
 			var playerId = "8625cf04-b7e2";
-			var playerOne = new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1);
+			var playerOne = new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1);
 			var blkJkJackClubs = new BlackJackCard(jackClubs, true);
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
 
@@ -228,7 +228,7 @@ namespace Entities.Tests
 		public void PlayerSingleHand_DealAndHitAndHold_CorrectInstanceValues()
 		{
 			var playerId = "8625cf04-b7e2";
-			var playerOne = new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1);
+			var playerOne = new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1);
 			var blkJkJackClubs = new BlackJackCard(jackClubs, true);
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
 
@@ -263,7 +263,7 @@ namespace Entities.Tests
 		public void Player2Hands_DealHand_CorrectStartingValues()
 		{
 			var playerId = "8625cf04-b7e2";
-			var playerOne = new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 2);
+			var playerOne = new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 2);
 
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
 			var handId2 = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(2).Single(i => i != handId);
@@ -289,7 +289,7 @@ namespace Entities.Tests
 		public void Player2Hands_DealAndHitAndHitAndBust_CorrectInstanceValues()
 		{
 			var playerId = "8625cf04-b7e2";
-			var playerOne = new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 2);
+			var playerOne = new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 2);
 			var blkJkJackClubs = new BlackJackCard(jackClubs, true);
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
 			var handId2 = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(2).Single(i => i != handId);
@@ -335,7 +335,7 @@ namespace Entities.Tests
 		public void Player2Hands_DealAndHitAndHoldBothHands_CorrectInstanceValues()
 		{
 			var playerId = "8625cf04-b7e2";
-			var playerOne = new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 2);
+			var playerOne = new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 2);
 			var blkJkJackClubs = new BlackJackCard(jackClubs, true);
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();
 			var handId2 = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(2).Single(i => i != handId);
@@ -396,7 +396,7 @@ namespace Entities.Tests
 		[Test]
 		public void Player_HoldsCard_PlayerStatusComplete()
 		{
-			var playerOne = new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 1);
+			var playerOne = new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 1);
 
 			var blkJkTwoClubs = new BlackJackCard(twoClubs, true);
 			var blkJkThreeClubs = new BlackJackCard(threeClubs, false);
@@ -414,7 +414,7 @@ namespace Entities.Tests
 		[Test]
 		public void Player2Hands_HoldsOneHand_PlayerStatusInProgress()
 		{
-			var playerOne = new BlackJackPlayer(new AvitarDto() { Id = "8625cf04-b7e2", Name = playerName }, HandIdentifierProvider, 2);
+			var playerOne = new BlackJackPlayer(new AvitarDto() { id = "8625cf04-b7e2", name = playerName }, HandIdentifierProvider, 2);
 
 			var blkJkJackClubs = new BlackJackCard(jackClubs, true);
 			var handId = new GuidBasedHandIdentifierProviderMock().GenerateHandIds(1).Single();

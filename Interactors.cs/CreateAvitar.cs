@@ -30,7 +30,7 @@ namespace Interactors
 		{
 			_ = requestModel.PlayerName ?? throw new ArgumentNullException(nameof(requestModel.PlayerName));
 			var identifier = IdentifierProvider.GenerateAvitar();
-			var player = new AvitarDto(){ id = identifier, name = requestModel.PlayerName };
+			var player = new AvitarDto(){ id = identifier, userName = requestModel.PlayerName };
 			
 			AvitarRepository.CreateAsync(player);
 

@@ -19,7 +19,7 @@ namespace Entities
 
 		public BlackJackPlayer(AvitarDto avitar, IHandIdentifierProvider handIdProvider, int handCount)
 		{
-			Name = avitar.name ?? throw new ArgumentNullException(nameof(avitar.name));
+			Name = avitar.userName ?? throw new ArgumentNullException(nameof(avitar.userName));
 			Identifier = avitar.id ?? throw new ArgumentNullException(nameof(avitar.id));
 			this.handIdProvider = handIdProvider ?? throw new ArgumentNullException(nameof(handIdProvider));
 			if (handCount < 1)

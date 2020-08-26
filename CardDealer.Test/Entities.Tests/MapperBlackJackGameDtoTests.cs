@@ -15,10 +15,10 @@ namespace Entities.Tests
 		private readonly IHandIdentifierProvider HandIdentifierProvider = new GuidBasedHandIdentifierProviderMock();
 		
 		private readonly string PlayerTedId = "1234-ASDF";
-		private BlackJackPlayer PlayerTed => new BlackJackPlayer(new AvitarDto() { id = PlayerTedId, name = "Ted" }, HandIdentifierProvider, 1);
+		private BlackJackPlayer PlayerTed => new BlackJackPlayer(new AvitarDto() { id = PlayerTedId, userName = "Ted" }, HandIdentifierProvider, 1);
 
 		private readonly string DealerDataId = "10111001";
-		private BlackJackPlayer DealerNamedData => new BlackJackPlayer(new AvitarDto() { id = DealerDataId, name = "Data" }, HandIdentifierProvider, 1);
+		private BlackJackPlayer DealerNamedData => new BlackJackPlayer(new AvitarDto() { id = DealerDataId, userName = "Data" }, HandIdentifierProvider, 1);
 
 		[Test]
 		public void Map_NullGame_ArgumentNullException() 

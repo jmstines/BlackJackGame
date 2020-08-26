@@ -23,7 +23,7 @@ namespace Avitar.Repositories
 
 		public async Task<ItemResponse<AvitarDto>> ReadAsync(AvitarDto player)
 		{
-			return await Container.ReadItemAsync<AvitarDto>(player.id, new PartitionKey(player.name));
+			return await Container.ReadItemAsync<AvitarDto>(player.id, new PartitionKey(player.userName));
 		}
 	}
 }

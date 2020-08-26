@@ -30,10 +30,10 @@ namespace CardDealer.Tests.Providers.Mocks
 		{
 			var dealers = new List<BlackJackPlayer>
 			{
-				new BlackJackPlayer(new AvitarDto() { id = "10111001", name = "Data" }, HandIdentifierProvider, 1),
-				new BlackJackPlayer(new AvitarDto() { id = "SHOW_MONEY", name = "Jerry Maguire" }, HandIdentifierProvider, 1),
-				new BlackJackPlayer(new AvitarDto() { id = "007-SECRET", name ="James Bond" }, HandIdentifierProvider, 1),
-				new BlackJackPlayer(new AvitarDto() { id = "777-7777", name = "Rain Man" }, HandIdentifierProvider, 1)
+				new BlackJackPlayer(new AvitarDto() { id = "10111001", userName = "Data" }, HandIdentifierProvider, 1),
+				new BlackJackPlayer(new AvitarDto() { id = "SHOW_MONEY", userName = "Jerry Maguire" }, HandIdentifierProvider, 1),
+				new BlackJackPlayer(new AvitarDto() { id = "007-SECRET", userName ="James Bond" }, HandIdentifierProvider, 1),
+				new BlackJackPlayer(new AvitarDto() { id = "777-7777", userName = "Rain Man" }, HandIdentifierProvider, 1)
 			};
 			return dealers;
 		}

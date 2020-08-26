@@ -37,7 +37,7 @@ namespace Avitar
 
 			var identifier = new GuidBasedAvitarIdentifierProvider().GenerateAvitar();
 
-			var avitar = new AvitarDto() { id = identifier, name = name };
+			var avitar = new AvitarDto() { id = identifier, userName = name };
 			var response = await Repository.SaveAsync(avitar);
 
 			Logger.LogInformation(response.Headers.ToString());

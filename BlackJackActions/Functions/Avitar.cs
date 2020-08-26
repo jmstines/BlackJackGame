@@ -9,6 +9,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Avitar
@@ -30,70 +31,34 @@ namespace Avitar
 		{
 			Logger.LogInformation("C# HTTP trigger function processed a request.");
 
-			var identifier = await GetIdFromUrlOrBody(req);
-			var name = await GetNameFromUrlOrBody(req);
+			var avitar = GetAvitarDto(req);
 			ItemResponse<AvitarDto> response;
 
-			if (string.IsNullOrWhiteSpace(identifier) == false)
+			// TODO This logic is NOT correct.  Need full crud.  right now edit isn't working. 
+			if (string.IsNullOrWhiteSpace(avitar.id) == false)
 			{
-				var avitar = new AvitarDto()
-				{
-					id = identifier,
-					name = name
-				};
-
 				response = await Repository.ReadAsync(avitar);
 			}
 			else
 			{
-				identifier ??= new GuidBasedAvitarIdentifierProvider().GenerateAvitar();
-				var avitar = new AvitarDto() { id = identifier, name = name };
+				avitar.id ??= new GuidBasedAvitarIdentifierProvider().GenerateAvitar();
 				response = await Repository.SaveAsync(avitar);
 			}
 
 			Logger.LogInformation(response.Headers.ToString());
 
 			return response?.Resource != null
-				? (ActionResult)new OkObjectResult($"Hello, {response.Resource.id}: {response.Resource.name}")
+				? (ActionResult)new OkObjectResult($"Hello, {response.Resource.id}: {response.Resource.userName}")
 				: new BadRequestObjectResult("Please pass a name and/or id on the query string or in the request body");
 		}
 
-		private bool IsAvitarGetRequest(string id, string name)
+		private AvitarDto GetAvitarDto(HttpRequest request)
 		{
-			return string.IsNullOrWhiteSpace(name) && string.IsNullOrWhiteSpace(id) == false;
-		} 
+			var id = request.Form.ToList().SingleOrDefault(k => k.Key == "id").Value.ToString() ?? string.Empty;
+			var userName = request.Form.ToList().SingleOrDefault(k => k.Key == "userName").Value.ToString() ?? string.Empty;
+			var email = request.Form.ToList().SingleOrDefault(k => k.Key == "emailAddress").Value.ToString() ?? string.Empty;
 
-		private async Task<string> GetIdFromUrlOrBody(HttpRequest request)
-		{
-			string id = request.Query["id"];
-
-			string requestBody = await new StreamReader(request.Body).ReadToEndAsync();
-			dynamic data = JsonConvert.DeserializeObject(requestBody);
-			id ??= data?.id;
-
-			return id;
+			return new AvitarDto() { id = id, userName = userName, emailAddress = email };
 		}
-
-		private async Task<string> GetNameFromUrlOrBody(HttpRequest request)
-		{
-			string name = request.Query["name"];
-
-			string requestBody = await new StreamReader(request.Body).ReadToEndAsync();
-			dynamic data = JsonConvert.DeserializeObject(requestBody);
-			name ??= data?.name;
-
-			return name;
-		}
-
-		//private async Task<string> GetParameter(HttpRequest request, string parameter)
-		//{
-		//	string output = request.Query[parameter];
-
-		//	string requestBody = await new StreamReader(request.Body).ReadToEndAsync();
-		//	dynamic data = JsonConvert.DeserializeObject(requestBody);
-		//	output = output ?? data?.parameter1;
-
-		//	return name;
-		//}
 	}
 }

@@ -35,13 +35,13 @@ namespace Avitar
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             id = id ?? data?.id;
             var name = await GetNameFromUrlOrBody(req);
-            var avitar = new AvitarDto() { id = id, name = name };
+            var avitar = new AvitarDto() { id = id, userName = name };
             var response = await Repository.ReadAsync(avitar);
 
             Logger.LogInformation(response.Headers.ToString());
 
             return response != null
-                ? (ActionResult)new OkObjectResult($"Hello, {response.Resource.id}: {response.Resource.name}")
+                ? (ActionResult)new OkObjectResult($"Hello, {response.Resource.id}: {response.Resource.userName}")
                 : new BadRequestObjectResult("Please pass a existing id on the query string or in the request body");
         }
 

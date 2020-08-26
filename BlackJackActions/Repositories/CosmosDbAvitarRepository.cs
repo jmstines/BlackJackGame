@@ -21,9 +21,9 @@ namespace Avitar.Repositories
 			return await Container.UpsertItemAsync(player);
 		}
 
-		public async Task<ItemResponse<AvitarDto>> ReadAsync(string identifier)
+		public async Task<ItemResponse<AvitarDto>> ReadAsync(AvitarDto player)
 		{
-			return await Container.ReadItemAsync<AvitarDto>(identifier, new PartitionKey("name"));
+			return await Container.ReadItemAsync<AvitarDto>(player.id, new PartitionKey(player.name));
 		}
 	}
 }

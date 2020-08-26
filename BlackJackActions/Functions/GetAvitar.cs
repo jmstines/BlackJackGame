@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Avitar.Repositories;
 using System.Linq;
+using Entities.RepositoryDto;
 
 namespace Avitar
 {
@@ -33,14 +34,26 @@ namespace Avitar
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             id = id ?? data?.id;
-
-            var response = await Repository.ReadAsync(id);
+            var name = await GetNameFromUrlOrBody(req);
+            var avitar = new AvitarDto() { id = id, name = name };
+            var response = await Repository.ReadAsync(avitar);
 
             Logger.LogInformation(response.Headers.ToString());
 
             return response != null
                 ? (ActionResult)new OkObjectResult($"Hello, {response.Resource.id}: {response.Resource.name}")
                 : new BadRequestObjectResult("Please pass a existing id on the query string or in the request body");
+        }
+
+        private async Task<string> GetNameFromUrlOrBody(HttpRequest request)
+        {
+            string name = request.Query["name"];
+
+            string requestBody = await new StreamReader(request.Body).ReadToEndAsync();
+            dynamic data = JsonConvert.DeserializeObject(requestBody);
+            name ??= data?.name;
+
+            return name;
         }
     }
 }

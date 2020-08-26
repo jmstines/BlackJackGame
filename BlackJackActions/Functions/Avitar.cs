@@ -29,18 +29,23 @@ namespace Avitar
 			)] HttpRequest req)
 		{
 			Logger.LogInformation("C# HTTP trigger function processed a request.");
+
 			var identifier = await GetIdFromUrlOrBody(req);
 			var name = await GetNameFromUrlOrBody(req);
 			ItemResponse<AvitarDto> response;
 
-			if (IsAvitarGetRequest(identifier, name))
+			if (string.IsNullOrWhiteSpace(identifier) == false)
 			{
-				// TODO Test to make sure the read still works after migrating from the linq method.
-				response = await Repository.ReadAsync(identifier);
+				var avitar = new AvitarDto()
+				{
+					id = identifier,
+					name = name
+				};
+
+				response = await Repository.ReadAsync(avitar);
 			}
 			else
 			{
-				// TODO This works but I need to validate the update not deleting existing record is exceptable.
 				identifier ??= new GuidBasedAvitarIdentifierProvider().GenerateAvitar();
 				var avitar = new AvitarDto() { id = identifier, name = name };
 				response = await Repository.SaveAsync(avitar);

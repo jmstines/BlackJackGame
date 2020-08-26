@@ -7,6 +7,6 @@ namespace Avitar.Repositories
 	public interface IAvitarRepository
 	{
 		Task<ItemResponse<AvitarDto>> SaveAsync(AvitarDto player);
-		Task<ItemResponse<AvitarDto>> ReadAsync(string identifier);
+		Task<ItemResponse<AvitarDto>> ReadAsync(AvitarDto player);
 	}
 }
